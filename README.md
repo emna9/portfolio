@@ -149,3 +149,22 @@ Open **https://github.com/emna9/portfolio**, click the file you want to edit (or
 - Fonts: Domaine Display Condensed (from the reference repo); Instrument Serif, Space Grotesk and JetBrains Mono under the SIL Open Font License.
 - Freshman source: <https://emnas-e-portfolio.weebly.com/>
 - All portfolio artwork and code: custom for this site. The Freshman file images come from Emna's own freshman portfolio and are used as archival material.
+
+---
+
+## Sketch portfolio at /sketch/
+
+A second, 3D sketchbook portfolio lives at <https://emna9.github.io/portfolio/sketch/>.
+
+Its source code is on the **`sketch-source`** branch of this repo (Vite + React Three Fiber).
+Every push to that branch triggers `.github/workflows/deploy-sketch.yml`, which builds it with
+`--base=/portfolio/sketch/`, publishes the result into `sketch/` on `main`, and lets GitHub Pages
+redeploy automatically.
+
+```bash
+git checkout sketch-source
+# ...edit, then:
+git add -A && git commit -m "..." && git push
+```
+
+Local preview: `npm install && npm run dev` inside the `sketch-source` branch checkout.

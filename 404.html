@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — Emna Smaali</title>
+    <script>
+      // GitHub Pages only serves one 404.html for the whole site, so deep links
+      // inside the sketch portfolio are sent back to its entrance.
+      if (window.location.pathname.indexOf('/portfolio/sketch/') === 0) {
+        window.location.replace('/portfolio/sketch/');
+      }
+    </script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #faf4e5;
+        color: #664e44;
+        font-family: Georgia, 'Times New Roman', serif;
+        text-align: center;
+        padding: 24px;
+      }
+      a { color: #b4552d; }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Page not found</h1>
+      <p><a href="/portfolio/">Back to the portfolio</a></p>
+    </div>
+  </body>
+</html>
