@@ -88,6 +88,7 @@ const AvatarGuide = () => {
     const spokeRooms = useRef(new Set());
     const wasInRoom = useRef(false);
     const helpedRef = useRef(false);
+    const nearestRef = useRef(nearestDoor);
 
     const wave = useCallback(() => {
         setWaving(true);
@@ -175,36 +176,30 @@ const AvatarGuide = () => {
 
     // If the visitor hesitates for a while, offer one gentle hint.
     useEffect(() => {
+        nearestRef.current = nearestDoor;
+    }, [nearestDoor]);
+
+    useEffect(() => {
         if (!hasEntered || isInRoom || tutorialOpen || helpOpen) return undefined;
-        const timer = setInterval(() => {
+        const maybeHelp = () => {
             if (helpedRef.current) return;
             if (getMovementState().moving) return;
             if (guideLine) return;
-            if (nearestDoor?.canEnter) return;
+            if (nearestRef.current?.canEnter) return;
             helpedRef.current = true;
             showGuideLine({
                 id: 'help',
                 text: 'Need a little help? Follow the arrows on the floor, or open the map to jump anywhere.',
                 canEnter: false,
             });
-        }, 5000);
-        const initial = setTimeout(() => {
-            if (helpedRef.current) return;
-            if (getMovementState().moving) return;
-            if (guideLine) return;
-            if (nearestDoor?.canEnter) return;
-            helpedRef.current = true;
-            showGuideLine({
-                id: 'help',
-                text: 'Need a little help? Follow the arrows on the floor, or open the map to jump anywhere.',
-                canEnter: false,
-            });
-        }, 22000);
+        };
+        const timer = setInterval(maybeHelp, 5000);
+        const initial = setTimeout(maybeHelp, 22000);
         return () => {
             clearInterval(timer);
             clearTimeout(initial);
         };
-    }, [hasEntered, isInRoom, tutorialOpen, helpOpen, guideLine, nearestDoor, showGuideLine]);
+    }, [hasEntered, isInRoom, tutorialOpen, helpOpen, guideLine, showGuideLine]);
 
     const currentStep = INTRO_STEPS[step];
     const isLast = step === INTRO_STEPS.length - 1;
