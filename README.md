@@ -105,15 +105,41 @@ repo/retro-portfolio/      the reference repo (unchanged)
 
 ---
 
-## Deploy
+## Live site
 
-Ready for GitHub Pages, Netlify, Vercel or any static host. For GitHub Pages, push the folder to a `gh-pages` branch or a `<username>.github.io` repository.
+**https://emna9.github.io/portfolio/**  
+Repository: **https://github.com/emna9/portfolio**
 
-Before publishing:
+Deployed for free with GitHub Pages from the `main` branch. Every push to `main` republishes the site automatically (usually within a minute). The reference `repo/` folder and the Netlify zip are ignored, so they are not published.
 
-1. Add your portrait.
-2. Set `og:image` in `index.html` to an absolute URL after choosing a domain.
-3. Check the Domaine Display Condensed licence for web use — the font was included in the reference repo; swap it for a licensed alternative if needed.
+## Update the live site
+
+### From this computer
+
+Edit anything in this folder — `index.html`, `assets/css/style.css`, `assets/img/...` — then run:
+
+```bash
+cd /home/emna/Documents/portfolio
+./publish.sh
+```
+
+`publish.sh` commits the current changes and pushes them to GitHub. GitHub Pages then rebuilds the live site.
+
+### From GitHub in the browser
+
+Open **https://github.com/emna9/portfolio**, click the file you want to edit (or use **Add file → Upload files** for images), commit the change, and GitHub Pages will redeploy automatically.
+
+### Add a new image
+
+1. Put it in `assets/img/`.
+2. Reference it from `index.html` as `assets/img/your-file.jpg`.
+3. Run `./publish.sh`.
+
+## Technical notes
+
+- `og:image` and the canonical URL already point to `https://emna9.github.io/portfolio/`.
+- The Domaine Display Condensed font comes from the reference repo. Check its licence before using it on a commercial/custom domain; swap it for a licensed alternative if needed.
+- To use a custom domain later, add a `CNAME` file at the root with the domain and configure DNS; GitHub Pages will serve it.
 
 ---
 
