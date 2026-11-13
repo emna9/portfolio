@@ -6,8 +6,8 @@ import { useGuidance } from '../../../context/GuidanceContext';
 import { getMovementState } from '../../../utils/controls';
 
 const FEET_Y = -1.74;
-const FIGURE_HEIGHT = 2.0;
-const REST_DISTANCE = 3.05;
+const FIGURE_HEIGHT = 1.75;
+const REST_DISTANCE = 3.8;
 const FIGURE_VIEWBOX_HEIGHT = 460;
 
 /**
@@ -65,7 +65,7 @@ const AvatarAnchor = () => {
         // Walk in from a little further away after entering / leaving a room.
         const spawnT = Math.min(1, Math.max(0, (now - spawnAt.current) / 1.5));
         const easedSpawn = spawnT * (2 - spawnT);
-        const mobileOffset = window.innerWidth < 640 ? 1.5 : 0;
+        const mobileOffset = window.innerWidth < 640 ? 1.2 : 0;
         const distance = 5.6 + (REST_DISTANCE - 5.6) * easedSpawn + mobileOffset;
         const approaching = spawnT < 1;
 

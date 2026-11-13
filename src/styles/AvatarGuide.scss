@@ -106,7 +106,7 @@ $rust: #a34a4a;
 
 .avatar-eyes {
     animation: avatarBlink 5.4s infinite;
-    transform-origin: 110px 99px;
+    transform-origin: 110px 104px;
     transform-box: view-box;
 }
 
@@ -115,11 +115,11 @@ $rust: #a34a4a;
 }
 
 .avatar-leg--l {
-    transform-origin: 100px 300px;
+    transform-origin: 100px 292px;
 }
 
 .avatar-leg--r {
-    transform-origin: 120px 300px;
+    transform-origin: 120px 292px;
 }
 
 .avatar-arm {
@@ -127,11 +127,11 @@ $rust: #a34a4a;
 }
 
 .avatar-arm--l {
-    transform-origin: 82px 170px;
+    transform-origin: 82px 178px;
 }
 
 .avatar-arm--r {
-    transform-origin: 148px 170px;
+    transform-origin: 138px 178px;
 }
 
 .avatar-front {
