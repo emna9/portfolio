@@ -237,16 +237,16 @@ const AvatarGuide = () => {
 
                         {/* shaped legs in dark tights */}
                         <g className="avatar-leg avatar-leg--l">
-                            <path d="M93 292 C85 318 83 344 89 370 C86 390 85 412 90 430 L104 430 C102 410 102 390 103 370 C106 344 107 318 109 292 Z" fill="#7a5544" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M90 330 C88 358 88 388 90 418" stroke="#f3e3c8" strokeWidth="1.4" opacity="0.4" fill="none" strokeLinecap="round" />
-                            <path d="M90 370 C94 374 99 374 102 370" stroke="#5a3a2c" strokeWidth="2" fill="none" strokeLinecap="round" />
+                            <path d="M93 292 C85 318 83 344 89 370 C86 390 85 412 90 430 L104 430 C102 410 102 390 103 370 C106 344 107 318 109 292 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
+                            <path d="M90 370 C94 374 99 374 102 370" stroke="#e0b9a2" strokeWidth="2" fill="none" strokeLinecap="round" />
+                            <path d="M104 332 C102 362 102 392 104 420" stroke="#e0b9a2" strokeWidth="2" opacity="0.5" fill="none" strokeLinecap="round" />
                             <path d="M89 428 L85 442 C83 448 87 452 94 452 L104 452 C108 452 110 449 110 445 L110 428 Z" fill="#b07a52" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
                             <path d="M90 429 L109 429" stroke="#f3e3c8" strokeWidth="2.5" strokeLinecap="round" />
                         </g>
                         <g className="avatar-leg avatar-leg--r">
-                            <path d="M127 292 C135 318 137 344 131 370 C134 390 135 412 130 430 L116 430 C118 410 118 390 117 370 C114 344 113 318 111 292 Z" fill="#7a5544" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M130 330 C132 358 132 388 130 418" stroke="#f3e3c8" strokeWidth="1.4" opacity="0.4" fill="none" strokeLinecap="round" />
-                            <path d="M118 370 C121 374 126 374 130 370" stroke="#5a3a2c" strokeWidth="2" fill="none" strokeLinecap="round" />
+                            <path d="M127 292 C135 318 137 344 131 370 C134 390 135 412 130 430 L116 430 C118 410 118 390 117 370 C114 344 113 318 111 292 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
+                            <path d="M118 370 C121 374 126 374 130 370" stroke="#e0b9a2" strokeWidth="2" fill="none" strokeLinecap="round" />
+                            <path d="M116 332 C118 362 118 392 116 420" stroke="#e0b9a2" strokeWidth="2" opacity="0.5" fill="none" strokeLinecap="round" />
                             <path d="M131 428 L135 442 C137 448 133 452 126 452 L116 452 C112 452 110 449 110 445 L110 428 Z" fill="#b07a52" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
                             <path d="M111 429 L130 429" stroke="#f3e3c8" strokeWidth="2.5" strokeLinecap="round" />
                         </g>
@@ -271,48 +271,48 @@ const AvatarGuide = () => {
                             <circle cx="110" cy="196" r="2.6" fill="#d9b25f" stroke="#241610" strokeWidth="1.2" />
                             <circle cx="110" cy="214" r="2.6" fill="#d9b25f" stroke="#241610" strokeWidth="1.2" />
                             <circle cx="110" cy="232" r="2.6" fill="#d9b25f" stroke="#241610" strokeWidth="1.2" />
-                            <path d="M101 158 L110 176 L119 158 L113 152 L110 162 L107 152 Z" fill="#f3e3c8" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
                         </g>
 
-                        {/* neck */}
-                        <rect x="103" y="132" width="14" height="30" rx="4" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
-
-                        {/* long hair behind the body - visible in both views */}
+                        {/* long flowing hair behind the head and shoulders */}
                         <g className="avatar-hair-base">
-                            <path d="M82 98 C76 70 92 56 110 56 C128 56 144 70 138 98 C146 136 150 182 154 226 C157 258 154 292 146 322 C138 316 130 326 122 318 L118 148 L102 148 L98 318 C90 326 82 316 74 322 C66 292 63 258 66 226 C70 182 74 136 82 98 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
+                            <path d="M110 54 C84 54 70 74 70 98 C70 124 66 150 60 176 C54 202 54 232 58 258 C62 284 70 306 80 322 C90 334 100 326 104 316 L106 168 L114 168 L116 316 C120 326 130 334 140 322 C150 306 158 284 162 258 C166 232 166 202 160 176 C154 150 150 124 150 98 C150 74 136 54 110 54 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
                             <path d="M88 120 C82 170 80 220 76 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M132 120 C138 170 140 220 144 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M96 150 C102 200 100 250 94 300" stroke="#5a3a30" strokeWidth="2.2" fill="none" strokeLinecap="round" />
                             <path d="M124 150 C118 200 120 250 126 300" stroke="#5a3a30" strokeWidth="2.2" fill="none" strokeLinecap="round" />
                         </g>
 
-                        {/* back view: solid flowing hair (no face gap) */}
+                        {/* back view: solid flowing hair */}
                         <g className="avatar-back">
-                            <path d="M82 98 C76 70 92 56 110 56 C128 56 144 70 138 98 C146 136 150 182 154 226 C157 258 154 292 146 322 C136 318 126 330 110 324 C94 330 84 318 74 322 C66 292 63 258 66 226 C70 182 74 136 82 98 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
+                            <path d="M110 54 C84 54 70 74 70 98 C70 124 66 150 60 176 C54 202 54 232 58 258 C62 284 70 306 80 322 C88 330 96 326 104 318 L116 318 C124 326 132 330 140 322 C150 306 158 284 162 258 C166 232 166 202 160 176 C154 150 150 124 150 98 C150 74 136 54 110 54 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
                             <path d="M88 120 C82 170 80 220 76 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M132 120 C138 170 140 220 144 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M96 150 C102 200 100 250 94 300" stroke="#5a3a30" strokeWidth="2.2" fill="none" strokeLinecap="round" />
                             <path d="M124 150 C118 200 120 250 126 300" stroke="#5a3a30" strokeWidth="2.2" fill="none" strokeLinecap="round" />
                         </g>
 
-                        {/* front view: soft face and long wavy hair */}
+                        {/* front view: visible neck, soft face, curtain bangs */}
                         <g className="avatar-front">
+                            {/* neck */}
+                            <path d="M101 130 L119 130 L121 164 C121 170 117 174 110 174 C103 174 99 170 99 164 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
+                            <path d="M102 137 Q110 143 118 137" stroke="#e0b9a2" strokeWidth="3" fill="none" opacity="0.45" strokeLinecap="round" />
+
+                            {/* cream collar */}
+                            <path d="M101 158 L110 176 L119 158 L113 152 L110 162 L107 152 Z" fill="#f3e3c8" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
+
+                            {/* ears and face */}
                             <circle cx="83" cy="104" r="5" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
                             <circle cx="137" cy="104" r="5" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
                             <path d="M84 100 C84 78 95 68 110 68 C125 68 136 78 136 100 C136 116 128 130 110 136 C92 130 84 116 84 100 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
 
-                            {/* neat, even fringe across the forehead */}
-                            <path d="M82 96 C82 72 94 60 110 60 C126 60 138 72 138 96 C136 92 130 88 122 87 C116 86 112 86 110 86 C108 86 104 86 98 87 C90 88 84 92 82 96 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-
-                            {/* long face-framing waves */}
-                            <path d="M82 94 C72 112 84 128 68 144 C58 158 74 172 60 186 C52 198 64 210 72 218 C80 212 86 222 94 216 C88 200 92 186 86 172 C80 158 90 144 88 130 C86 116 90 104 92 96 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M138 94 C148 112 136 128 152 144 C162 158 146 172 160 186 C168 198 156 210 148 218 C140 212 134 222 126 216 C132 200 128 186 134 172 C140 158 130 144 132 130 C134 116 130 104 128 96 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M80 118 C74 134 80 148 72 162 C66 174 72 188 64 200" stroke="#7a5544" strokeWidth="2.4" fill="none" strokeLinecap="round" />
-                            <path d="M72 218 C66 224 68 232 76 232 C80 232 82 228 82 224" stroke="#241610" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-                            <path d="M86 112 C82 130 88 146 82 160 C78 172 84 186 80 198" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                            <path d="M140 118 C146 134 140 148 148 162 C154 174 148 188 156 200" stroke="#7a5544" strokeWidth="2.4" fill="none" strokeLinecap="round" />
-                            <path d="M148 218 C154 224 152 232 144 232 C140 232 138 228 138 224" stroke="#241610" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-                            <path d="M134 112 C138 130 132 146 138 160 C142 172 136 186 140 198" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                            {/* curtain bangs and long hair - one seamless mass */}
+                            <path d="M110 56 C98 56 86 64 81 80 C78 94 82 108 76 126 C70 146 76 170 68 192 C62 212 66 234 74 248 C82 240 90 250 98 242 C92 222 96 202 90 182 C84 162 90 144 88 128 C86 112 90 100 96 88 C100 82 104 76 110 72 C116 76 120 82 124 88 C130 100 134 112 132 128 C130 144 136 162 130 182 C124 202 128 222 122 242 C130 250 138 240 146 248 C154 234 158 212 152 192 C144 170 150 146 144 126 C138 108 142 94 139 80 C134 64 122 56 110 56 Z" fill="url(#avatar-hair)" />
+                            <path d="M100 70 C94 90 96 110 90 130 C84 150 90 170 84 190" stroke="#6b4a3a" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+                            <path d="M120 70 C126 90 124 110 130 130 C136 150 130 170 136 190" stroke="#6b4a3a" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+                            <path d="M86 100 C80 130 86 160 78 190 C72 212 78 232 72 244" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
+                            <path d="M134 100 C140 130 134 160 142 190 C148 212 142 232 148 244" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
+                            <path d="M94 122 C88 150 94 180 88 208" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
+                            <path d="M126 122 C132 150 126 180 132 208" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
 
                             {/* brows */}
                             <path d="M94 92 Q100 89 106 92" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
@@ -340,8 +340,6 @@ const AvatarGuide = () => {
                             <path d="M110 110 Q112 116 108 118" stroke="#c98f79" strokeWidth="2" fill="none" strokeLinecap="round" />
                             <path d="M103 123 Q110 130 117 123" stroke="#a34a4a" strokeWidth="2.2" fill="none" strokeLinecap="round" />
                             <path d="M106 125 Q110 128 114 125" stroke="#d27b7b" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-                            <ellipse cx="91" cy="116" rx="6" ry="3.5" fill="#eaa9a0" opacity="0.5" />
-                            <ellipse cx="129" cy="116" rx="6" ry="3.5" fill="#eaa9a0" opacity="0.5" />
                             <circle cx="124" cy="119" r="0.9" fill="#6b4533" opacity="0.7" />
 
                         </g>
