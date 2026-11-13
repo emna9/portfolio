@@ -45,7 +45,8 @@ jobs:
         run: |
           set -euo pipefail
           git clone --depth 1 --branch main "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git" out
-          rsync -a --delete --exclude 'textures/*/backups/' source/dist/ out/sketch/
+          rsync -a --checksum --delete --exclude 'textures/*/backups/' source/dist/ out/sketch/
+          cp -f source/dist/index.html out/sketch/index.html
           cp out/sketch/index.html out/sketch/404.html
           cd out
           git config user.name "github-actions[bot]"
