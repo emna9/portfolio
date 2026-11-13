@@ -8,28 +8,38 @@ import { useScene } from '../context/SceneContext';
 const ROOM_META = {
     null: {
         path: '/',
-        title: 'Shan — Creative Full Stack Developer & Interactive Web Engineer',
-        description: 'Portfolio of Shan, Creative Full Stack Developer specializing in immersive digital experiences, scrollytelling, 3D web experiences, motion design, and scalable full stack architecture.',
+        title: 'Emna Smaali — Software Engineering Student | Applied AI & GenAI',
+        description: 'Portfolio of Emna Smaali, a Software Engineering student at MedTech–SMU focused on applied AI, LLMs, RAG systems, and full stack development.',
     },
     about: {
         path: '/about',
-        title: 'About — Shan Portfolio',
-        description: 'Learn about Shan — a Creative Full Stack Developer bridging design and development to build immersive digital experiences inspired by Apple, Stripe, and Linear.',
+        title: 'About — Emna Smaali',
+        description: 'Learn about Emna Smaali — Software Engineering student, Applied AI & GenAI, based in Tunis, Tunisia.',
     },
     gallery: {
         path: '/gallery',
-        title: 'Gallery & Featured Work — Shan Portfolio',
-        description: 'Explore the flagship projects engineered by Shan, including Apple Vision Pro Interactive Experience, BMW M4 GT3 EVO Showcase, Luxury Tailor, and high-performance ecommerce platforms.',
+        title: 'Projects — Emna Smaali',
+        description: 'Selected projects by Emna Smaali: Smart Matching Platform, AI-Powered Ecommerce, and Mental Health Risk Prediction.',
     },
-    studio: {
-        path: '/studio',
-        title: 'The Studio — Shan Portfolio',
-        description: 'Explore Shan\'s interactive 3D studio showcasing full stack engineering architecture, 3D web experiments, and high-performance UI systems.',
+    experience: {
+        path: '/experience',
+        title: 'Experience — Emna Smaali',
+        description: 'Professional experience: Dar Blockchain, South Mediterranean University, COMAR Assurances, Forvia Informatique and Dracode.',
+    },
+    rewards: {
+        path: '/rewards',
+        title: 'Rewards — Emna Smaali',
+        description: 'Awards and recognition: 1st Place Senior Project Competition, 3rd Place Cr4ck0ut Hackathon and 4th Place She Helps Hackathon.',
+    },
+    extracurricular: {
+        path: '/extracurricular',
+        title: 'Extracurricular — Emna Smaali',
+        description: 'Leadership roles at Enactus SMU and Securinets SMU.',
     },
     contact: {
         path: '/contact',
-        title: 'Contact — Shan Portfolio',
-        description: 'Let\'s build something people remember. Get in touch with Shan for immersive web experiences and scalable full stack applications.',
+        title: 'Contact — Emna Smaali',
+        description: 'Get in touch with Emna Smaali for software engineering internships and applied AI projects.',
     },
 };
 
@@ -38,8 +48,12 @@ const PATH_TO_ROOM = {
     '/': null,
     '/about': 'about',
     '/gallery': 'gallery',
-    '/studio': 'studio',
+    '/experience': 'experience',
+    '/rewards': 'rewards',
+    '/extracurricular': 'extracurricular',
     '/contact': 'contact',
+    // Backwards-compatible alias for the old Studio URL
+    '/studio': 'experience',
 };
 
 export function getInitialRoomFromUrl() {
@@ -74,13 +88,16 @@ export function useDocumentMeta() {
         if (ogDesc) ogDesc.setAttribute('content', meta.description);
 
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', `https://shan.dev${meta.path}`);
+        if (ogUrl) ogUrl.setAttribute('content', `${window.location.origin}${meta.path}`);
 
-        // Update canonical link
-        const canonicalTag = document.querySelector('link[rel="canonical"]');
-        if (canonicalTag) {
-            canonicalTag.setAttribute('href', `https://shan.dev${meta.path}`);
+        // Update canonical link (created on first run when no static tag exists)
+        let canonicalTag = document.querySelector('link[rel="canonical"]');
+        if (!canonicalTag) {
+            canonicalTag = document.createElement('link');
+            canonicalTag.rel = 'canonical';
+            document.head.appendChild(canonicalTag);
         }
+        canonicalTag.setAttribute('href', `${window.location.origin}${meta.path}`);
 
         // Push to browser history
         if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {

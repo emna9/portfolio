@@ -82,7 +82,7 @@ export default function Projects() {
               marginBottom: '16px'
             }}
           >
-            FEATURED PROJECTS
+            SELECTED PROJECTS
           </p>
           <h2
             style={{
@@ -92,7 +92,7 @@ export default function Projects() {
               margin: 0
             }}
           >
-            Crafted with <span className="text-gradient-purple">Intention</span>
+            Work Built with <span className="text-gradient-purple">Purpose</span>
           </h2>
           <p
             style={{
@@ -103,7 +103,7 @@ export default function Projects() {
               fontWeight: 300
             }}
           >
-            A curated portfolio of spatial product reveals, high-performance automotive platforms, editorial luxury experiences, and full stack ecommerce engines.
+            Selected projects spanning AI matching, LLM-powered ecommerce, and an end-to-end machine learning pipeline.
           </p>
         </div>
 

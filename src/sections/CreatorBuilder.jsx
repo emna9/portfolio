@@ -7,23 +7,23 @@ gsap.registerPlugin(ScrollTrigger);
 const pillars = [
   {
     num: "01",
-    title: "Immersive Experiences",
-    desc: "Blending storytelling, animation, 3D graphics, and motion design to craft memorable web applications inspired by Apple, Stripe, Linear, and Awwwards leaders."
+    title: "Applied AI & RAG",
+    desc: "Building LLM-powered assistants with hybrid retrieval, prompt engineering, and grounded answers using LangChain, LangGraph, and Mistral."
   },
   {
     num: "02",
-    title: "Full Stack Architecture",
-    desc: "Engineering scalable backend APIs, database schemas, and cloud deployment pipelines using React, Next.js, Node.js, Express, Supabase, and PostgreSQL."
+    title: "Evaluation & Reliability",
+    desc: "Benchmarking models and analysis layers by output quality, latency, cost, and reliability, then validating them on real data."
   },
   {
     num: "03",
-    title: "Creative Engineering",
-    desc: "Pushing spatial web boundaries through WebGL 3D viewports, Three.js shaders, Lenis smooth scrolling, and frame-accurate GSAP scrollytelling physics."
+    title: "Data & Full Stack",
+    desc: "Preparing and structuring data, then shipping it through React, Vue, Node.js, PostgreSQL, MongoDB, and REST APIs."
   },
   {
     num: "04",
-    title: "Craftsmanship & Detail",
-    desc: "Prioritizing zero cumulative layout shifts, sub-second global response times, strict WCAG accessibility compliance, and editorial dark mode aesthetics."
+    title: "Analysis & Delivery",
+    desc: "Turning user and business needs into requirements, use cases, and prioritized work delivered with Agile and Scrum."
   }
 ];
 
@@ -101,7 +101,7 @@ export default function CreatorBuilder() {
               marginBottom: '16px'
             }}
           >
-            PHILOSOPHY & VISION
+            HOW I WORK
           </span>
           <h2
             style={{
@@ -111,8 +111,8 @@ export default function CreatorBuilder() {
               margin: '0 0 20px'
             }}
           >
-            I don't build ordinary websites.<br />
-            <span className="text-gradient">I craft digital experiences beyond ordinary.</span>
+            I don't just test models.<br />
+            <span className="text-gradient">I build systems that hold up on real data.</span>
           </h2>
           <p
             style={{
@@ -123,7 +123,7 @@ export default function CreatorBuilder() {
               fontWeight: 300
             }}
           >
-            Every project is engineered with intentionality—combining visual design mastery, interactive motion physics, and robust backend engineering.
+            Every project starts with a real need, a clear evaluation plan, and engineering that keeps the result reliable.
           </p>
         </div>
 

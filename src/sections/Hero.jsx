@@ -101,7 +101,7 @@ export default function Hero({ isLoaded }) {
               }}
             >
               <span className="pulse-dot" style={{ width: '8px', height: '8px', backgroundColor: 'var(--accent-primary)', borderRadius: '50%', display: 'inline-block' }}></span>
-              Available for selected projects
+              Open to a 6-month final-year internship · Jan 2027
             </div>
 
             {/* Name */}
@@ -117,7 +117,7 @@ export default function Hero({ isLoaded }) {
                 margin: '0 0 6px'
               }}
             >
-              SHAN
+              EMNA
             </h2>
 
             {/* Professional Title Display */}
@@ -133,7 +133,7 @@ export default function Hero({ isLoaded }) {
                 margin: '0 0 24px'
               }}
             >
-              Creative Full Stack Developer
+              Software Engineering Student · Applied AI &amp; GenAI
             </p>
 
             {/* Headline */}
@@ -149,7 +149,7 @@ export default function Hero({ isLoaded }) {
               }}
               className="text-gradient"
             >
-              Building Digital Experiences Beyond Ordinary.
+              Building Reliable, Grounded AI Systems.
             </h1>
 
             {/* Subheading */}
@@ -163,7 +163,7 @@ export default function Hero({ isLoaded }) {
                 fontWeight: 300
               }}
             >
-              I design and engineer immersive web experiences using modern frontend technologies, scalable backend architecture, motion design, and creative storytelling.
+              I work across applied AI, RAG and data pipelines, turning real-world needs into practical technical systems — with a full stack foundation in React, Node.js and modern web technologies.
             </p>
 
             {/* Action CTAs */}
@@ -195,7 +195,7 @@ export default function Hero({ isLoaded }) {
                 }}
                 className="btn-primary-hover"
               >
-                Explore My Work
+                Explore My Projects
               </a>
               
               <a
@@ -216,7 +216,7 @@ export default function Hero({ isLoaded }) {
                 }}
                 className="btn-secondary-hover"
               >
-                Let's Build Together
+                Let's Connect
               </a>
             </div>
 

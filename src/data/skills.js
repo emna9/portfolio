@@ -1,27 +1,27 @@
 export const skillsData = [
   {
-    category: "Frontend",
-    description: "Architecting interactive, responsive, and performance-first web platforms.",
-    skills: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js"]
+    category: "AI & GenAI",
+    description: "Building and evaluating LLM-powered applications, RAG systems and AI agents.",
+    skills: ["Python", "Machine Learning", "RAG", "Prompt Engineering", "AI Evaluation & Benchmarking", "LangChain", "LangGraph", "AI Agents"]
   },
   {
-    category: "Animation",
-    description: "Crafting fluid scrollytelling physics, 3D web scenes, and micro-interactions.",
-    skills: ["GSAP", "Framer Motion", "Lenis", "Three.js", "React Three Fiber"]
+    category: "Data & Analytics",
+    description: "Preparing, structuring and analyzing data for AI and business workflows.",
+    skills: ["SQL", "Data Preparation", "Data Pipelines", "Data Analysis", "Power BI", "Web Scraping", "PostgreSQL", "MongoDB"]
   },
   {
-    category: "Backend",
-    description: "Engineering scalable backend architectures, cloud APIs, and media delivery pipelines.",
-    skills: ["Node.js", "Express.js", "Supabase", "Firebase", "REST APIs", "Cloudinary"]
+    category: "Development & Tools",
+    description: "Building full stack applications, APIs and automated workflows.",
+    skills: ["TypeScript", "JavaScript", "React.js", "Vue.js", "Nuxt.js", "Node.js", "Express.js", "Nest.js", "Docker", "Git", "Postman", "n8n"]
   },
   {
-    category: "Database",
-    description: "Designing relational database schemas and cloud data storage layers.",
-    skills: ["PostgreSQL", "Supabase"]
+    category: "Business & Methods",
+    description: "Turning user and business needs into prioritized, deliverable software.",
+    skills: ["Business Analysis", "Project Management", "Agile", "Workflow Automation"]
   },
   {
-    category: "Tools",
-    description: "Utilizing modern developer environments, AI engineering workflows, and deployment tools.",
-    skills: ["Git", "GitHub", "Figma", "VS Code", "Cursor AI", "Claude", "ChatGPT", "Vercel"]
+    category: "Leadership & Languages",
+    description: "Leading student initiatives and working across three languages.",
+    skills: ["Enactus SMU — Training Manager", "Securinets SMU — HR Manager", "Arabic — Native", "French — Professional", "English — Professional"]
   }
 ];

@@ -42,17 +42,23 @@ const DOOR_ALIGN_X = 1.2;
 // Door texture mapping - maps label to texture file
 const DOOR_TEXTURES = {
     'THE GALLERY': '/textures/corridor/doors/drzwiprojekty.webp',
-    'THE STUDIO': '/textures/corridor/doors/drzwisocial.webp',
+    'PROJECTS': '/textures/corridor/doors/drzwiprojekty.webp',
+    'THE EXPERIENCE': '/textures/corridor/doors/drzwiprojekty.webp',
+    'REWARDS': '/textures/corridor/doors/drzwirewards.webp',
     'THE ABOUT': '/textures/corridor/doors/drzwiabout.webp',
     "LET'S CONNECT": '/textures/corridor/doors/drzwikontakt.webp',
+    'EXTRACURRICULAR': '/textures/corridor/doors/drzwisocial.webp',
 };
 
 // Painted (colored) variants for brush-stroke reveal on hover
 const DOOR_PAINTED_TEXTURES = {
     'THE GALLERY': '/textures/corridor/doors/drzwiprojekty_painted.webp',
-    'THE STUDIO': '/textures/corridor/doors/drzwisocial_painted.webp',
+    'PROJECTS': '/textures/corridor/doors/drzwiprojekty_painted.webp',
+    'THE EXPERIENCE': '/textures/corridor/doors/drzwiprojekty_painted.webp',
+    'REWARDS': '/textures/corridor/doors/drzwirewards_painted.webp',
     'THE ABOUT': '/textures/corridor/doors/drzwiabout_painted.webp',
     "LET'S CONNECT": '/textures/corridor/doors/drzwikontakt_painted.webp',
+    'EXTRACURRICULAR': '/textures/corridor/doors/drzwisocial_painted.webp',
 };
 
 
@@ -124,11 +130,25 @@ const DoorSection = ({
 
         // Fallback for older code
         if (label === 'THE GALLERY') return 'gallery';
-        if (label === 'THE STUDIO') return 'studio';
+        if (label === 'PROJECTS') return 'gallery';
+        if (label === 'THE EXPERIENCE') return 'experience';
+        if (label === 'REWARDS') return 'rewards';
         if (label === 'THE ABOUT') return 'about';
         if (label === "LET'S CONNECT") return 'contact';
+        if (label === 'EXTRACURRICULAR') return 'extracurricular';
         return null;
     }, [label, roomId]);
+
+    // Wall title shown beside the door
+    const wallTitle = ({
+        'THE GALLERY': 'GALLERY',
+        'PROJECTS': 'PROJECTS',
+        'THE EXPERIENCE': 'EXPERIENCE',
+        'REWARDS': 'REWARDS',
+        'THE ABOUT': 'ABOUT',
+        "LET'S CONNECT": 'CONTACT',
+        'EXTRACURRICULAR': 'EXTRACURRICULAR'
+    })[label] || label;
 
     // Listen for pending door click (auto-click after teleport)
     useEffect(() => {
@@ -207,15 +227,13 @@ const DoorSection = ({
         return tex;
     }, [originalWallTexture]);
 
-    // Load door textures - use the right texture based on label
-    const doorTexturePath = DOOR_TEXTURES[label] || DOOR_TEXTURES['THE GALLERY'];
-    const doorTexture = useTexture(doorTexturePath);
-
+    // Clean brown door (no stickers) used for every corridor door
     const isTouch = isTouchDevice();
     const dummyTex = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-    const doorPaintedTexturePath = DOOR_PAINTED_TEXTURES[label] || DOOR_PAINTED_TEXTURES['THE GALLERY'];
-    const doorPaintedTexture = useTexture(isTouch ? dummyTex : doorPaintedTexturePath);
+    const doorTexturePath = '/textures/corridor/doors/door_clean.webp';
+    const doorTexture = useTexture(doorTexturePath);
+    const doorPaintedTexture = useTexture(doorTexturePath);
     const frameTexture = useTexture('/textures/corridor/doors/ramkasingledoors.webp');
     const handleTexture = useTexture('/textures/corridor/doors/klamkadodrzwi.webp');
     const handlePaintedTexture = useTexture(isTouch ? dummyTex : '/textures/corridor/doors/klamkadodrzwi_painted.webp');
@@ -251,7 +269,7 @@ const DoorSection = ({
     }, [baseboardTexture]);
 
     // Door dimensions - based on legacy texture aspect ratio (approx 0.376)
-    const doorRatio = label === 'THE STUDIO' ? 0.388 : 0.376;
+    const doorRatio = 0.376;
     const doorHeight = 2.5;
     const doorWidth = doorHeight * doorRatio * 1.12;
 
@@ -949,7 +967,7 @@ const DoorSection = ({
             <group ref={groupRef}>
                 {/* Wall segment with door hole */}
                 <mesh position={[wallOffsetX, 0, 0]} geometry={wallWithHoleGeometry}>
-                    <meshBasicMaterial color="#fcf3c6" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
+                    <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
                 </mesh>
 
                 {/* === ARROW DECORATION === */}
@@ -967,7 +985,7 @@ const DoorSection = ({
                     scale={[0.5, 0.5, 1]}
                 >
                     <planeGeometry args={[1, 0.5]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={arrowTexture}
                         transparent={true}
                         alphaTest={0.1}
@@ -990,7 +1008,7 @@ const DoorSection = ({
                     scale={[-0.5, 0.5, 1]}
                 >
                     <planeGeometry args={[1, 0.5]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={arrowTexture}
                         transparent={true}
                         alphaTest={0.1}
@@ -998,6 +1016,22 @@ const DoorSection = ({
                         roughness={0.8}
                     />
                 </mesh>
+
+                {/* WALL TITLE BESIDE THE DOOR */}
+                <Text
+                    position={[wallOffsetX - 1.1, 0.34, 0.03]}
+                    fontSize={wallTitle.length > 11 ? 0.13 : 0.17}
+                    color="#664E44"
+                    anchorX="center"
+                    anchorY="middle"
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    maxWidth={1.0}
+                    textAlign="center"
+                    lineHeight={1.1}
+                    materialSide={THREE.DoubleSide}
+                >
+                    {wallTitle}
+                </Text>
 
                 {/* Baseboard (Listwa) Left side of door */}
                 <mesh position={[wallOffsetX - 1.4, -CORRIDOR_HEIGHT / 2 + 0.075, 0.02]}>
@@ -1037,7 +1071,7 @@ const DoorSection = ({
                             rotation={[-Math.PI / 2, 0, 0]}
                         >
                             <planeGeometry args={[THRESH_W, THRESH_D]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={threshTex}
                                 roughness={0.9}
                                 metalness={0}
@@ -1092,11 +1126,11 @@ const DoorSection = ({
                                 </Text>
                             </group>
                         )}
-                        {label === 'THE STUDIO' && (
+                        {label === 'THE EXPERIENCE' && (
                             <group position={[0, 0, 0.01]}>
                                 <Text
                                     font="/fonts/CabinSketch-Bold.ttf"
-                                    fontSize={0.25}
+                                    fontSize={0.22}
                                     color="#111111"
                                     anchorX="center"
                                     anchorY="bottom"
@@ -1106,15 +1140,27 @@ const DoorSection = ({
                                 </Text>
                                 <Text
                                     font="/fonts/CabinSketch-Bold.ttf"
-                                    fontSize={0.25}
+                                    fontSize={0.19}
                                     color="#111111"
                                     anchorX="center"
                                     anchorY="top"
                                     position={[0, +0.03, 0]}
                                 >
-                                    STUDIO
+                                    EXPERIENCE
                                 </Text>
                             </group>
+                        )}
+                        {label === 'PROJECTS' && (
+                            <Text
+                                font="/fonts/CabinSketch-Bold.ttf"
+                                fontSize={0.22}
+                                color="#111111"
+                                anchorX="center"
+                                anchorY="middle"
+                                position={[0, 0, 0.01]}
+                            >
+                                PROJECTS
+                            </Text>
                         )}
                         {label === 'THE ABOUT' && (
                             <Text
@@ -1140,13 +1186,37 @@ const DoorSection = ({
                                 CONTACT
                             </Text>
                         )}
+                        {label === 'REWARDS' && (
+                            <Text
+                                font="/fonts/CabinSketch-Bold.ttf"
+                                fontSize={0.22}
+                                color="#111111"
+                                anchorX="center"
+                                anchorY="middle"
+                                position={[0, 0, 0.01]}
+                            >
+                                REWARDS
+                            </Text>
+                        )}
+                        {label === 'EXTRACURRICULAR' && (
+                            <Text
+                                font="/fonts/CabinSketch-Bold.ttf"
+                                fontSize={0.13}
+                                color="#111111"
+                                anchorX="center"
+                                anchorY="middle"
+                                position={[0, 0, 0.01]}
+                            >
+                                EXTRACURRICULAR
+                            </Text>
+                        )}
                     </group>
 
                     {/* === DOOR FRAME (textured) === */}
                     {/* Moved to Z = 0.04 to sit in front of baseboards (Z=0.02), hiding the hole edges */}
                     <mesh position={[0, -0.1, 0.04]} scale={[side === 'right' ? -1 : 1, 1, 1]}>
                         <planeGeometry args={[frameWidth, frameHeight]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#664E44"
                             map={frameTexture}
                             transparent={true}
                             alphaTest={0.1}
@@ -1181,10 +1251,10 @@ const DoorSection = ({
                         <mesh
                             ref={doorPaintedRef}
                             position={[doorMeshX, -0.2, -0.001]}
-                            scale={[(side === 'right' && label !== 'THE STUDIO') ? -1 : 1, 1, 1]}
+                            scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={doorPaintedTexture}
                                 transparent={true}
                                 alphaTest={0.5}
@@ -1195,10 +1265,10 @@ const DoorSection = ({
                         {/* Sketch overlay (front) - brush-stroke discard reveals painted beneath */}
                         <mesh
                             position={[doorMeshX, -0.2, 0]}
-                            scale={[(side === 'right' && label !== 'THE STUDIO') ? -1 : 1, 1, 1]}
+                            scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <revealMaterial color="#fcf3c6"
+                            <revealMaterial color="#664E44"
                                 ref={doorMaterialRef}
                                 map={doorTexture}
                                 transparent={true}
@@ -1215,7 +1285,7 @@ const DoorSection = ({
                             scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={doorBackTexture}
                                 transparent={true}
                                 alphaTest={0.1}

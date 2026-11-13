@@ -317,7 +317,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, CENTER_WIDTH]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={floorTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -335,7 +335,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={leftSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -353,7 +353,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#664E44"
                                 map={rightSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -396,7 +396,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[tileWidth, tileLength]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#FFFFFF"
                                 map={ceilingTexture}
                                 map-repeat={[tileWidth / 2, tileLength / 2]}
                                 side={THREE.DoubleSide}
@@ -461,7 +461,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#fcf3c6"
+                                <meshBasicMaterial color="#FFE8D6"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}

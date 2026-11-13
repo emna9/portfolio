@@ -36,53 +36,34 @@ export const GALLERY_INTERACTION_AUDIO_SETTINGS = {
 // Define the unique projects and their textures
 const FALLBACK_PROJECTS = [
     {
-        id: 'apple-vision-pro',
-        title: 'APPLE VISION PRO EXPERIENCE',
-        front: '/textures/gallery/timberkittyprzod.webp',
-        painted: '/textures/gallery/timberkittyprzod_painted.webp',
-        url: '#project/apple-vision-pro',
-        description: 'A spatial computing web showcase with frame-by-frame 3D canvas interaction, luxury depth glass rendering, and scroll mechanics.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp']
+        id: 'smart-matching-platform',
+        title: 'SMART MATCHING PLATFORM',
+        front: '/textures/gallery/proj-smart-matching.webp',
+        painted: '/textures/gallery/proj-smart-matching_painted.webp',
+        url: 'https://github.com/emna9',
+        description: 'A matching platform built around a Top 3 ranking engine powered by Gemini and CatBoost, with 6+ structured attributes, 3 user roles and 10+ features.',
+        techStack: ['/textures/gallery/geminilogo.webp', '/textures/gallery/catboostlogo.webp', '/textures/gallery/reactlogo.webp', '/textures/gallery/nodelogo.webp']
     },
     {
-        id: 'bmw-m4-gt3',
-        title: 'BMW M4 GT3 EVO SHOWCASE',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
-        url: '#project/bmw-m4-gt3',
-        description: 'An interactive automotive experience featuring 360° image sequence animation, live telemetry HUD displays, and Web Audio synthesis.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/jslogo.webp', '/textures/gallery/csslogo.webp']
+        id: 'ai-ecommerce-platform',
+        title: 'AI-POWERED ECOMMERCE',
+        front: '/textures/gallery/proj-ai-ecommerce.webp',
+        painted: '/textures/gallery/proj-ai-ecommerce_painted.webp',
+        url: 'https://github.com/emna9',
+        description: 'A full-stack ecommerce platform with multi-role management, REST APIs and JWT auth, plus a LangGraph agent for product recommendations.',
+        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/nodelogo.webp', '/textures/gallery/mongologo.webp', '/textures/gallery/langgraphlogo.webp']
     },
     {
-        id: 'luxury-tailor',
-        title: 'LUXURY TAILOR WEBSITE',
-        front: '/textures/gallery/bioprzod.webp',
-        painted: '/textures/gallery/bioprzod_painted.webp',
-        url: '#project/luxury-tailor',
-        description: 'An elegant editorial web experience for a haute couture tailoring house featuring fluid fabric motion, interactive sizing, and luxury UX.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp']
-    },
-    {
-        id: 'fashion-jewellery-ecommerce',
-        title: 'JEWELLERY ECOMMERCE ENGINE',
-        front: '/textures/gallery/youngmultiprzod.webp',
-        painted: '/textures/gallery/youngmultiprzod_painted.webp',
-        url: '#project/fashion-jewellery-ecommerce',
-        description: 'A full stack luxury jewellery platform built for speed and aesthetics, featuring sub-second edge filtering, real-time cart sync, and cloud media pipelines.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/jslogo.webp', '/textures/gallery/csslogo.webp']
-    },
-    {
-        id: 'photography-accessories-platform',
-        title: 'PHOTOGRAPHY ACCESSORIES ENGINE',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
-        url: '#project/photography-accessories-platform',
-        description: 'A precision full stack gear platform engineered for professional photographers, featuring camera lens compatibility matrices and dark UI.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/jslogo.webp', '/textures/gallery/csslogo.webp']
+        id: 'mental-health-risk-prediction',
+        title: 'MENTAL HEALTH RISK PREDICTION',
+        front: '/textures/gallery/proj-mental-health.webp',
+        painted: '/textures/gallery/proj-mental-health_painted.webp',
+        url: 'https://github.com/emna9',
+        description: 'A complete machine learning pipeline — data preparation, exploratory analysis, feature engineering and evaluation of 4 models with an interactive results dashboard.',
+        techStack: ['/textures/gallery/pythonlogo.webp', '/textures/gallery/sklogo.webp', '/textures/gallery/datalogo.webp']
     }
 ];
 
-const PROJECT_COUNT = 5; // 5 flagship projects in sequence
 const GAP = 2.5;
 
 // Zmień te wartości aby dopasować proporcje ptaka (legacy ratio 1.41)
@@ -94,7 +75,7 @@ const BIRD_HEIGHT = 0.35;
 // 0.2 = 20% crop from the right (corridor side)
 const RIGHT_CROP_AMOUNT = 0.2;
 
-const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
+const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, variant = 'gallery' }) => {
     const { openOverlay, isTeleporting } = useScene();
     const { showTutorial, unlockAchievement, hidePopup } = useAchievements();
     const { globalVolume, isMuted } = useAudio();
@@ -219,7 +200,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     // Pobieranie danych z Sanity.io (fallback do starych danych)
     const sanityProjects = useGalleryProjects();
-    const activeProjects = sanityProjects || FALLBACK_PROJECTS;
+    const activeProjects = projectsData || sanityProjects || FALLBACK_PROJECTS;
+    const cardCount = activeProjects.length;
 
     useEffect(() => {
         const mq = window.matchMedia('(hover: hover)');
@@ -246,7 +228,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
         const names = [
             'csslogo', 'elementorlogo', 'firebaselogo', 'htmllogo',
             'jslogo', 'netlifylogo', 'phplogo', 'reactlogo',
-            'tailwindlogo', 'wordpresslogo'
+            'tailwindlogo', 'wordpresslogo', 'pythonlogo', 'nodelogo',
+            'mongologo', 'sklogo', 'geminilogo', 'catboostlogo', 'langgraphlogo', 'datalogo'
         ];
         return names.map(name => {
             if (!canHover) return `/textures/gallery/${name}.webp`;
@@ -259,7 +242,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     // Construct the full list of projects (repeated) with textures attached
     const projects = useMemo(() => {
-        return Array.from({ length: PROJECT_COUNT }).map((_, i) => {
+        return Array.from({ length: cardCount }).map((_, i) => {
             const projectIndex = i % activeProjects.length;
             const projectData = activeProjects[projectIndex];
 
@@ -283,7 +266,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             }
 
             // Map tech stack logos to the correct version (painted or regular)
-            const techStack = projectData.techStack.map(path => {
+            const techStack = (projectData.techStack || []).map(path => {
                 if (!canHover) return path; // Keep regular
                 const name = path.split('/').pop().replace('.webp', '');
                 if (name === 'csslogo') return '/textures/gallery/css3logo_painted.webp';
@@ -304,7 +287,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     // Function to scroll to a specific project index
     const scrollToIndex = (index, onComplete) => {
-        const totalWidth = PROJECT_COUNT * GAP;
+        const totalWidth = cardCount * GAP;
         const targetScrollValue = index * GAP;
         const currentScrollValue = currentScroll.current;
 
@@ -522,7 +505,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             ref={el => cardRefs.current[i] = el}
                             project={project}
                             clothespinTexture={clothespinTexture}
-                            total={PROJECT_COUNT}
+                            total={cardCount}
+                            variant={variant}
                             currentScroll={currentScroll}
                             materials={materials}
                             curve={curve}
@@ -533,6 +517,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             isTransitioning={isTransitioning} // Pass down to lock out individual pointer events just in case
                             paintProgress={uniformsData.uPaintProgress}
                             roomOrigin={uniformsData.uRoomOrigin}
+                            onAwardImageClick={openOverlay}
                         />
                     ))}
                 </group>
@@ -696,7 +681,7 @@ const FlyingBird = ({ texture }) => {
 };
 
 // Sub-component for individual project cards
-const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, currentScroll, materials, curve, isSelected, scrollToIndex, onClick, isMobile, isTransitioning, paintProgress, roomOrigin }, ref) => {
+const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, currentScroll, materials, curve, isSelected, scrollToIndex, onClick, isMobile, isTransitioning, paintProgress, roomOrigin, total, variant, onAwardImageClick }, ref) => {
     const cardRef = useRef();
     const paperRef = useRef(); // Ref for the moving part (Paper)
     const materialRef = useRef();
@@ -954,6 +939,11 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
     useFrame((state) => {
         if (!cardRef.current) return;
 
+        // Award cards stay perfectly still
+        if (variant === 'awards' && materialRef.current) {
+            materialRef.current.windStrength = -0.02;
+        }
+
         // Custom GSAP Paint logic for texts
         // We delay the text reveal slightly so the card paints first (p > 0.4)
         if (textRef.current && paintProgress) {
@@ -1061,7 +1051,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
         // Skip position updates ONLY during flip animation, NOT during scroll
         if (isAnimating || isSelected) return;
 
-        const totalWidth = PROJECT_COUNT * GAP; // GAP is available in scope because we are in the file where GAP is defined
+        const totalWidth = total * GAP;
         let rawX = (index * GAP) - currentScroll.current;
         const halfWidth = totalWidth / 2;
         let displayX = ((rawX + halfWidth) % totalWidth + totalWidth) % totalWidth - halfWidth;
@@ -1074,7 +1064,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
 
         // Wind / Sway Animation
         const time = state.clock.getElapsedTime();
-        const wind = Math.sin(time * swaySpeed.current + swayOffset.current) * 0.05;
+        const wind = variant === 'awards' ? 0 : Math.sin(time * swaySpeed.current + swayOffset.current) * 0.05;
 
         cardRef.current.rotation.z = wind;
         cardRef.current.rotation.x = 0;
@@ -1152,6 +1142,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                 </mesh>
 
                 {/* === PRZYCISK: OPEN NA PLECACH KARTKI === */}
+                {variant === 'gallery' && (
                 <group
                     ref={buttonGroupRef}
                     position={[0, 0.75, 0]}
@@ -1207,11 +1198,26 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         <meshBasicMaterial color="#fcf3c6" transparent={true} opacity={0} />
                     </mesh>
                 </group>
+                )}
+
+                {/* === AWARD IMAGES ON THE CARD BACK === */}
+                {variant === 'awards' && project.image && (
+                    <group position={[0, 0, 0.008]} rotation={[Math.PI, 0, 0]} visible={isSelected}>
+                        {project.image2 ? (
+                            <>
+                                <AwardBackImage src={project.image} position={[0, 0.5, 0]} size={[1.05, 0.59]} onClick={(src) => onAwardImageClick?.({ layout: 'image', image: src, title: project.title, description: project.description, platformConfig: { label: 'AWARD', icon: '🏆' } })} />
+                                <AwardBackImage src={project.image2} position={[0, -0.12, 0]} size={[1.05, 0.59]} onClick={(src) => onAwardImageClick?.({ layout: 'image', image: src, title: project.title, description: project.description, platformConfig: { label: 'AWARD', icon: '🏆' } })} />
+                            </>
+                        ) : (
+                            <AwardBackImage src={project.image} position={[0, 0.28, 0]} size={[1.2, 0.72]} onClick={(src) => onAwardImageClick?.({ layout: 'image', image: src, title: project.title, description: project.description, platformConfig: { label: 'AWARD', icon: '🏆' } })} />
+                        )}
+                    </group>
+                )}
 
                 {/* === TEKST NA PLECACH KARTKI (PROJECT DETAILS) === */}
                 <group
                     ref={detailsGroupRef}
-                    position={[0, -0.5, 0]} // Miejsce u góry (gdy Y=0.75 to dół, to Y=-0.4 to góra)
+                    position={[0, variant === 'awards' ? -0.78 : -0.5, 0]}
                     rotation={[Math.PI, 0, 0]}
                 >
                     <Text
@@ -1224,7 +1230,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
                     >
-                        PROJECT DETAILS:
+                        {variant === 'awards' ? 'AWARD DETAILS:' : (variant === 'experience' || variant === 'extracurricular') ? 'ROLE DETAILS:' : 'PROJECT DETAILS:'}
                     </Text>
 
                     <Text
@@ -1242,9 +1248,26 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                     >
                         {project.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco."}
                     </Text>
+
+                    {variant === 'experience' && project.skills && project.skills.length > 0 && (
+                        <Text
+                            position={[0, -0.28, 0.01]}
+                            fontSize={0.035}
+                            color="#333333"
+                            font="/fonts/CabinSketch-Bold.ttf"
+                            anchorX="center"
+                            anchorY="top"
+                            maxWidth={1.2}
+                            lineHeight={1.2}
+                            textAlign="center"
+                        >
+                            {`SKILLS · ${project.skills.join(' · ')}`}
+                        </Text>
+                    )}
                 </group>
 
                 {/* === SEKCJA TECH STACK NA PLECACH KARTKI === */}
+                {variant === 'gallery' && (
                 <group
                     ref={techStackGroupRef}
                     position={[0, 0.30, 0]} // Pomiędzy Project Details a przyciskiem Open Project
@@ -1277,6 +1300,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         })}
                     </group>
                 </group>
+                )}
 
                 {/* 
                   === TEKST / TYTUŁY PROJEKTÓW ===
@@ -1291,18 +1315,20 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                   color: kolor napisu
                   font: opcjonalnie dajesz tu inną czcionkę z folderu /public/fonts/
                 */}
-                <Text
-                    ref={textRef}
-                    position={[0, 0.7, 0]} // Tylko dwa pierwsze parametry [X, Y] mają tutaj znaczenie
-                    fontSize={0.20}
-                    color="#1c1c1c"
-                    font="/fonts/CabinSketch-Bold.ttf"
-                    anchorX="center"
-                    anchorY="middle"
-                    fillOpacity={0} // Start hidden
-                >
-                    {project.title}
-                </Text>
+                {variant !== 'awards' && (
+                    <Text
+                        ref={textRef}
+                        position={[0, 0.7, 0]} // Tylko dwa pierwsze parametry [X, Y] mają tutaj znaczenie
+                        fontSize={0.20}
+                        color="#1c1c1c"
+                        font="/fonts/CabinSketch-Bold.ttf"
+                        anchorX="center"
+                        anchorY="middle"
+                        fillOpacity={0} // Start hidden
+                    >
+                        {project.title}
+                    </Text>
+                )}
 
                 <PositionalAudio
                     ref={paperAudioRef}
@@ -1351,6 +1377,31 @@ const RightSideHouses = ({ texture, baseWidth, baseHeight, cropAmount }) => {
                 map={croppedTexture}
                 transparent={true}
                 alphaTest={0.1}
+                side={THREE.DoubleSide}
+            />
+        </mesh>
+    );
+};
+
+// Sub-component for award images on the back of the card
+const AwardBackImage = ({ src, position, size, onClick }) => {
+    const texture = useTexture(src);
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    return (
+        <mesh
+            position={position}
+            onClick={(e) => {
+                e.stopPropagation();
+                onClick?.(src);
+            }}
+            onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
+            onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+        >
+            <planeGeometry args={size} />
+            <meshBasicMaterial
+                map={texture}
+                transparent={true}
                 side={THREE.DoubleSide}
             />
         </mesh>

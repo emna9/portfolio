@@ -102,7 +102,7 @@ export default function Journey() {
               marginBottom: '16px'
             }}
           >
-            ROADMAP & PATH
+            EDUCATION & EXPERIENCE
           </span>
           <h2
             style={{
@@ -112,7 +112,7 @@ export default function Journey() {
               margin: '0 0 20px'
             }}
           >
-            My Digital <span className="text-gradient">Journey</span>
+            My Engineering <span className="text-gradient">Journey</span>
           </h2>
           <p
             style={{
@@ -123,7 +123,7 @@ export default function Journey() {
               fontWeight: 300
             }}
           >
-            From learning fundamental programming guidelines to engineering custom systems and scaling web products.
+            From software engineering foundations to applied AI internships, data work, and LLM evaluation.
           </p>
         </div>
 

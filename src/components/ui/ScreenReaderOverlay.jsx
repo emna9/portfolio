@@ -1,5 +1,8 @@
 import { useScene } from '../../context/SceneContext';
-import { useGalleryProjects, useStudioContent, useAwards } from '../../hooks/useSanityData';
+import { useGalleryProjects, useAwards } from '../../hooks/useSanityData';
+import { experienceCards } from '../../data/experience';
+import { rewardCards } from '../../data/rewards';
+import { extracurricularCards } from '../../data/extracurricular';
 import '../../styles/ScreenReaderOverlay.scss';
 
 /**
@@ -11,11 +14,16 @@ import '../../styles/ScreenReaderOverlay.scss';
  */
 const ScreenReaderOverlay = () => {
     const { hasEntered, isInRoom, currentRoom, teleportTo, requestExit } = useScene();
-    
+
     // Pobieranie danych do wygenerowania niewidocznego HTML-a dla SEO / robotów
     const projects = useGalleryProjects();
-    const studio = useStudioContent();
     const awards = useAwards();
+
+    const roomLabel = currentRoom === 'about' ? 'About' :
+        currentRoom === 'gallery' ? 'Projects' :
+            currentRoom === 'experience' ? 'Experience' :
+                currentRoom === 'rewards' ? 'Rewards' :
+                        currentRoom === 'contact' ? 'Contact' : currentRoom;
 
     return (
         <div className="sr-overlay" role="complementary" aria-label="Accessible navigation for 3D portfolio">
@@ -26,11 +34,11 @@ const ScreenReaderOverlay = () => {
 
             {/* Main accessible navigation */}
             <nav id="sr-main-nav" className="sr-only" aria-label="Portfolio rooms">
-                <h1>Shan — Creative Full Stack Developer</h1>
+                <h1>Emna Smaali — Software Engineering Student</h1>
                 <h2>Portfolio Navigation</h2>
 
                 {!hasEntered && (
-                    <p>Welcome to Shan's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
+                    <p>Welcome to Emna Smaali's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
                 )}
 
                 {hasEntered && !isInRoom && (
@@ -39,22 +47,32 @@ const ScreenReaderOverlay = () => {
                         <ul>
                             <li>
                                 <button onClick={() => teleportTo('about')} type="button">
-                                    About — My story, skills, and journey
+                                    About — My story, education, awards, and skills
                                 </button>
                             </li>
                             <li>
                                 <button onClick={() => teleportTo('gallery')} type="button">
-                                    The Gallery — My projects and work
+                                    Projects — My selected projects
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => teleportTo('experience')} type="button">
+                                    The Experience — My professional experience
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => teleportTo('rewards')} type="button">
+                                    Rewards — Awards and recognition
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => teleportTo('extracurricular')} type="button">
+                                    Extracurricular — Leadership and activities
                                 </button>
                             </li>
                             <li>
                                 <button onClick={() => teleportTo('contact')} type="button">
                                     Contact — Get in touch with me
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => teleportTo('studio')} type="button">
-                                    The Studio — Technologies and experience
                                 </button>
                             </li>
                         </ul>
@@ -63,12 +81,7 @@ const ScreenReaderOverlay = () => {
 
                 {hasEntered && isInRoom && (
                     <>
-                        <p>
-                            You are in the {currentRoom === 'about' ? 'About' :
-                                currentRoom === 'gallery' ? 'Gallery' :
-                                    currentRoom === 'contact' ? 'Contact' :
-                                        currentRoom === 'studio' ? 'Studio' : currentRoom} room.
-                        </p>
+                        <p>You are in the {roomLabel} room.</p>
                         <button onClick={requestExit} type="button">
                             Go back to corridor
                         </button>
@@ -77,11 +90,11 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'about' && (
                             <div aria-label="About room content">
                                 <h3>About Me</h3>
-                                <p>This room contains my personal story, capabilities, journey milestones, and technology skills displayed as interactive balloons.</p>
-                                
+                                <p>This room contains my personal story, awards, education and internship milestones, and technical skills displayed as interactive balloons.</p>
+
                                 {awards && (
                                     <section>
-                                        <h4>My Capabilities</h4>
+                                        <h4>My Awards & Recognition</h4>
                                         <ul>
                                             {awards.sotd && awards.sotd.items && awards.sotd.items.map((a, i) => (
                                                 <li key={i}>{a.label} - {a.date}</li>
@@ -100,8 +113,8 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'gallery' && (
                             <div aria-label="Gallery room content">
                                 <h3>My Projects</h3>
-                                <p>Browse through my portfolio projects displayed on paper cards. Click on a project card to see details and visit the live site.</p>
-                                
+                                <p>Browse through my selected projects displayed on paper cards. Click on a project card to read the details.</p>
+
                                 {projects && projects.length > 0 && (
                                     <ul>
                                         {projects.map((p, i) => (
@@ -115,28 +128,52 @@ const ScreenReaderOverlay = () => {
                                 )}
                             </div>
                         )}
+                        {currentRoom === 'experience' && (
+                            <div aria-label="Experience room content">
+                                <h3>Professional Experience</h3>
+                                <p>Five internships displayed on paper cards. Click a card to read the role details.</p>
+                                <ul>
+                                    {experienceCards.map((item) => (
+                                        <li key={item.id}>
+                                            <h4>{item.title}</h4>
+                                            <p>{item.description}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                        {currentRoom === 'rewards' && (
+                            <div aria-label="Rewards room content">
+                                <h3>Rewards</h3>
+                                <p>My awards and hackathon placements displayed on paper cards.</p>
+                                <ul>
+                                    {rewardCards.map((item) => (
+                                        <li key={item.id}>
+                                            <h4>{item.title}</h4>
+                                            <p>{item.description}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                        {currentRoom === 'extracurricular' && (
+                            <div aria-label="Extracurricular room content">
+                                <h3>Extracurricular</h3>
+                                <p>My leadership roles displayed on paper cards.</p>
+                                <ul>
+                                    {extracurricularCards.map((item) => (
+                                        <li key={item.id}>
+                                            <h4>{item.title}</h4>
+                                            <p>{item.description}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         {currentRoom === 'contact' && (
                             <div aria-label="Contact room content">
                                 <h3>Contact Me</h3>
                                 <p>Find my social media links displayed as floating barrels. Click to visit my profiles on LinkedIn, GitHub, and other platforms.</p>
-                            </div>
-                        )}
-                        {currentRoom === 'studio' && (
-                            <div aria-label="Studio room content">
-                                <h3>The Studio</h3>
-                                <p>Explore my experience and skills on rotating monitors. Click a monitor to read detailed information about my work.</p>
-
-                                {studio && studio.length > 0 && (
-                                    <ul>
-                                        {studio.map((s, i) => (
-                                            <li key={i}>
-                                                <h4>{s.title} ({s.platform})</h4>
-                                                <p>{s.description}</p>
-                                                {s.url && <a href={s.url}>View content</a>}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
                             </div>
                         )}
 
@@ -147,13 +184,19 @@ const ScreenReaderOverlay = () => {
                                 <li><button onClick={() => teleportTo('about')} type="button">Go to About</button></li>
                             )}
                             {currentRoom !== 'gallery' && (
-                                <li><button onClick={() => teleportTo('gallery')} type="button">Go to Gallery</button></li>
+                                <li><button onClick={() => teleportTo('gallery')} type="button">Go to Projects</button></li>
+                            )}
+                            {currentRoom !== 'experience' && (
+                                <li><button onClick={() => teleportTo('experience')} type="button">Go to Experience</button></li>
+                            )}
+                            {currentRoom !== 'rewards' && (
+                                <li><button onClick={() => teleportTo('rewards')} type="button">Go to Rewards</button></li>
+                            )}
+                            {currentRoom !== 'extracurricular' && (
+                                <li><button onClick={() => teleportTo('extracurricular')} type="button">Go to Extracurricular</button></li>
                             )}
                             {currentRoom !== 'contact' && (
                                 <li><button onClick={() => teleportTo('contact')} type="button">Go to Contact</button></li>
-                            )}
-                            {currentRoom !== 'studio' && (
-                                <li><button onClick={() => teleportTo('studio')} type="button">Go to Studio</button></li>
                             )}
                         </ul>
                     </>
@@ -162,7 +205,7 @@ const ScreenReaderOverlay = () => {
 
             {/* Live region for state changes */}
             <div aria-live="polite" aria-atomic="true" className="sr-only">
-                {isInRoom && `Entered ${currentRoom} room`}
+                {isInRoom && `Entered ${roomLabel} room`}
             </div>
         </div>
     );

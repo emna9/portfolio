@@ -11,10 +11,12 @@ import '../../styles/NavigationUI.scss';
 // Room data for the map - positions are percentages on the map image
 // These positions correspond to the visual elements on the map
 const ROOMS = [
-    { id: 'about', label: 'About', x: 43, y: 38 },      // Paper airplane (left side)
-    { id: 'gallery', label: 'Gallery', x: 43, y: 72 },  // City buildings (bottom left)
-    { id: 'contact', label: 'Contact', x: 57, y: 25 },  // Pier/dock (top right)
-    { id: 'studio', label: 'Studio', x: 57, y: 55 },    // Monitors stack (right side)
+    { id: 'about', label: 'ABOUT', x: 25, y: 45, icon: '/images/map-icons/about.webp' },
+    { id: 'gallery', label: 'PROJECTS', x: 25, y: 76, icon: '/images/map-icons/gallery.webp' },
+    { id: 'contact', label: 'CONTACT', x: 75, y: 14, icon: '/images/map-icons/contact.webp' },
+    { id: 'experience', label: 'EXPERIENCE', x: 75, y: 45, icon: '/images/map-icons/experience.webp' },
+    { id: 'rewards', label: 'REWARDS', x: 25, y: 14, icon: '/images/map-icons/rewards.webp' },
+    { id: 'extracurricular', label: 'EXTRACURRICULAR', x: 75, y: 76, icon: '/images/map-icons/extracurricular.webp' },
 ];
 
 // Pin starting position - the dashed circle at the bottom of the tower
@@ -55,7 +57,7 @@ const NavigationUI = () => {
         about: useRef(),
         gallery: useRef(),
         contact: useRef(),
-        studio: useRef()
+        experience: useRef()
     };
 
     useEffect(() => {
@@ -95,11 +97,10 @@ const NavigationUI = () => {
             });
         }
 
-        // Studio (zone: right 15%, bottom 19%, width 25%, height 40%)
-        // -> X: 60% to 85% (since right=15% means left is 100-15-25=60%), Y: 41% to 81% (since bottom=19% means top is 100-19-40=41%)
-        if (paintedMapsRefs.studio.current) {
-            gsap.to(paintedMapsRefs.studio.current, {
-                clipPath: (hoveredRoom === 'studio' || currentRoom === 'studio')
+        // Experience (zone: right 15%, bottom 19%, width 25%, height 40%)
+        if (paintedMapsRefs.experience.current) {
+            gsap.to(paintedMapsRefs.experience.current, {
+                clipPath: (hoveredRoom === 'experience' || currentRoom === 'experience')
                     ? 'polygon(60% 41%, 85% 41%, 85% 81%, 60% 81%)'
                     : 'polygon(85% 41%, 85% 41%, 85% 81%, 85% 81%)',
                 duration: 0.5,
@@ -126,9 +127,7 @@ const NavigationUI = () => {
 
     // Show entrance hint before entering, and explore hint when user enters
     useEffect(() => {
-        if (!hasEntered && !isTeleporting) {
-            showTutorial('corridor_enter');
-        } else if (hasEntered && !isTeleporting && !isInRoom) {
+        if (hasEntered && !isTeleporting && !isInRoom) {
             showTutorial('corridor_explore');
         }
     }, [hasEntered, isTeleporting, isInRoom, showTutorial]);
@@ -217,6 +216,11 @@ const NavigationUI = () => {
 
     return (
         <div className="navigation-ui">
+            {/* Entrance guidance */}
+            {!hasEntered && (
+                <div className="entrance-hint">Click the door to explore the portfolio</div>
+            )}
+
             {/* Global Achievement Popup */}
             <AchievementPopup />
 
@@ -236,51 +240,40 @@ const NavigationUI = () => {
             {/* Right side controls - Only visible after entering */}
             {hasEntered && (
                 <div className={`nav-controls ${isMenuOpen || isAudioMenuOpen ? 'menu-open' : ''} ${isUIHidden ? 'ui-hidden' : ''}`}>
-                    {/* Hamburger Menu Button */}
+                    {/* Exit Portfolio Button */}
+                    <button
+                        className="nav-btn exit-btn"
+                        onClick={() => { window.location.href = window.location.origin + '/'; }}
+                        aria-label="Exit portfolio"
+                        title="Exit portfolio"
+                    >
+                        <svg viewBox="0 0 24 24" className="icon-exit">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <path d="M16 17l5-5-5-5" />
+                            <path d="M21 12H9" />
+                        </svg>
+                    </button>
+                    {/* Map Menu Button */}
                     <button
                         className={`nav-btn hamburger-btn ${isMenuOpen ? 'open' : ''}`}
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         aria-label="Toggle menu"
                         aria-expanded={isMenuOpen}
                     >
-                        <div className="hamburger-icon">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </button>
-                    {/* Audio Toggle Button */}
-                    <button
-                        className={`nav-btn audio-btn ${isAudioMenuOpen ? 'open' : ''}`}
-                        onClick={() => setIsAudioMenuOpen(!isAudioMenuOpen)}
-                        aria-label="Audio Settings"
-                        aria-expanded={isAudioMenuOpen}
-                    >
-                        {isMuted ? (
-                            <svg viewBox="0 0 24 24" className="icon-audio">
-                                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                                <line x1="23" y1="9" x2="17" y2="15" />
-                                <line x1="17" y1="9" x2="23" y2="15" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" className="icon-audio">
-                                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                                <path d="M15 9a5 5 0 0 1 0 6" />
-                                <path d="M18 5a9 9 0 0 1 0 14" />
-                            </svg>
-                        )}
+                        <svg viewBox="0 0 24 24" className="icon-map">
+                            <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" />
+                            <path d="M9 4v14M15 6v14" />
+                        </svg>
                     </button>
                     {/* Achievements Toggle Button */}
                     <button
                         className={`nav-btn achievements-btn ${isAchievementsOpen ? 'open' : ''}`}
                         onClick={() => setIsAchievementsOpen(!isAchievementsOpen)}
-                        aria-label="Achievements"
+                        aria-label="Tutorial"
                         aria-expanded={isAchievementsOpen}
                     >
                         <svg viewBox="0 0 24 24" className="icon-trophy">
-                            <path d="M8 21h8M12 17v4M7 4h10M5 4h14v5a7 7 0 0 1-7 7 7 7 0 0 1-7-7z" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M5 9H3V6h2" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M19 9h2V6h-2" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
                 </div>
@@ -333,13 +326,14 @@ const NavigationUI = () => {
                             {/* Map background image */}
                             <img src="/images/map.webp" alt="Portfolio Map" className="map-image" />
 
-                            {/* Painted Map Overlays */}
-                            <img ref={paintedMapsRefs.about} src="/images/map_about_painted.webp" alt="" className="painted-map-layer" style={{ clipPath: 'polygon(10% 20%, 10% 20%, 10% 55%, 10% 55%)' }} />
-                            <img ref={paintedMapsRefs.gallery} src="/images/map_gallery_painted.webp" alt="" className="painted-map-layer" style={{ clipPath: 'polygon(10% 57%, 10% 57%, 10% 92%, 10% 92%)' }} />
-                            <img ref={paintedMapsRefs.contact} src="/images/map_contact_painted.webp" alt="" className="painted-map-layer" style={{ clipPath: 'polygon(95% 10%, 95% 10%, 95% 35%, 95% 35%)' }} />
-                            <img ref={paintedMapsRefs.studio} src="/images/map_studio_painted.webp" alt="" className="painted-map-layer" style={{ clipPath: 'polygon(85% 41%, 85% 41%, 85% 81%, 85% 81%)' }} />
+                            {/* Colored painted icons — always visible */}
+                            <img src="/images/map_about_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="/images/map_gallery_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="/images/map_contact_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="/images/map_studio_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="/images/map_extracurricular_painted.webp" alt="" className="painted-map-layer" />
 
-                            {/* Hover Zones — 4 quadrants covering the map */}
+                            {/* Hover Zones */}
                             <button
                                 type="button"
                                 className="map-hover-zone zone-about"
@@ -372,37 +366,40 @@ const NavigationUI = () => {
                             />
                             <button
                                 type="button"
-                                className="map-hover-zone zone-studio"
-                                onMouseEnter={() => setHoveredRoom('studio')}
+                                className="map-hover-zone zone-experience"
+                                onMouseEnter={() => setHoveredRoom('experience')}
                                 onMouseLeave={() => setHoveredRoom(null)}
-                                onFocus={() => setHoveredRoom('studio')}
+                                onFocus={() => setHoveredRoom('experience')}
                                 onBlur={() => setHoveredRoom(null)}
-                                onClick={() => handleRoomClick('studio')}
-                                aria-label="Teleport to Studio room"
+                                onClick={() => handleRoomClick('experience')}
+                                aria-label="Teleport to Experience room"
                             />
 
                             {/* Permanent Map Text Labels */}
                             <div className="map-room-label about">ABOUT</div>
-                            <div className="map-room-label gallery">THE<br />GALLERY</div>
+                            <div className="map-room-label gallery">PROJECTS</div>
                             <div className="map-room-label contact">CONTACT</div>
-                            <div className="map-room-label studio">THE<br />STUDIO</div>
+                            <div className="map-room-label experience">EXPERIENCE</div>
+                            <div className="map-room-label rewards">REWARDS</div>
+                            <div className="map-room-label extracurricular">EXTRACURRICULAR</div>
 
-                            {/* Pin slot markers - 4 locations */}
+                            {/* Pin slot markers */}
                             {ROOMS.map((room) => (
                                 <button
                                     key={room.id}
-                                    className={`pin-slot ${currentRoom === room.id ? 'active' : ''} ${hoveredRoom === room.id ? 'hovered' : ''}`}
+                                    className={`pin-slot ${room.id === 'rewards' ? 'rewards-pin' : ''} ${currentRoom === room.id ? 'active' : ''} ${hoveredRoom === room.id ? 'hovered' : ''}`}
                                     style={{ left: `${room.x}%`, top: `${room.y}%` }}
                                     onClick={() => handleRoomClick(room.id)}
                                     onMouseEnter={() => setHoveredRoom(room.id)}
                                     onMouseLeave={() => setHoveredRoom(null)}
                                     title={room.label}
+                                    aria-label={`Teleport to ${room.label} room`}
                                 >
                                     <img src="/images/pin-slot.webp" alt="" className="slot-image" />
                                 </button>
                             ))}
 
-                            {/* The pin marker - moves to hovered slot, or current room, or start position */}
+                            {/* Pin marker */}
                             <div
                                 className="pin-marker"
                                 style={{

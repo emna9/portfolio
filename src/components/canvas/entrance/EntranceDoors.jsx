@@ -55,22 +55,23 @@ const EntranceDoors = ({
     const dummyTex = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
     const frameTexture = useTexture('/textures/doors/frame_sketch.webp');
-    const doorLeftTexture = useTexture('/textures/doors/door_left_sketch.webp');
-    const doorRightTexture = useTexture('/textures/doors/door_right_sketch.webp');
+    const doorLeftTexture = useTexture('/textures/doors/door_main_clean.webp');
+    const doorRightTexture = useTexture('/textures/doors/door_main_clean.webp');
 
-    // Mobile optimization: Don't load painted textures or handles on phones
-    const doorRightPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/door_right_painted.webp');
-    const doorLeftPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/door_left_painted.webp');
+    // Clean brown doors (no tech stickers)
+    const doorRightPaintedTexture = useTexture('/textures/doors/door_main_clean.webp');
+    const doorLeftPaintedTexture = useTexture('/textures/doors/door_main_clean.webp');
     const handleLeftTexture = useTexture('/textures/doors/handle_left_sketch.webp');
     const handleLeftPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/handle_left_painted.webp');
     const handleRightTexture = useTexture('/textures/doors/handle_right_sketch.webp');
     const handleRightPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/handle_right_painted.webp');
 
     // Dynamic textures for mobile
-    const doorBackTexture = useTexture(isMobileDevice ? '/textures/doors/door_back.webp' : '/textures/doors/door_back_left_sketch.webp');
+    const doorBackTexture = useTexture('/textures/doors/door_main_clean.webp');
     const edgeTexture = useTexture(isMobileDevice ? '/textures/doors/pien_sketch.webp' : '/textures/doors/pien.webp');
 
     const bricksTexture = useTexture('/textures/entrance/wall_bricks_2.webp');
+    const woodBarTexture = useTexture('/textures/entrance/belka.webp');
     const stonePathTexture = useTexture('/textures/entrance/stone-path.webp');
     // const catTexture = useTexture('/textures/entrance/cat_sketch.webp'); // Old side cat
     const catFrontBodyTexture = useTexture('/textures/entrance/cat_front_body.webp');
@@ -261,7 +262,6 @@ const EntranceDoors = ({
         setIsOpen(true);
         setIsAnimating(true);
         playBackgroundMusic();
-        unlockAchievement('corridor_enter');
 
         const tl = gsap.timeline({
             onComplete: () => {
@@ -582,7 +582,7 @@ const EntranceDoors = ({
                 rotation={[-Math.PI / 2, 0, 0]}
             >
                 <planeGeometry args={[pathWidth, pathLength]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#FAF4E5"
                     map={stonePathTexture}
                     transparent={true}
                 />
@@ -592,19 +592,19 @@ const EntranceDoors = ({
             {/* LEFT WALL PANEL */}
             <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
             </mesh>
 
             {/* RIGHT WALL PANEL */}
             <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
             </mesh>
 
             {/* TOP WALL PANEL */}
             <mesh position={[0, topWallCenterY, 0]}>
                 <boxGeometry args={[doorOpeningWidth, topWallHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
             </mesh>
 
             {/* === BRICK FACADE === */}
@@ -616,7 +616,7 @@ const EntranceDoors = ({
             <mesh position={[0, wallCenterY + facadeYOffset + 1.65, 0.15]}>
                 {/* args={[Szerokość, Wysokość]} - Zmieniaj te liczby (np. 7, 8) */}
                 <planeGeometry args={[16., 8]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#FFE8D6"
                     map={bricksTexture}
                     transparent={true}
                     alphaTest={0.01}
@@ -624,42 +624,10 @@ const EntranceDoors = ({
                 />
             </mesh>
 
-            {/* === CAPABILITY SIGN BANNERS ABOVE GATE === */}
-            {[
-                { text: "Creative Dev", x: -1.8 },
-                { text: "Frontend Eng", x: -0.6 },
-                { text: "Full Stack", x: 0.6 },
-                { text: "3D & Motion", x: 1.8 }
-            ].map((banner, index) => (
-                <group key={index} position={[banner.x, frameCenterY + 1.65, 0.2]}>
-                    {/* Shadow / Border plane */}
-                    <mesh position={[0.015, -0.015, -0.002]}>
-                        <planeGeometry args={[1.13, 0.38]} />
-                        <meshBasicMaterial color="#311059" transparent opacity={0.8} />
-                    </mesh>
-                    {/* Card plane */}
-                    <mesh position={[0, 0, -0.001]}>
-                        <planeGeometry args={[1.1, 0.35]} />
-                        <meshBasicMaterial color="#fcf3c6" />
-                    </mesh>
-                    {/* Text */}
-                    <Text
-                        position={[0, 0, 0.002]}
-                        fontSize={0.11}
-                        color="#311059"
-                        anchorX="center"
-                        anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
-                    >
-                        {banner.text}
-                    </Text>
-                </group>
-            ))}
-
             {/* === TEXTURED FRAME === */}
             <mesh position={[0, frameCenterY, 0.12]}>
                 <planeGeometry args={[frameWidth, frameHeight]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#664E44"
                     map={frameTexture}
                     transparent={true}
                     alphaTest={0.1}
@@ -670,49 +638,6 @@ const EntranceDoors = ({
 
             {/* LEFT DOOR */}
             <group ref={leftDoorRef} position={[-doorWidth, doorCenterY, 0]}>
-                {/* Custom Stickers to cover old tech stack stickers - LEFT DOOR */}
-                <group position={[doorWidth / 2, 0.45, 0.091]}>
-                    <mesh position={[0.01, -0.01, -0.002]}>
-                        <planeGeometry args={[0.73, 0.38]} />
-                        <meshBasicMaterial color="#311059" transparent opacity={0.7} />
-                    </mesh>
-                    <mesh position={[0, 0, -0.001]}>
-                        <planeGeometry args={[0.7, 0.35]} />
-                        <meshBasicMaterial color="#fcf3c6" />
-                    </mesh>
-                    <Text
-                        position={[0, 0.02, 0.001]}
-                        fontSize={0.075}
-                        color="#311059"
-                        anchorX="center"
-                        anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
-                    >
-                        Full Stack 🚀
-                    </Text>
-                </group>
-
-                <group position={[doorWidth / 2, -0.45, 0.091]}>
-                    <mesh position={[0.01, -0.01, -0.002]}>
-                        <planeGeometry args={[0.73, 0.38]} />
-                        <meshBasicMaterial color="#311059" transparent opacity={0.7} />
-                    </mesh>
-                    <mesh position={[0, 0, -0.001]}>
-                        <planeGeometry args={[0.7, 0.35]} />
-                        <meshBasicMaterial color="#fcf3c6" />
-                    </mesh>
-                    <Text
-                        position={[0, 0.02, 0.001]}
-                        fontSize={0.07}
-                        color="#311059"
-                        anchorX="center"
-                        anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
-                    >
-                        @shan.dev
-                    </Text>
-                </group>
-
                 {/* Solid 3D Door Body with edge texture */}
                 <mesh
                     position={[doorWidth / 2, 0, 0.06]}
@@ -721,14 +646,14 @@ const EntranceDoors = ({
                     onPointerLeave={handlePointerLeave}
                 >
                     <boxGeometry args={[doorWidth, doorHeight, 0.04]} />
-                    <meshBasicMaterial color="#fcf3c6" map={edgeTexture} roughness={0.9} />
+                    <meshBasicMaterial color="#664E44" map={edgeTexture} roughness={0.9} />
                 </mesh>
 
                 {/* Painted layer (behind sketch) - left door */}
                 {!isMobile && (
                     <mesh position={[doorWidth / 2, 0, 0.088]}>
                         <planeGeometry args={[doorWidth, doorHeight]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#664E44"
                             map={doorLeftPaintedTexture}
                             transparent={true}
                             alphaTest={0.5}
@@ -740,7 +665,7 @@ const EntranceDoors = ({
                 {/* Sketch overlay (front) - left door brush-stroke reveal */}
                 <mesh position={[doorWidth / 2, 0, 0.09]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <revealMaterial color="#fcf3c6"
+                    <revealMaterial color="#664E44"
                         ref={leftDoorMaterialRef}
                         map={doorLeftTexture}
                         transparent={true}
@@ -754,7 +679,7 @@ const EntranceDoors = ({
                 {/* Back Texture Face (mirrored) */}
                 <mesh position={[doorWidth / 2, 0, 0.03]} rotation={[0, Math.PI, 0]} scale={[-1, 1, 1]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorBackTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -794,49 +719,6 @@ const EntranceDoors = ({
 
             {/* RIGHT DOOR */}
             <group ref={rightDoorRef} position={[doorWidth, doorCenterY, 0]}>
-                {/* Custom Stickers to cover old tech stack stickers - RIGHT DOOR */}
-                <group position={[-doorWidth / 2, 0.45, 0.091]}>
-                    <mesh position={[0.01, -0.01, -0.002]}>
-                        <planeGeometry args={[0.73, 0.38]} />
-                        <meshBasicMaterial color="#311059" transparent opacity={0.7} />
-                    </mesh>
-                    <mesh position={[0, 0, -0.001]}>
-                        <planeGeometry args={[0.7, 0.35]} />
-                        <meshBasicMaterial color="#fcf3c6" />
-                    </mesh>
-                    <Text
-                        position={[0, 0.02, 0.001]}
-                        fontSize={0.075}
-                        color="#311059"
-                        anchorX="center"
-                        anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
-                    >
-                        Blogging ✍️
-                    </Text>
-                </group>
-
-                <group position={[-doorWidth / 2, -0.45, 0.091]}>
-                    <mesh position={[0.01, -0.01, -0.002]}>
-                        <planeGeometry args={[0.73, 0.38]} />
-                        <meshBasicMaterial color="#311059" transparent opacity={0.7} />
-                    </mesh>
-                    <mesh position={[0, 0, -0.001]}>
-                        <planeGeometry args={[0.7, 0.35]} />
-                        <meshBasicMaterial color="#fcf3c6" />
-                    </mesh>
-                    <Text
-                        position={[0, 0.02, 0.001]}
-                        fontSize={0.07}
-                        color="#311059"
-                        anchorX="center"
-                        anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
-                    >
-                        Web Dev 💻
-                    </Text>
-                </group>
-
                 {/* Solid 3D Door Body with edge texture */}
                 <mesh
                     position={[-doorWidth / 2, 0, 0.06]}
@@ -845,14 +727,14 @@ const EntranceDoors = ({
                     onPointerLeave={handlePointerLeave}
                 >
                     <boxGeometry args={[doorWidth, doorHeight, 0.04]} />
-                    <meshBasicMaterial color="#fcf3c6" map={edgeTexture} roughness={0.9} />
+                    <meshBasicMaterial color="#664E44" map={edgeTexture} roughness={0.9} />
                 </mesh>
 
                 {/* Painted layer (behind sketch) - revealed when sketch fades out on hover */}
                 {!isMobile && (
                     <mesh position={[-doorWidth / 2, 0, 0.088]}>
                         <planeGeometry args={[doorWidth, doorHeight]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#664E44"
                             map={doorRightPaintedTexture}
                             transparent={true}
                             alphaTest={0.5}
@@ -864,7 +746,7 @@ const EntranceDoors = ({
                 {/* Sketch overlay (front) - brush-stroke discard reveals painted beneath */}
                 <mesh position={[-doorWidth / 2, 0, 0.09]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <revealMaterial color="#fcf3c6"
+                    <revealMaterial color="#664E44"
                         ref={rightDoorMaterialRef}
                         map={doorRightTexture}
                         transparent={true}
@@ -878,7 +760,7 @@ const EntranceDoors = ({
                 {/* Back Texture Face */}
                 <mesh position={[-doorWidth / 2, 0, 0.03]} rotation={[0, Math.PI, 0]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorBackTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -922,19 +804,6 @@ const EntranceDoors = ({
                 color="#fff8e8"
                 distance={10}
             /> */}
-            {/* AVATAR - separate from window group, behind bricks */}
-            <mesh
-                ref={windowAvatarRef}
-                position={[3.5, 0, 0.04]}
-                rotation={[0, 0, 0]}
-            >
-                <planeGeometry args={[1.5, 1.5]} />
-                <meshBasicMaterial color="#fcf3c6"
-                    map={avatarWindowTexture}
-                    transparent={true}
-                />
-            </mesh>
-
             {/* WINDOW - positioned to the right of doors */}
             <group
                 position={[2.5, 0, 0.1]}
@@ -944,70 +813,11 @@ const EntranceDoors = ({
                 {/* Window Frame Sketch - in front of bricks */}
                 <mesh position={[0, 0, 0.2]}>
                     <planeGeometry args={[1.5, 1.5]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#B08B7F"
                         map={windowSketchTexture}
                         transparent={true}
                     />
                 </mesh>
-            </group>
-
-            {/* DUCK POT (Right Side - Under Window) */}
-            <group position={[2.5, floorY + 0.45, 0.4]}>
-                {/* Pot texture */}
-                <mesh>
-                    <planeGeometry args={[3, 1.8]} />
-                    <meshBasicMaterial color="#fcf3c6"
-                        map={potTexture}
-                        transparent={true}
-                        alphaTest={0.01}
-                        depthWrite={false}
-                    />
-                </mesh>
-
-                {/* Invisible hitbox just for the duck (right side of pot) */}
-                <mesh
-                    position={[0.38, 0.1, 0.01]}
-                    onClick={handleDuckClick}
-                    onPointerEnter={() => { document.body.style.cursor = "pointer"; }}
-                    onPointerLeave={() => { document.body.style.cursor = "auto"; }}
-                >
-                    <planeGeometry args={[0.6, 0.6]} />
-                    <meshBasicMaterial color="#fcf3c6" transparent opacity={0} />
-                </mesh>
-
-                {/* Speech Bubble */}
-                <group
-                    ref={speechBubbleRef}
-                    position={[0.9, 0.8, 0.1]}
-                    scale={[0, 0, 0]}
-                >
-                    <mesh>
-                        <planeGeometry args={[1.8, 1.2]} />
-                        <meshBasicMaterial color="#fcf3c6"
-                            map={speechBubbleTexture}
-                            transparent={true}
-                            alphaTest={0.01}
-                            depthWrite={false}
-                        />
-                    </mesh>
-
-                    {/* Quote Text */}
-                    {/* ROZMIAR TEKSTU: fontSize - mniejsza = mniejszy tekst */}
-                    {/* ZAWIJANIE: maxWidth - mniejsza = wcześniejsze zawijanie */}
-                    <Text
-                        position={[0, 0.1, 0.01]}
-                        fontSize={0.07}
-                        color="#1a1a1a"
-                        anchorX="center"
-                        anchorY="middle"
-                        font={FONT_URL}
-                        maxWidth={1.4}
-                        textAlign="center"
-                        visible={isDuckSpeaking} // Toggle visibility instead of mounting/unmounting
-                    >
-                        {duckQuote || " "}
-                    </Text>
-                </group>
             </group>
 
             {/* ANIMATED BUG (Right Side - Above Window) */}
@@ -1070,7 +880,7 @@ const EntranceDoors = ({
                 {/* Tree */}
                 <mesh position={[0, 0, 0]}>
                     <planeGeometry args={[6, 8]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#C7C3B0"
                         map={treeTexture}
                         transparent={true}
                         alphaTest={0.01}
@@ -1102,7 +912,7 @@ const EntranceDoors = ({
                 {/* Body */}
                 <mesh>
                     <planeGeometry args={[1.5, 1.5]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#9E9E9E"
                         map={catFrontBodyTexture}
                         transparent={true}
                         alphaTest={0.01}

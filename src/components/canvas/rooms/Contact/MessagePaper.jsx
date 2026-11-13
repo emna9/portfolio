@@ -150,14 +150,15 @@ const SmoothButton = ({ texture, onClick, position, size, text, fontPath }) => {
 // Set VITE_WEB3FORMS_KEY in .env (local dev) and in Cloudflare Pages dashboard (production).
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
 
-// Only these domains are allowed to submit the form.
-// Anyone cloning the repo and running on localhost will be silently blocked.
-const ALLOWED_ORIGINS = [
-    'shan.dev',
-    'www.shan.dev',
-    'localhost',
-    '127.0.0.1',
-];
+// Allowed hosts for the contact form. Set VITE_ALLOWED_ORIGINS in .env
+// (comma-separated) to lock it to your production domain(s).
+const CONFIGURED_ORIGINS = (import.meta.env.VITE_ALLOWED_ORIGINS || '')
+    .split(',')
+    .map(d => d.trim())
+    .filter(Boolean);
+const ALLOWED_ORIGINS = CONFIGURED_ORIGINS.length
+    ? CONFIGURED_ORIGINS
+    : [window.location.hostname, 'localhost', '127.0.0.1'];
 
 // ═══════════════════════════════════════════════════════════════════════
 // 2026 Advanced Anti-Spam System
@@ -455,7 +456,7 @@ const MessagePaper = ({ position = [0, 0.05, 2], onSend }) => {
                 },
                 body: JSON.stringify({
                     access_key: WEB3FORMS_KEY,
-                    from_name: 'Portfolio Contact',
+                    from_name: 'Emna Smaali Portfolio',
                     email: email,
                     subject: subject,
                     message: message

@@ -5,9 +5,11 @@ import * as THREE from 'three';
 
 // Eagerly import room components - textures are preloaded during the preloader phase
 import GalleryRoom from '../rooms/Gallery/GalleryRoom';
-import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
+import { experienceCards } from '../../../data/experience';
+import { rewardCards } from '../../../data/rewards';
+import { extracurricularCards } from '../../../data/extracurricular';
 
 // Room configurations
 const ROOM_CONFIG = {
@@ -20,8 +22,11 @@ const ROOM_CONFIG = {
 };
 
 const SUBTITLES = {
-    'THE GALLERY': 'Explore my creative projects',
-    'THE STUDIO': 'Watch behind the scenes',
+    'PROJECTS': 'Explore my selected projects',
+    'THE EXPERIENCE': 'My professional experience',
+    'REWARDS': 'Awards & recognition',
+    'THE ABOUT': 'My story & skills',
+    'EXTRACURRICULAR': 'Leadership & activities',
     'DEV DIARY': 'My development journey',
     "LET'S CONNECT": 'Get in touch with me'
 };
@@ -85,10 +90,10 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
         bbRight.repeat.set(corridorDepth / NATURAL_TILE_W, 1);
 
         return {
-            corridorFloor: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: floorTex, side: THREE.DoubleSide }),
-            corridorWallL: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: wallTexL, side: THREE.DoubleSide }),
-            corridorWallR: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: wallTexR, side: THREE.DoubleSide }),
-            corridorCeiling: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: ceilTex, side: THREE.DoubleSide }),
+            corridorFloor: new THREE.MeshBasicMaterial({ color: '#664E44',  map: floorTex, side: THREE.DoubleSide }),
+            corridorWallL: new THREE.MeshBasicMaterial({ color: '#FFE8D6',  map: wallTexL, side: THREE.DoubleSide }),
+            corridorWallR: new THREE.MeshBasicMaterial({ color: '#FFE8D6',  map: wallTexR, side: THREE.DoubleSide }),
+            corridorCeiling: new THREE.MeshBasicMaterial({ color: '#FFFFFF',  map: ceilTex, side: THREE.DoubleSide }),
             bbLeft: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: bbLeft, side: THREE.DoubleSide }),
             bbRight: new THREE.MeshBasicMaterial({ color: '#fcf3c6',  map: bbRight, side: THREE.DoubleSide }),
             threshold: new THREE.MeshBasicMaterial({ color: '#fcf3c6', 
@@ -120,11 +125,11 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
         roomBackWall: new THREE.PlaneGeometry(roomWidth, roomHeight)
     }), []);
 
-    const isGallery = label === 'THE GALLERY';
+    const isGallery = label === 'PROJECTS';
 
     // Trigger onReady for generic rooms (which don't have their own component to do it)
     useEffect(() => {
-        if (showRoom && !['THE GALLERY', 'THE STUDIO', 'THE ABOUT', "LET'S CONNECT"].includes(label)) {
+        if (showRoom && !['PROJECTS', 'THE EXPERIENCE', 'REWARDS', 'THE ABOUT', 'EXTRACURRICULAR', "LET'S CONNECT"].includes(label)) {
             onReady?.();
         }
     }, [showRoom, label, onReady]);
@@ -199,11 +204,25 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
                                 <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === 'THE STUDIO' ? (
-                        // === NEW STUDIO ROOM ===
+                    ) : label === 'THE EXPERIENCE' ? (
+                        // === PROFESSIONAL EXPERIENCE ROOM (Gallery-style cards) ===
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
-                                <StudioRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                                <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} projectsData={experienceCards} variant="experience" />
+                            </Suspense>
+                        </group>
+                    ) : label === 'REWARDS' ? (
+                        // === REWARDS ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} projectsData={rewardCards} variant="awards" />
+                            </Suspense>
+                        </group>
+                    ) : label === 'EXTRACURRICULAR' ? (
+                        // === EXTRACURRICULAR ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} projectsData={extracurricularCards} variant="extracurricular" />
                             </Suspense>
                         </group>
                     ) : label === 'THE ABOUT' ? (

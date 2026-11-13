@@ -9,7 +9,7 @@ const AchievementsPanel = ({ isOpen, onClose }) => {
         <div className={`achievements-panel ${isOpen ? 'open' : ''}`} inert={!isOpen ? true : undefined}>
             <div className="achievements-card">
                 <div className="achievements-header">
-                    <h3>ACHIEVEMENTS</h3>
+                    <h3>TUTORIAL</h3>
                     <button
                         className="close-btn"
                         onClick={onClose}
@@ -49,7 +49,7 @@ const AchievementsPanel = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="achievements-footer">
-                    <span>{completed.length} / {Object.keys(ACHIEVEMENTS).length} EXPLORED</span>
+                    <span>{completed.length} / {Object.keys(ACHIEVEMENTS).length} STEPS</span>
                 </div>
             </div>
         </div>

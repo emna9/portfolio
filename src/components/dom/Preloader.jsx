@@ -34,7 +34,7 @@ const RingLoader = () => (
       <circle
         cx="50" cy="50" r="45"
         fill="none"
-        stroke="#311059"
+        stroke="#664E44"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeDasharray="10 15"
@@ -43,7 +43,7 @@ const RingLoader = () => (
       <circle
         cx="50" cy="50" r="35"
         fill="none"
-        stroke="#311059"
+        stroke="#664E44"
         strokeWidth="1"
         strokeLinecap="round"
         strokeDasharray="5 10"
@@ -87,7 +87,7 @@ const percentageStyle = {
   zIndex: 20,
   fontFamily: "'Inter', sans-serif",
   fontSize: '2.2rem',
-  color: '#311059',
+  color: '#664E44',
   fontWeight: 'bold',
   mixBlendMode: 'multiply',
   display: 'flex',
@@ -106,7 +106,7 @@ const statusStyle = {
   fontFamily: "'Cabin Sketch', cursive",
   fontSize: '1.35rem',
   fontWeight: 'bold',
-  color: '#311059',
+  color: '#664E44',
   letterSpacing: '1px',
   mixBlendMode: 'multiply'
 };
@@ -297,9 +297,9 @@ const Preloader = ({ onComplete, ready }) => {
 
         let statusMsg = "Initializing Digital Experience...";
         if (safeProgress < 25) statusMsg = "Sketching 3D Viewport Canvas...";
-        else if (safeProgress < 50) statusMsg = "Laying React & Next.js Foundation...";
-        else if (safeProgress < 70) statusMsg = "Calibrating GSAP & Motion Shaders...";
-        else if (safeProgress < 85) statusMsg = "Structuring Node.js & Supabase Systems...";
+        else if (safeProgress < 50) statusMsg = "Laying React & TypeScript Foundation...";
+        else if (safeProgress < 70) statusMsg = "Calibrating RAG & LLM Pipelines...";
+        else if (safeProgress < 85) statusMsg = "Structuring Python & Node.js Systems...";
         else if (safeProgress < 95) statusMsg = "Optimizing Performance & Accessibility...";
         else statusMsg = "Opening Digital Experience...";
 
@@ -380,13 +380,9 @@ const Preloader = ({ onComplete, ready }) => {
         ref={leftHalfRef}
         style={{ clipPath: leftClipPoly }}
       >
-        {/* Content: Percentage & Line */}
+        {/* Simple loader */}
         <div className="preloader__percentage" style={percentageStyle}>
-          <span ref={textLeftRef}>{percentageText}</span>
-          <RingLoader />
-        </div>
-        <div className="preloader__status" style={statusStyle} ref={statusLeftRef}>
-          Initializing Sketchbook...
+          <div className="simple-loader" />
         </div>
 
         {/* SVG is now INSIDE the clipped half */}
@@ -399,18 +395,25 @@ const Preloader = ({ onComplete, ready }) => {
         ref={rightHalfRef}
         style={{ clipPath: rightClipPoly }}
       >
-        {/* Content: Percentage & Line */}
+        {/* Simple loader */}
         <div className="preloader__percentage" style={percentageStyle}>
-          <span ref={textRightRef}>{percentageText}</span>
-          <RingLoader />
-        </div>
-        <div className="preloader__status" style={statusStyle} ref={statusRightRef}>
-          Initializing Sketchbook...
+          <div className="simple-loader" />
         </div>
 
         {/* SVG is now INSIDE the clipped half */}
         <TearLineSVG pathRef={pathRightRef} svgPathData={svgPathData} pathLength={pathLength} strokeDashoffset={strokeDashoffset} />
       </div>
+      <style>{`
+        @keyframes simple-loader-spin { to { transform: rotate(360deg); } }
+        .simple-loader {
+          width: 46px;
+          height: 46px;
+          border: 4px solid #664E44;
+          border-top-color: transparent;
+          border-radius: 50%;
+          animation: simple-loader-spin 1s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };

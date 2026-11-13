@@ -408,7 +408,30 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                     </div>
 
                     {/* === LAYOUT: CERTIFICATE GRID === */}
-                    {content.layout === 'certificate_grid' ? (
+                    {content.layout === 'image' ? (
+                        <div style={{
+                            flex: 1,
+                            minHeight: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '1rem',
+                            overflow: 'auto'
+                        }}>
+                            <img
+                                src={content.image}
+                                alt={content.title || 'Award image'}
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '72vh',
+                                    objectFit: 'contain',
+                                    border: '2px solid #1a1a1a',
+                                    background: '#fff',
+                                    boxShadow: '6px 6px 0 rgba(0, 0, 0, 0.12)'
+                                }}
+                            />
+                        </div>
+                    ) : content.layout === 'certificate_grid' ? (
                         <div style={{ position: 'relative', flex: 1, minHeight: 0 }}>
                             <div
                                 ref={scrollContainerRef}

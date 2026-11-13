@@ -1,7 +1,7 @@
 /**
  * Studio Content Data
  * 
- * Custom content for Shan's interactive monitor towers.
+ * Custom content for Emna's interactive monitor towers.
  */
 
 export const PLATFORM_CONFIG = {
@@ -9,7 +9,7 @@ export const PLATFORM_CONFIG = {
         color: '#00D9FF',
         accentColor: '#5BE7FF',
         icon: '▶',
-        label: 'Tech Demo',
+        label: 'Experience',
         shape: 'tv', // Wide CRT style
     },
     blog: {
@@ -37,91 +37,94 @@ export const PLATFORM_CONFIG = {
         color: '#00D9FF',
         accentColor: '#5BE7FF',
         icon: '💧',
-        label: 'Featured',
+        label: 'Experience',
         shape: 'monitor',
     },
 };
 
 const RAW_CONTENT_DATA = [
-    // ============ Case Studies / Projects ============
+    // ============ Experience / Internships ============
     {
-        id: 'studio-apple-vision-pro',
+        id: 'studio-dar-blockchain',
         platform: 'blog',
-        title: 'Apple Vision Pro: Spatial Web Architecture & 3D Canvas Rendering',
-        description: 'Building a spatial computing product showcase with frame-by-frame 3D canvas interaction, luxury depth glass shaders, and physics-driven scroll mechanics.',
-        frontTexture: '/textures/studio/monitorfront_postnafbdoublewinner.webp',
-        paintedFrontTexture: '/textures/studio/monitorfront_postnafbdoublewinner_painted.webp',
+        title: 'Dar Blockchain — Backend & AI Optimization Intern',
+        description: 'Scraped, structured and prepared data on 800+ hackathons to feed AI analysis workflows. Tested and validated AI workflows and REST APIs on real data, evaluated 8 AI analysis layers on 5 real submissions, and benchmarked LLM models by output quality, latency, cost and reliability.',
         thumbnail: null,
-        url: '#project/apple-vision-pro',
-        date: '2026-03-24',
-        readTime: '8 min',
+        url: 'https://www.linkedin.com/in/emna-smaali-8855a7258',
+        date: '2026-08-01',
+        readTime: 'Jul – Aug 2026',
     },
     {
-        id: 'studio-bmw-m4-gt3',
-        platform: 'blog',
-        title: 'BMW M4 GT3 EVO: Web Audio Synthesis & 360° Canvas Animation',
-        description: 'Engineering a flagship digital showcase with multi-threaded pre-buffered image scrubbers, real-time telemetry HUD displays, and Web Audio doppler pitch shifts.',
-        frontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego.webp',
-        paintedFrontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego_painted.webp',
-        thumbnail: null,
-        url: '#project/bmw-m4-gt3',
-        date: '2026-02-15',
-        readTime: '7 min',
-    },
-    {
-        id: 'studio-luxury-tailor',
-        platform: 'blog',
-        title: 'Luxury Tailor Atelier: Bespoke WebGL Fabric Physics & Editorial UI',
-        description: 'Translating haute couture craftsmanship into digital form with custom WebGL fabric warp shaders, editorial serif typography, and zero layout shift.',
-        frontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec.webp',
-        paintedFrontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec_painted.webp',
-        thumbnail: null,
-        url: '#project/luxury-tailor',
-        date: '2026-01-10',
-        readTime: '9 min',
-    },
-    {
-        id: 'studio-jewellery-ecommerce',
+        id: 'studio-smu',
         platform: 'linkedin',
-        title: 'Fashion Jewellery Ecommerce: Sub-Second Faceted Edge Filtering',
-        description: 'Detailed analysis of Supabase PostgreSQL relational schemas, Cloudinary dynamic image pipelines, and Next.js optimistic cart state sync.',
+        title: 'South Mediterranean University — Communication & Business Assistant',
+        description: 'Designed a Power BI dashboard comparing 4 private universities using 2 datasets and 4 Instagram KPIs. Analyzed data, identified relevant practices, and formulated data-driven recommendations for communication and recruitment strategies.',
         thumbnail: null,
-        url: '#project/fashion-jewellery-ecommerce',
-        date: '2025-12-18',
-        readTime: '6 min',
+        url: 'https://www.linkedin.com/in/emna-smaali-8855a7258',
+        date: '2026-07-01',
+        readTime: 'Jun – Jul 2026',
     },
     {
-        id: 'studio-photography-platform',
+        id: 'studio-comar',
+        platform: 'youtube',
+        title: 'COMAR Assurances — AI Development Intern',
+        description: 'Designed and prototyped an AI insurance assistant using the Mistral API, LLMs, NLP and RAG across 7 insurance product categories. Built a Python data pipeline producing 249 content chunks, then implemented hybrid retrieval with FAISS, BM25 and metadata filtering.',
+        thumbnail: null,
+        url: 'https://www.linkedin.com/in/emna-smaali-8855a7258',
+        date: '2025-08-01',
+        readTime: 'Jul – Aug 2025',
+    },
+    {
+        id: 'studio-forvia',
+        platform: 'codrops',
+        title: 'Forvia Informatique Tunisie — API Security & SAP Integration Intern',
+        description: 'Configured a Layer7 API gateway to secure and standardize data exchanges through 5+ policies: authentication, OAuth2, SSL/TLS, rate limiting and routing. Tested and validated APIs and integration workflows with Postman, checking reliability and identifying anomalies.',
+        thumbnail: null,
+        url: 'https://www.linkedin.com/in/emna-smaali-8855a7258',
+        date: '2025-07-15',
+        readTime: 'Jul – Aug 2025',
+    },
+    {
+        id: 'studio-dracode',
         platform: 'blog',
-        title: 'Photography Accessories: Relational Compatibility Matrix Engine',
-        description: 'Building an interactive lens compatibility matrix backed by Express.js REST APIs, indexed database queries, and tactile dark room UI design.',
+        title: 'Dracode — Full Stack Development Intern',
+        description: 'Analyzed requirements and designed the software architecture, use cases, data models and sequence diagrams. Developed a web application with Vue.js, Nuxt.js, Node.js, TypeScript and PostgreSQL, including REST APIs, authentication and 10+ administrative interfaces.',
         thumbnail: null,
-        url: '#project/photography-accessories-platform',
-        date: '2025-11-28',
-        readTime: '7 min',
+        url: 'https://www.linkedin.com/in/emna-smaali-8855a7258',
+        date: '2024-08-01',
+        readTime: 'Jul – Aug 2024',
+    },
+
+    // ============ Selected Projects ============
+    {
+        id: 'studio-smart-matching',
+        platform: 'blog',
+        title: 'Smart Matching Platform — Gemini & CatBoost Ranking',
+        description: 'A Top 3 ranking engine built with Gemini and CatBoost that extracts 6+ structured attributes to automate matching. The platform has 10+ features and 3 roles, delivered with a team of 5 using Agile and Scrum. 1st Place at the MedTech–SMU Senior Student Project Competition 2026.',
+        thumbnail: null,
+        url: 'https://github.com/emna9',
+        date: '2026-06-01',
+        readTime: 'Case study',
     },
     {
-        id: 'studio-micro-interaction',
-        platform: 'tiktok',
-        title: 'Designing Fluid Micro-Interactions in GSAP & Framer Motion',
-        description: 'Creative engineering POV: Making static interfaces feel alive and responsive with spring physics curves and custom cursor magnetic triggers.',
-        frontTexture: '/textures/studio/phonefront_followmeontiktok.webp',
-        paintedFrontTexture: '/textures/studio/phonefront_followmeontiktok_painted.webp',
+        id: 'studio-ai-ecommerce',
+        platform: 'blog',
+        title: 'AI-Powered Ecommerce — LangGraph Product Assistant',
+        description: 'A full-stack ecommerce platform with multi-role management, REST APIs and JWT authentication. Designed an LLM-powered assistant for product recommendations using LangGraph agents and multi-step workflows, with data pipelines for document parsing and unstructured data extraction.',
         thumbnail: null,
-        url: '#',
+        url: 'https://github.com/emna9',
         date: '2026-03-01',
-        views: '5.2K',
-        likes: '840',
+        readTime: 'Case study',
     },
     {
-        id: 'studio-perf',
+        id: 'studio-mental-health',
         platform: 'blog',
-        title: 'Core Web Vitals & WebGL 60FPS Optimization Checklist',
-        description: 'Step-by-step checklist to sustain 60fps WebGL canvas updates and achieve 100/100 Lighthouse scores on heavy interactive portfolio sites.',
+        title: 'Mental Health Risk Prediction — End-to-End ML Pipeline',
+        description: 'A complete machine learning pipeline covering data preparation, exploratory analysis, feature engineering and evaluation of 4 models using Accuracy, Precision, Recall and F1-score. Compared model performance, adjusted the decision threshold and built an interactive dashboard for interpretation.',
         thumbnail: null,
-        url: '#',
-        date: '2025-10-15',
-        readTime: '10 min',
+        url: 'https://github.com/emna9',
+        date: '2025-12-01',
+        readTime: 'Case study',
     },
 ];
 
@@ -140,13 +143,13 @@ export const CONTENT_DATA = RAW_CONTENT_DATA.map((item) => {
         ...item,
         frontTexture: item.frontTexture || (
             item.platform === 'youtube' ? ytTextures[ytIdx++ % ytTextures.length] :
-                item.platform === 'blog' ? blogTextures[blogIdx++ % blogTextures.length] :
-                    ttTextures[ttIdx++ % ttTextures.length]
+                item.platform === 'tiktok' ? ttTextures[ttIdx++ % ttTextures.length] :
+                    blogTextures[blogIdx++ % blogTextures.length]
         ),
         paintedFrontTexture: item.paintedFrontTexture || (
             item.platform === 'youtube' ? ytPaintedTextures[ytPIdx++ % ytPaintedTextures.length] :
-                item.platform === 'blog' ? blogPaintedTextures[blogPIdx++ % blogPaintedTextures.length] :
-                    ttPaintedTextures[ttPIdx++ % ttPaintedTextures.length]
+                item.platform === 'tiktok' ? ttPaintedTextures[ttPIdx++ % ttPaintedTextures.length] :
+                    blogPaintedTextures[blogPIdx++ % blogPaintedTextures.length]
         )
     };
 });

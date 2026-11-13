@@ -330,7 +330,8 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     const frameTexture = useTexture('/textures/corridor/ramkanazdjecieduza.webp');
     const framePaintedTexture = useTexture('/textures/corridor/ramkanazdjecieduza_painted.webp');
     const standingFrameTexture = useTexture('/textures/corridor/ramkanazdjeciemala.webp');
-    const treeTexture = useTexture('/textures/corridor/drzewkowdoniczce.webp');
+    const treeTexture = useTexture('/textures/corridor/drzewkowdoniczce_pot_sage.webp');
+    const windowTexture = useTexture('/textures/entrance/window_sketch.webp');
     const grateTexture = useTexture('/textures/corridor/kratkawentylacyjna.webp');
     const flowerTexture = useTexture('/textures/corridor/kwiatekwdoniczce.webp');
 
@@ -373,20 +374,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     // - y: pozycja Y (wysokość na ścianie, 0 = środek)
     const frames = useMemo(() => [
         {
-            z: zOffset - 10,         // Między startem a Gallery (relZ -5 do -15)
-            side: 'right',
-            width: 2.5,              // Szerokość ramki
-            height: 2.5 / 1.785,     // Legacy ratio 3200x1792
-            y: 0.3,                  // Wysokość na ścianie
-            id: 'frame-1',
-            // Custom setup for "rysuneknaobraz1.png"
-            image: '/textures/corridor/rysuneknaobraz1.webp',
-            imageWidth: 1.1,
-            imageHeight: 1.1,
-            offsetFromWall: 0.1, // Przesunięcie bliżej środka korytarza (0.1 unit)
-        },
-        {
-            z: zOffset - 25,         // Między Gallery a Studio (relZ -20 do -30)
+            z: zOffset - 25,         // Between Gallery and Rewards
             side: 'left',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -398,7 +386,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             offsetFromWall: 0.1
         },
         {
-            z: zOffset - 40,         // Między Studio a About (relZ -34 do -46)
+            z: zOffset - 57,         // Between About and Extracurricular
             side: 'right',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -411,7 +399,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             signatureColor: '#333333'
         },
         {
-            z: zOffset - 55,         // Między About a Connect (relZ -50 do -60)
+            z: zOffset - 46,         // Between Rewards and Contact
             side: 'left',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -445,15 +433,15 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
 
     // Konfiguracja stolika
     // Obrócony 90° i przyciągnięty do lewej ściany
-    const tableConfig = useMemo(() => ({
-        z: zOffset - 35,          // Pozycja Z (strefa między Studio a About)
-        width: 2.0,               // Szerokość blatu (po obrocie: wzdłuż ściany)
-        depth: 0.8,               // Głębokość blatu (po obrocie: od ściany w korytarz)
-        height: 1.0,              // Wysokość całkowita
-        legRadius: 0.08,          // Grubość nóg
-        topThickness: 0.08,       // Grubość blatu
-        x: -wallX + 0.42,         // Przy lewej ścianie (depth/2 + mały gap)
-    }), [zOffset, wallX]);
+    const tableConfigs = useMemo(() => [-30, -42, -65].map((z) => ({
+        z: zOffset + z,
+        width: 2.0,
+        depth: 0.8,
+        height: 1.0,
+        legRadius: 0.08,
+        topThickness: 0.08,
+        x: -wallX + 0.42,
+    })), [zOffset, wallX]);
 
     return (
         <group>
@@ -523,47 +511,49 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                 );
             })}
 
-            {/* === STOLIK (obrócony 90°, przy lewej ścianie) === */}
-            <group position={[tableConfig.x, floorY, tableConfig.z]} rotation={[0, Math.PI / 2, 0]}>
-                {/* Nogi stolika */}
-                {[
-                    [-tableConfig.width / 2 + 0.1, -tableConfig.depth / 2 + 0.1],
-                    [tableConfig.width / 2 - 0.1, -tableConfig.depth / 2 + 0.1],
-                    [-tableConfig.width / 2 + 0.1, tableConfig.depth / 2 - 0.1],
-                    [tableConfig.width / 2 - 0.1, tableConfig.depth / 2 - 0.1],
-                ].map((pos, i) => (
-                    <mesh key={`leg-${i}`} position={[pos[0], tableConfig.height / 2, pos[1]]}>
-                        <boxGeometry args={[tableConfig.legRadius * 2, tableConfig.height, tableConfig.legRadius * 2]} />
-                        <meshBasicMaterial color="#fcf3c6" map={legTexture} roughness={0.8} />
+            {/* === TABLES (3) === */}
+            {tableConfigs.map((tableConfig, tableIndex) => (
+                <group key={`table-${tableIndex}`} position={[tableConfig.x, floorY, tableConfig.z]} rotation={[0, Math.PI / 2, 0]}>
+                    {/* Nogi stolika */}
+                    {[
+                        [-tableConfig.width / 2 + 0.1, -tableConfig.depth / 2 + 0.1],
+                        [tableConfig.width / 2 - 0.1, -tableConfig.depth / 2 + 0.1],
+                        [-tableConfig.width / 2 + 0.1, tableConfig.depth / 2 - 0.1],
+                        [tableConfig.width / 2 - 0.1, tableConfig.depth / 2 - 0.1],
+                    ].map((pos, i) => (
+                        <mesh key={`leg-${i}`} position={[pos[0], tableConfig.height / 2, pos[1]]}>
+                            <boxGeometry args={[tableConfig.legRadius * 2, tableConfig.height, tableConfig.legRadius * 2]} />
+                            <meshBasicMaterial color="#fcf3c6" map={legTexture} roughness={0.8} />
+                        </mesh>
+                    ))}
+
+                    {/* Blat stolika */}
+                    <mesh position={[0, tableConfig.height + tableConfig.topThickness / 2, 0]}>
+                        <boxGeometry args={[tableConfig.width, tableConfig.topThickness, tableConfig.depth]} />
+                        <meshBasicMaterial color="#fcf3c6" attach="material-0" map={woodTexture} />
+                        <meshBasicMaterial color="#fcf3c6" attach="material-1" map={woodTexture} />
+                        <meshBasicMaterial color="#fcf3c6" attach="material-2" map={tableTopTexture} roughness={0.5} />
+                        <meshBasicMaterial attach="material-3" color="#fcf3c6" />
+                        <meshBasicMaterial color="#fcf3c6" attach="material-4" map={woodTexture} />
+                        <meshBasicMaterial color="#fcf3c6" attach="material-5" map={woodTexture} />
                     </mesh>
-                ))}
 
-                {/* Blat stolika */}
-                <mesh position={[0, tableConfig.height + tableConfig.topThickness / 2, 0]}>
-                    <boxGeometry args={[tableConfig.width, tableConfig.topThickness, tableConfig.depth]} />
-                    <meshBasicMaterial color="#fcf3c6" attach="material-0" map={woodTexture} /> {/* Right */}
-                    <meshBasicMaterial color="#fcf3c6" attach="material-1" map={woodTexture} /> {/* Left */}
-                    <meshBasicMaterial color="#fcf3c6" attach="material-2" map={tableTopTexture} roughness={0.5} /> {/* Top */}
-                    <meshBasicMaterial attach="material-3" color="#fcf3c6" />   {/* Bottom */}
-                    <meshBasicMaterial color="#fcf3c6" attach="material-4" map={woodTexture} /> {/* Front */}
-                    <meshBasicMaterial color="#fcf3c6" attach="material-5" map={woodTexture} /> {/* Back */}
-                </mesh>
-
-                {/* KWIATEK NA STOLE */}
-                <mesh
-                    position={[0, tableConfig.height + tableConfig.topThickness + 0.2, 0]} // Na blacie
-                    rotation={[0, -Math.PI / 4, 0]} // Lekki obrót
-                >
-                    <planeGeometry args={[0.3, 0.3 / 0.758]} />
-                    <meshBasicMaterial color="#fcf3c6"
-                        map={flowerTexture}
-                        transparent={true}
-                        alphaTest={0.1}
-                        side={THREE.DoubleSide}
-                        roughness={0.8}
-                    />
-                </mesh>
-            </group>
+                    {/* KWIATEK NA STOLE */}
+                    <mesh
+                        position={[0, tableConfig.height + tableConfig.topThickness + 0.2, 0]}
+                        rotation={[0, -Math.PI / 4, 0]}
+                    >
+                        <planeGeometry args={[0.3, 0.3 / 0.758]} />
+                        <meshBasicMaterial color="#fcf3c6"
+                            map={flowerTexture}
+                            transparent={true}
+                            alphaTest={0.1}
+                            side={THREE.DoubleSide}
+                            roughness={0.8}
+                        />
+                    </mesh>
+                </group>
+            ))}
 
             {/* =============================================
                 RAMKI NA ZDJĘCIA NA ŚCIANACH
@@ -574,18 +564,6 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                 Żeby zmienić pozycję/rozmiar konkretnej ramki,
                 edytuj odpowiedni obiekt w tablicy 'frames' powyżej.
             */}
-            {frames.map((frame) => (
-                <InspectableFrame
-                    key={frame.id}
-                    frame={frame}
-                    wallX={wallX}
-                    frameTexture={frameTexture}
-                    framePaintedTexture={framePaintedTexture}
-                    CABIN_SKETCH_URL={CABIN_SKETCH_URL}
-                    setCameraOverride={setCameraOverride}
-                />
-            ))}
-
             {/* === SZAFKA (CABINET) === */}
             {/* Prosty box jako placeholder, naprzeciwko drzwi About (Left -48) -> więc szafka na Right -51 */}
             <mesh
@@ -613,38 +591,61 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                 <meshBasicMaterial color="#fcf3c6" attach="material-5" map={cabinetRestTexture} />
             </mesh>
 
-            {/* === STOJĄCA RAMKA NA SZAFCE (STANDING FRAME) === */}
-            {/* Stoi na szafce: Y = floorY + 1.0 (wysokość szafki) + połowa wysokości ramki */}
-            <mesh
-                position={[wallX - 0.26, floorY + 1.0 + 0.2, zOffset - 51]}
-                rotation={[0, -Math.PI / 2 + 0.2, 0]} // Lekki obrót, żeby nie stała idealnie prosto
-            >
-                <planeGeometry args={[0.3, 0.3 / 0.777]} />
-                <meshBasicMaterial color="#fcf3c6"
-                    map={standingFrameTexture}
-                    transparent={true}
-                    alphaTest={0.1}
-                    side={THREE.DoubleSide}
-                    roughness={0.8}
-                />
-            </mesh>
+            {/* === POTTED PLANTS (3) — sage green === */}
+            {[
+                { z: -20, side: 'left' },
+                { z: -40, side: 'right' },
+                { z: -60, side: 'left' },
+            ].map((plant, i) => {
+                const isLeft = plant.side === 'left';
+                return (
+                    <mesh
+                        key={`plant-${i}`}
+                        position={[isLeft ? -wallX + 0.8 : wallX - 0.8, floorY + 1.5, zOffset + plant.z]}
+                        rotation={[0, isLeft ? Math.PI / 4 : -Math.PI / 4, 0]}
+                    >
+                        <planeGeometry args={[1.8, 1.8 / 0.602]} />
+                        <meshBasicMaterial color="#ffffff"
+                            map={treeTexture}
+                            transparent={true}
+                            alphaTest={0.1}
+                            side={THREE.DoubleSide}
+                            roughness={0.8}
+                        />
+                    </mesh>
+                );
+            })}
 
-
-            {/* === DRZEWKO W DONICZCE (POTTED TREE) === */}
-            {/* Kolo drzwi Contact (Right -62). Ustawiamy na -58, ODWROTNIE (Left). */}
-            <mesh
-                position={[-wallX + 0.8, floorY + 1.5, zOffset - 58]} // Left side
-                rotation={[0, Math.PI / 4, 0]} // Obrócone w stronę korytarza (z lewej)
-            >
-                <planeGeometry args={[1.8, 1.8 / 0.602]} />
-                <meshBasicMaterial color="#fcf3c6"
-                    map={treeTexture}
-                    transparent={true}
-                    alphaTest={0.1}
-                    side={THREE.DoubleSide}
-                    roughness={0.8}
-                />
-            </mesh>
+            {/* === WINDOWS INSIDE THE CORRIDOR === */}
+            {[
+                { z: -35, side: 'right' },
+                { z: -48, side: 'left' },
+                { z: -57, side: 'right' },
+            ].map((win, i) => {
+                const isLeft = win.side === 'left';
+                return (
+                    <group
+                        key={`window-${i}`}
+                        position={[isLeft ? -wallX + 0.01 : wallX - 0.01, 0.5, zOffset + win.z]}
+                        rotation={[0, isLeft ? Math.PI / 2 : -Math.PI / 2, 0]}
+                    >
+                        <mesh position={[0, 0, -0.01]}>
+                            <planeGeometry args={[1.4, 1.4]} />
+                            <meshBasicMaterial color="#FFE8D6" side={THREE.DoubleSide} />
+                        </mesh>
+                        <mesh>
+                            <planeGeometry args={[1.5, 1.5]} />
+                            <meshBasicMaterial
+                                color="#B08B7F"
+                                map={windowTexture}
+                                transparent={true}
+                                alphaTest={0.1}
+                                side={THREE.DoubleSide}
+                            />
+                        </mesh>
+                    </group>
+                );
+            })}
 
             {/* === KRATKI WENTYLACYJNE (VENTILATION GRATES) === */}
             {/* Generujemy kratkę na przeciwległej ścianie dla każdego obrazu */}

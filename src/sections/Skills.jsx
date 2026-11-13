@@ -77,7 +77,7 @@ export default function Skills() {
               marginBottom: '16px',
             }}
           >
-            EXPERTISE
+            TECHNICAL STACK
           </p>
           <h2
             style={{
@@ -87,7 +87,7 @@ export default function Skills() {
               margin: 0,
             }}
           >
-            Tools I <span className="text-gradient-purple">Build</span> With
+            Skills I <span className="text-gradient-purple">Work</span> With
           </h2>
           <p
             style={{
@@ -98,7 +98,7 @@ export default function Skills() {
               fontWeight: 300,
             }}
           >
-            A breakdown of my technical stack, visual prototyping workflows, optimization tools, and content management packages.
+            A breakdown of my applied AI, data, development, and business toolkit.
           </p>
         </div>
 

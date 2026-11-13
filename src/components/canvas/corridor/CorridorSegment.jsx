@@ -5,9 +5,7 @@ import * as THREE from 'three';
 import CorridorWalls from './CorridorWalls';
 import DoorSection from './DoorSection';
 import SegmentDoors from './SegmentDoors';
-import Avatar from './Avatar';
 import HeroText from './HeroText';
-import Doodles from './Doodles';
 import CorridorDecorations from './CorridorDecorations';
 
 /**
@@ -47,26 +45,35 @@ const CorridorSegment = ({
             {
                 id: `gallery-${segmentIndex}`,
                 roomId: 'gallery',
-                relativeZ: -18,
+                relativeZ: -12,
                 side: 'left',
-                label: 'THE GALLERY',
+                label: 'PROJECTS',
                 icon: '◈',
                 color: '#f5efe6'
             },
             {
-                id: `studio-${segmentIndex}`,
-                roomId: 'studio',
-                relativeZ: -32,
+                id: `experience-${segmentIndex}`,
+                roomId: 'experience',
+                relativeZ: -23,
                 side: 'right',
-                label: 'THE STUDIO',
-                icon: '▶',
+                label: 'THE EXPERIENCE',
+                icon: '▤',
                 color: '#e6f5ef'
+            },
+            {
+                id: `rewards-${segmentIndex}`,
+                roomId: 'rewards',
+                relativeZ: -34,
+                side: 'left',
+                label: 'REWARDS',
+                icon: '★',
+                color: '#f5efe6'
             },
             {
                 id: `about-${segmentIndex}`,
                 roomId: 'about',
-                relativeZ: -48,
-                side: 'left',
+                relativeZ: -45,
+                side: 'right',
                 label: 'THE ABOUT',
                 icon: '★',
                 color: '#efe6f5',
@@ -75,11 +82,20 @@ const CorridorSegment = ({
             {
                 id: `connect-${segmentIndex}`,
                 roomId: 'contact',
-                relativeZ: -62,
-                side: 'right',
+                relativeZ: -56,
+                side: 'left',
                 label: "LET'S CONNECT",
                 icon: '✉',
                 color: '#f5e6e6'
+            },
+            {
+                id: `extracurricular-${segmentIndex}`,
+                roomId: 'extracurricular',
+                relativeZ: -67,
+                side: 'right',
+                label: 'EXTRACURRICULAR',
+                icon: '✦',
+                color: '#e6f5ef'
             },
         ];
 
@@ -116,7 +132,7 @@ const CorridorSegment = ({
                 zClip={zClip}
             />
 
-            {/* === SHAN.DEV BRAND SIGN ON SIDE WALL === */}
+            {/* === EMNA SMAALI BRAND SIGN ON SIDE WALL === */}
             <Text
                 position={[-3.46, 0.4, zOffset - 8]}
                 rotation={[0, Math.PI / 2, 0]}
@@ -126,30 +142,14 @@ const CorridorSegment = ({
                 anchorY="middle"
                 font="/fonts/CabinSketch-Bold.ttf"
             >
-                SHAN.DEV
+                EMNA SMAALI
             </Text>
 
             {/* === WELCOME AREA (Start of segment) - MOVED CLOSER === */}
             <group position={[0, 0, zOffset - 2]}>
-                {/* SHAN 3D Header - Floating above avatar */}
+                {/* EMNA 3D Header - Floating above avatar */}
                 <HeroText position={[0, 0.85, -0.5]} />
 
-                {/* Avatar - center */}
-                <Avatar position={[0, -0.61, -0.3]} />
-
-
-                {/* Doodles around avatar */}
-                <Doodles />
-
-                {/* Segment number (debug - can remove later) */}
-                <Text
-                    position={[1.7, 1.4, 0.3]}
-                    fontSize={0.12}
-                    color="#ccc"
-                    anchorX="center"
-                >
-                    #{segmentIndex}
-                </Text>
             </group>
 
             {/* === DOOR SECTIONS (wall + door + label as one unit) === */}

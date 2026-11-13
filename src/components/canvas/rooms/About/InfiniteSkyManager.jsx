@@ -352,7 +352,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/RubikScribble-Regular.ttf"
             >
-                SHAN
+                EMNA
             </Text>
 
             {/* Subtitle - Brand (spreads right) */}
@@ -365,19 +365,8 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/CabinSketch-Bold.ttf"
             >
-                CREATIVE FULL STACK DEVELOPER
+                SOFTWARE ENGINEERING STUDENT
             </Text>
-
-            {/* Avatar on cloud - floating + spreads up-left */}
-            <mesh ref={avatarRef} position={[0, baseY, 0]}>
-                <planeGeometry args={[avatarWidth, avatarHeight]} />
-                <meshBasicMaterial color="#ffffff"
-                    map={avatarTexture}
-                    transparent
-                    side={THREE.DoubleSide}
-                    depthWrite={false}
-                />
-            </mesh>
 
             {/* Motto - Line 1 (spreads right) */}
             <Text
@@ -390,7 +379,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 font="/fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
-                "Building digital experiences
+                "Building reliable, grounded AI systems
             </Text>
 
             {/* Motto - Line 2 (spreads left) */}
@@ -404,28 +393,27 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 font="/fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
-                where design, motion, and engineering become one"
+                that turn real-world needs into practical solutions"
             </Text>
         </group>
     );
 };
 
 /**
- * MOCK DATA FOR AWARDS
+ * CV DATA — AWARDS
  */
 const AWARDS_DATA = {
     featured: {
         id: 'award-featured',
         layout: 'certificate_grid',
-        title: 'Core Capabilities & Technical Stack',
+        title: 'Leadership & Languages',
         items: [
-            { label: 'Full Stack Engineering (React / Next.js / Node)', date: 'Active', image: '/textures/about/button.webp', url: '#' },
-            { label: '3D Canvas & WebGL Experiences (Three.js)', date: 'Active', image: '/textures/about/button.webp', url: '#' },
-            { label: 'High-Performance Motion (GSAP / Framer)', date: 'Active', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Database & Cloud Architecture (Supabase / Postgres)', date: 'Active', image: '/textures/about/button.webp', url: '#' },
+            { label: 'Enactus SMU — Training Manager', date: 'Leadership', image: '/textures/about/button.webp', url: '#' },
+            { label: 'Securinets SMU — Human Resources Manager', date: 'Leadership', image: '/textures/about/button.webp', url: '#' },
+            { label: 'Arabic — Native · French & English — Professional', date: 'Languages', image: '/textures/about/button.webp', url: '#' },
         ],
         platformConfig: {
-            label: 'EXPERTISE',
+            label: 'LEADERSHIP',
             color: '#00D9FF',
             icon: '⭐'
         }
@@ -433,48 +421,40 @@ const AWARDS_DATA = {
     sotd: {
         id: 'award-sotd',
         layout: 'certificate_grid',
-        title: 'Frontend & Creative Engineering',
+        title: '3rd Place — Cr4ck0ut Cybersecurity Hackathon',
         items: [
-            { label: 'React & Next.js Web Engineering', date: '2026', image: '/textures/about/button.webp', url: '#' },
-            { label: '3D WebGL Shaders & Canvas Interactions', date: '2026', image: '/textures/about/button.webp', url: '#' },
-            { label: 'GSAP Scrollytelling & Frame Sequences', date: '2025', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Responsive Mobile-First Interfaces', date: 'Active', image: '/textures/about/button.webp', url: '#' }
+            { label: 'Cr4ck0ut Cybersecurity Hackathon', date: '2024 · Securinets SMU × No Breach', image: '/textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
-            label: 'DEVELOPER',
+            label: 'ACHIEVEMENT',
             color: '#00D9FF',
-            icon: '💻'
+            icon: '🥇'
         }
     },
     sotm: {
         id: 'award-sotm',
         layout: 'certificate_grid',
-        title: 'Full Stack & Cloud Architecture',
+        title: '4th Place — She Helps Hackathon',
         items: [
-            { label: 'Node.js & Express REST Infrastructure', date: '2026', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Supabase & PostgreSQL Data Modeling', date: '2025', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Cloud Media & Asset Optimization', date: '2026', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Core Vitals & Sub-Second Hydration', date: 'Active', image: '/textures/about/button.webp', url: '#' }
+            { label: 'She Helps Hackathon — Software in Healthcare', date: '2023 · Teriak Kilani Group Labs', image: '/textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
-            label: 'FULL STACK',
+            label: 'RECOGNITION',
             color: '#00D9FF',
-            icon: '⚡'
+            icon: '🎖️'
         }
     },
     other: {
         id: 'award-other',
         layout: 'certificate_grid',
-        title: 'Creative Engineering & UI Design',
+        title: '1st Place — Senior Student Project Competition',
         items: [
-            { label: 'Interactive Storytelling & Physics', date: '2026', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Awwwards-Level Design Systems', date: '2025', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Fluid Motion & Tactile Interactions', date: '2026', image: '/textures/about/button.webp', url: '#' }
+            { label: 'Smart Matching Platform', date: '2026 · MedTech–SMU', image: '/textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
-            label: 'CREATIVE',
+            label: 'AWARD',
             color: '#00D9FF',
-            icon: '🎨'
+            icon: '🏆'
         }
     }
 };
@@ -633,7 +613,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/RubikScribble-Regular.ttf"
             >
-                CAPABILITIES
+                ACHIEVEMENTS
             </Text>
 
             {/* === SOTD (behind SOTY, rendered second) === */}
@@ -682,7 +662,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    DEVELOPER
+                    3RD PLACE
                 </Text>
                 {/* CAPACITY SUBTITLE */}
                 <Text
@@ -693,7 +673,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Regular.ttf"
                 >
-                    React & Next.js
+                    Cr4ck0ut Hackathon
                 </Text>
             </group>
 
@@ -743,7 +723,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    FULL STACK
+                    4TH PLACE
                 </Text>
                 {/* CAPACITY SUBTITLE */}
                 <Text
@@ -754,7 +734,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Regular.ttf"
                 >
-                    Node & Databases
+                    She Helps Hackathon
                 </Text>
             </group>
 
@@ -803,7 +783,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    CREATIVE
+                    1ST PLACE
                 </Text>
                 {/* CAPACITY SUBTITLE */}
                 <Text
@@ -814,7 +794,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Regular.ttf"
                 >
-                    3D & Motion Physics
+                    Senior Project
                 </Text>
             </group>
         </group>
@@ -924,10 +904,10 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
             >
-                Full Stack & Creative Engineering Roadmap
+                Education, Internships & Applied AI
             </Text>
 
-            {/* === UO ISLAND (Left) === */}
+            {/* === EDUCATION ISLAND (Left) === */}
             <group ref={uoRef} position={[-3.5, -1, 0]}>
                 <mesh>
                     <planeGeometry args={[islandHeight * uoAspect, islandHeight]} />
@@ -937,20 +917,43 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (UO) */}
+
+                {/* Paper label covering the baked island word */}
+                <group position={[0, 1.02, 0.12]} rotation={[0, 0, -0.02]}>
+                    <mesh position={[0.02, -0.02, -0.002]}>
+                        <planeGeometry args={[3.35, 1.45]} />
+                        <meshBasicMaterial color="#664E44" transparent opacity={0.55} />
+                    </mesh>
+                    <mesh position={[0, 0, -0.001]}>
+                        <planeGeometry args={[3.2, 1.3]} />
+                        <meshBasicMaterial color="#fcf3c6" />
+                    </mesh>
+                    <Text
+                        position={[0, 0, 0.002]}
+                        fontSize={0.42}
+                        color="#1a1a1a"
+                        anchorX="center"
+                        anchorY="middle"
+                        font="/fonts/CabinSketch-Bold.ttf"
+                    >
+                        EDUCATION
+                    </Text>
+                </group>
+
+                {/* NAPIS NA WYSPIE (Education) */}
                 <Text
                     position={[0.1, -0.85, 0.1]}
-                    fontSize={0.38}
+                    fontSize={0.3}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    FULL STACK
+                    MEDTECH – SMU
                 </Text>
             </group>
 
-            {/* === FREELANCE ISLAND (Right) === */}
+            {/* === EXPERIENCE ISLAND (Right) === */}
             <group ref={freelanceRef} position={[3.5, -2, 0.5]}>
                 <mesh>
                     <planeGeometry args={[islandHeight * freelanceAspect, islandHeight]} />
@@ -960,16 +963,39 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (Freelance) */}
+
+                {/* Paper label covering the baked island word */}
+                <group position={[0, 1.18, 0.12]} rotation={[0, 0, 0.015]}>
+                    <mesh position={[0.02, -0.02, -0.002]}>
+                        <planeGeometry args={[7.7, 1.35]} />
+                        <meshBasicMaterial color="#664E44" transparent opacity={0.55} />
+                    </mesh>
+                    <mesh position={[0, 0, -0.001]}>
+                        <planeGeometry args={[7.55, 1.2]} />
+                        <meshBasicMaterial color="#fcf3c6" />
+                    </mesh>
+                    <Text
+                        position={[0, 0, 0.002]}
+                        fontSize={0.55}
+                        color="#1a1a1a"
+                        anchorX="center"
+                        anchorY="middle"
+                        font="/fonts/CabinSketch-Bold.ttf"
+                    >
+                        INTERNSHIPS
+                    </Text>
+                </group>
+
+                {/* NAPIS NA WYSPIE (Experience) */}
                 <Text
                     position={[0, -0.65, 0.1]}
-                    fontSize={0.42}
+                    fontSize={0.26}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    CREATIVE DEV
+                    5 ROLES · 2024–2026
                 </Text>
             </group>
         </group>
@@ -985,20 +1011,19 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 // === EDYTUJ WYSOKOŚĆ TUTAJ (zmień wartość 'y' dla każdego balona) ===
 const BALLOON_CONFIG = [
     // Large balloons (main skills) - front and center
-    { texture: '/textures/about/reactduzybalon.webp', paintedTexture: '/textures/about/reactduzybalon_painted.webp', label: 'React', size: 'large', x: -2.5, y: 2, z: 0.3, phase: 0 },
-    { texture: '/textures/about/threejsduzybalon.webp', paintedTexture: '/textures/about/threejsduzybalon_painted.webp', label: 'Three.js', size: 'large', x: 2.5, y: 2.5, z: 0.2, phase: 1.5 },
-    { texture: '/textures/about/GSAPduzybalon.webp', paintedTexture: '/textures/about/GSAPduzybalon_painted.webp', label: 'GSAP', size: 'large', x: 0, y: 3, z: 0.5, phase: 3 },
+    { texture: '/textures/about/emna-python.webp', paintedTexture: '/textures/about/emna-python_painted.webp', label: 'Python', size: 'large', x: -2.5, y: 2, z: 0.3, phase: 0 },
+    { texture: '/textures/about/emna-rag.webp', paintedTexture: '/textures/about/emna-rag_painted.webp', label: 'RAG', size: 'large', x: 2.5, y: 2.5, z: 0.2, phase: 1.5 },
+    { texture: '/textures/about/emna-langchain.webp', paintedTexture: '/textures/about/emna-langchain_painted.webp', label: 'LangChain', size: 'large', x: 0, y: 3, z: 0.5, phase: 3 },
 
     // Medium balloons - scattered around
-    { texture: '/textures/about/JSSREDNIBALON.webp', paintedTexture: '/textures/about/JSSREDNIBALON_painted.webp', label: 'JavaScript', size: 'medium', x: -4, y: 1, z: -0.3, phase: 0.8 },
-    { texture: '/textures/about/csssrednibalon.webp', paintedTexture: '/textures/about/csssrednibalon_painted.webp', label: 'CSS', size: 'medium', x: 4, y: 1.5, z: -0.2, phase: 2.2 },
-    { texture: '/textures/about/nextjssrednibalon.webp', paintedTexture: '/textures/about/nextjssrednibalon_painted.webp', label: 'Next.js', size: 'medium', x: 0, y: 0.5, z: -0.4, phase: 4 },
+    { texture: '/textures/about/emna-react.webp', paintedTexture: '/textures/about/emna-react_painted.webp', label: 'React', size: 'medium', x: -4, y: 1, z: -0.3, phase: 0.8 },
+    { texture: '/textures/about/emna-typescript.webp', paintedTexture: '/textures/about/emna-typescript_painted.webp', label: 'TypeScript', size: 'medium', x: 4, y: 1.5, z: -0.2, phase: 2.2 },
+    { texture: '/textures/about/emna-node.webp', paintedTexture: '/textures/about/emna-node_painted.webp', label: 'Node.js', size: 'medium', x: 0, y: 0.5, z: -0.4, phase: 4 },
 
     // Small balloons - background accents
-    { texture: '/textures/about/htmlmalybalon.webp', paintedTexture: '/textures/about/htmlmalybalon_painted.webp', label: 'HTML', size: 'small', x: -5.5, y: 2.5, z: -0.8, phase: 1.2 },
-    { texture: '/textures/about/gitmalybalon.webp', paintedTexture: '/textures/about/gitmalybalon_painted.webp', label: 'Git', size: 'small', x: 5.5, y: 3, z: -0.7, phase: 2.8 },
-    { texture: '/textures/about/figmamalybalon.webp', paintedTexture: '/textures/about/figmamalybalon_painted.webp', label: 'Figma', size: 'small', x: -3, y: 4.5, z: -0.5, phase: 3.5 },
-    { texture: '/textures/about/firebasemalybalon.webp', paintedTexture: '/textures/about/firebasemalybalon_painted.webp', label: 'Firebase', size: 'small', x: 3.5, y: 4, z: -0.6, phase: 4.5 },
+    { texture: '/textures/about/emna-sql.webp', paintedTexture: '/textures/about/emna-sql_painted.webp', label: 'SQL', size: 'small', x: -5.5, y: 2.5, z: -0.8, phase: 1.2 },
+    { texture: '/textures/about/emna-git.webp', paintedTexture: '/textures/about/emna-git_painted.webp', label: 'Git', size: 'small', x: 5.5, y: 3, z: -0.7, phase: 2.8 },
+    { texture: '/textures/about/emna-docker.webp', paintedTexture: '/textures/about/emna-docker_painted.webp', label: 'Docker', size: 'small', x: -3, y: 4.5, z: -0.5, phase: 3.5 },
 ];
 
 // Size multipliers for balloon categories
@@ -1044,16 +1069,8 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
         }
     };
 
-    // LEGACY FIX: Use original aspect ratios from BALLOON_CONFIG or hardcoded for categories
-    const legacyAspects = {
-        'reactduzybalon.webp': 736 / 1447,
-        'threejsduzybalon.webp': 1141 / 1964,
-        'GSAPduzybalon.webp': 1.0, // GSAP balloon is square
-        'default_small_medium': 631 / 1482 // Common ratio for others
-    };
-    
-    const filename = config.texture.split('/').pop();
-    const aspect = legacyAspects[filename] || legacyAspects['default_small_medium'];
+    // All Emna balloons share the same 1:2 source canvas
+    const aspect = 1024 / 2048;
     const baseHeight = SIZE_MULTIPLIERS[config.size];
 
     const outerGroupRef = useRef();

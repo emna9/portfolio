@@ -42,7 +42,6 @@ export const CORRIDOR_TEXTURES = [
     '/textures/corridor/texturadoprogow.webp',
     '/textures/corridor/texturadrewnadonozekbiurka.webp',
     '/textures/corridor/ceiling_texture.webp',
-    '/textures/corridor/avatar_sketch.webp',
     // Double doors (end of corridor)
     '/textures/corridor/doors/frame_sketch.webp',
     '/textures/corridor/doors/doorrleft.webp',
@@ -58,6 +57,8 @@ export const CORRIDOR_TEXTURES = [
     '/textures/corridor/doors/drzwisocial.webp',
     '/textures/corridor/doors/drzwiabout.webp',
     '/textures/corridor/doors/drzwikontakt.webp',
+    '/textures/corridor/doors/drzwirewards.webp',
+    '/textures/corridor/doors/drzwirewards_painted.webp',
     '/textures/corridor/doors/drzwiprojekty_painted.webp',
     '/textures/corridor/doors/drzwisocial_painted.webp',
     '/textures/corridor/doors/drzwiabout_painted.webp',
@@ -76,7 +77,7 @@ export const CORRIDOR_TEXTURES = [
     '/textures/corridor/ramkanazdjecieduza.webp',
     '/textures/corridor/ramkanazdjecieduza_painted.webp',
     '/textures/corridor/ramkanazdjeciemala.webp',
-    '/textures/corridor/drzewkowdoniczce.webp',
+    '/textures/corridor/drzewkowdoniczce_pot_sage.webp',
     '/textures/corridor/kratkawentylacyjna.webp',
     '/textures/corridor/kwiatekwdoniczce.webp',
     '/textures/corridor/kratanalampy.webp',
@@ -84,7 +85,6 @@ export const CORRIDOR_TEXTURES = [
     '/textures/corridor/gorastolika.webp',
     '/textures/corridor/szafkaprzod.webp',
     '/textures/corridor/szafkaprzodgora.webp',
-    '/textures/corridor/rysuneknaobraz1.webp',
     '/textures/corridor/rysuneknaobrazek3.webp',
     // DoorSection extras
     '/textures/corridor/strzalka.webp',
@@ -94,8 +94,6 @@ export const CORRIDOR_TEXTURES = [
 
 // Standard HTML Image assets (preloaded via new Image() in App.jsx)
 export const IMAGE_ASSETS = [
-    '/images/avatar-thinking.webp',
-    '/images/avatar-hero.webp',
     '/images/ink-splash.webp',
     '/images/map.webp',
     '/images/map_about_painted.webp',
@@ -106,17 +104,9 @@ export const IMAGE_ASSETS = [
     '/images/pin-slot.webp',
 ];
 
-// Additional textures from App.jsx and avatar animations
+// Additional textures from App.jsx and the avatar
 export const UI_TEXTURES = [
     '/textures/corridor/avatar_anim/1.webp',
-    '/textures/corridor/avatar_anim/2.webp',
-    '/textures/corridor/avatar_anim/3.webp',
-    '/textures/corridor/avatar_anim/4.webp',
-    '/textures/corridor/avatar_anim/5.webp',
-    '/textures/corridor/avatar_anim/6.webp',
-    '/textures/corridor/avatar_anim/7.webp',
-    '/textures/corridor/avatar_anim/8.webp',
-    '/textures/corridor/avatar_anim/9.webp',
 ];
 
 // ============================================
@@ -155,6 +145,30 @@ export const GALLERY_TEXTURES_VERSIONED = [
     'reactlogo',
     'tailwindlogo',
     'wordpresslogo',
+    'pythonlogo',
+    'nodelogo',
+    'mongologo',
+    'sklogo',
+    'geminilogo',
+    'catboostlogo',
+    'langgraphlogo',
+    'datalogo',
+    // Project cards (colored)
+    'proj-smart-matching',
+    'proj-ai-ecommerce',
+    'proj-mental-health',
+    // Experience / rewards / extracurricular cards
+    'exp-dar-blockchain',
+    'exp-smu',
+    'exp-comar',
+    'exp-forvia',
+    'exp-dracode',
+    'award-first',
+    'award-third',
+    'award-fourth',
+    'extra-enactus',
+    'extra-rotaract',
+    'extra-securinets',
 ];
 
 export const GALLERY_TEXTURES = [
@@ -190,37 +204,30 @@ export const ABOUT_TEXTURES = [
     '/textures/about/SOTM_painted.webp',
     '/textures/about/button.webp',
     '/textures/about/button_painted.webp',
-    // Award images (for overlay)
-    '/textures/about/SOTDAYYOUNGMULTICSSWINNER.webp',
-    '/textures/about/SOTDAYYOUNGMULTIGSAP.webp',
-    '/textures/about/SOTDAYYOUNGMULTIORPETRON.webp',
-    '/textures/about/SOTDAYYOUNGMULTIDESIGNNOMINESS.webp',
     // Journey islands
     '/textures/about/uowyspa.webp',
     '/textures/about/freelancewyspa.webp',
     // Skill balloons - large
-    '/textures/about/reactduzybalon.webp',
-    '/textures/about/reactduzybalon_painted.webp',
-    '/textures/about/threejsduzybalon.webp',
-    '/textures/about/threejsduzybalon_painted.webp',
-    '/textures/about/GSAPduzybalon.webp',
-    '/textures/about/GSAPduzybalon_painted.webp',
+    '/textures/about/emna-python.webp',
+    '/textures/about/emna-python_painted.webp',
+    '/textures/about/emna-rag.webp',
+    '/textures/about/emna-rag_painted.webp',
+    '/textures/about/emna-langchain.webp',
+    '/textures/about/emna-langchain_painted.webp',
     // Skill balloons - medium
-    '/textures/about/JSSREDNIBALON.webp',
-    '/textures/about/JSSREDNIBALON_painted.webp',
-    '/textures/about/csssrednibalon.webp',
-    '/textures/about/csssrednibalon_painted.webp',
-    '/textures/about/nextjssrednibalon.webp',
-    '/textures/about/nextjssrednibalon_painted.webp',
+    '/textures/about/emna-react.webp',
+    '/textures/about/emna-react_painted.webp',
+    '/textures/about/emna-typescript.webp',
+    '/textures/about/emna-typescript_painted.webp',
+    '/textures/about/emna-node.webp',
+    '/textures/about/emna-node_painted.webp',
     // Skill balloons - small
-    '/textures/about/htmlmalybalon.webp',
-    '/textures/about/htmlmalybalon_painted.webp',
-    '/textures/about/gitmalybalon.webp',
-    '/textures/about/gitmalybalon_painted.webp',
-    '/textures/about/figmamalybalon.webp',
-    '/textures/about/figmamalybalon_painted.webp',
-    '/textures/about/firebasemalybalon.webp',
-    '/textures/about/firebasemalybalon_painted.webp',
+    '/textures/about/emna-sql.webp',
+    '/textures/about/emna-sql_painted.webp',
+    '/textures/about/emna-git.webp',
+    '/textures/about/emna-git_painted.webp',
+    '/textures/about/emna-docker.webp',
+    '/textures/about/emna-docker_painted.webp',
     // Clouds
     '/textures/clouds/1131c3eb-dfae-423f-924b-ff39d8ccd6dc.webp',
     '/textures/clouds/254b8ec8-d6f7-4275-956f-7bab65b2ce2d.webp',

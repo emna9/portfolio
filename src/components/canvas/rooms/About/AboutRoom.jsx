@@ -25,10 +25,10 @@ export const AUDIO_SETTINGS = {
 // Story sections - positions define where each milestone appears
 // Using CHUNK_LENGTH to create looping story (every ~40 units restarts)
 const STORY_MILESTONES = [
-    { id: 'intro', position: [0, 0, -15], type: 'intro', title: 'SHAN', subtitle: '< creative full stack developer • 3d web • motion • scalable architecture />' },
-    { id: 'focus', position: [0, 0, -55], type: 'awards', title: 'CREATION', subtitle: 'Full Stack Engineering • 3D Scrollytelling • Motion Physics' },
-    { id: 'journey', position: [0, 0, -95], type: 'journey', title: 'JOURNEY', subtitle: 'Building immersive digital experiences & scalable cloud web platforms' },
-    { id: 'skills', position: [0, 0, -135], type: 'skills', title: 'SKILLS', subtitle: 'React • Next.js • Three.js • GSAP • Node.js • Supabase' },
+    { id: 'intro', position: [0, 0, -15], type: 'intro', title: 'EMNA', subtitle: '< software engineering student • applied ai & genai • tunis />' },
+    { id: 'focus', position: [0, 0, -55], type: 'awards', title: 'ACHIEVEMENTS', subtitle: 'Hackathons • Awards • Recognitions' },
+    { id: 'journey', position: [0, 0, -95], type: 'journey', title: 'JOURNEY', subtitle: 'Education, internships & the path into applied AI' },
+    { id: 'skills', position: [0, 0, -135], type: 'skills', title: 'SKILLS', subtitle: 'Python • RAG • LangChain • React • TypeScript • Node.js' },
 ];
 
 const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {

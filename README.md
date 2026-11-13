@@ -1,8 +1,8 @@
-# 🎨 Sketch Portfolio
+# 🎨 Emna Smaali — Sketch Portfolio
 
-> **An immersive, hand-drawn 3D interactive portfolio experience built with React 19, Three.js, React Three Fiber, and GSAP.**
+> **Emna Smaali's immersive, hand-drawn 3D portfolio — software engineering, applied AI & GenAI — built with React 19, Three.js, React Three Fiber, and GSAP.**
 
-🌐 **Live Demo:** [https://sketch-portfolio.shajith870.workers.dev/](https://sketch-portfolio.shajith870.workers.dev/)
+🌐 **Live Demo:** _Add your deployment URL here._
 
 ---
 
@@ -53,7 +53,7 @@ Ensure you have **Node.js 18+** and **npm** installed on your system.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/shajith23/sketch-portfolio.git
+git clone <your-repository-url>
 cd sketch-portfolio
 ```
 
@@ -179,5 +179,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 <p align="center">
-  Crafted with Shan❤️ and ☕ using React 19 & Three.js
+  Crafted for Emna Smaali using React 19 & Three.js
 </p>

@@ -5,10 +5,12 @@ import { useScene } from '../../../context/SceneContext';
 // Door positions (Global Z for Segment 0)
 // Calculation: 10 (Start Z) + Relative Z + 2 (Door Offset)
 const DOOR_POSITIONS_Z = {
-    'gallery': -6,   // 10 - 18 + 2
-    'studio': -20,   // 10 - 32 + 2
-    'about': -36,    // 10 - 48 + 2
-    'contact': -50   // 10 - 62 + 2
+    'gallery': 0,          // 10 - 12 + 2
+    'experience': -11,     // 10 - 23 + 2
+    'rewards': -22,        // 10 - 34 + 2
+    'about': -33,          // 10 - 45 + 2
+    'contact': -44,        // 10 - 56 + 2
+    'extracurricular': -55 // 10 - 67 + 2
 };
 
 /**

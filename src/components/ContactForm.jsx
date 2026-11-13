@@ -78,7 +78,7 @@ export default function ContactForm() {
         width: '100%',
         position: 'relative'
       }}
-      aria-label="Send a message to Shan"
+      aria-label="Send a message to Emna"
     >
       <div style={{ textAlign: 'left', borderBottom: '1px solid var(--border-primary)', paddingBottom: '16px' }}>
         <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', margin: '0 0 4px', color: 'var(--text-primary)' }}>
@@ -104,7 +104,7 @@ export default function ContactForm() {
             fontWeight: 500
           }}
         >
-          Thank you! Your message was transmitted successfully. Shan will respond within 24 hours.
+          Thank you! Your message was transmitted successfully. Emna will respond within 24 hours.
         </div>
       )}
 
@@ -123,7 +123,7 @@ export default function ContactForm() {
             fontWeight: 500
           }}
         >
-          Something went wrong. Please try again or email directly at contact@shan.dev
+          Something went wrong. Please try again or email directly at emna.smaali@medtech.tn
         </div>
       )}
 
@@ -198,7 +198,7 @@ export default function ContactForm() {
       {/* Project Type Select */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
         <label htmlFor="form-project-type" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Service Scope
+          Inquiry Type
         </label>
         <select
           id="form-project-type"
@@ -218,24 +218,25 @@ export default function ContactForm() {
           }}
           className="form-input"
         >
-          <option value="Immersive Product Experience / 3D Web">Immersive Product Experience / 3D Web</option>
-          <option value="Scalable Full Stack Application">Scalable Full Stack Application</option>
-          <option value="High-Performance Frontend Engineering">High-Performance Frontend Engineering</option>
-          <option value="Motion Design & Scrollytelling">Motion Design & Scrollytelling</option>
-          <option value="Design System & Premium UI Engineering">Design System & Premium UI Engineering</option>
+          <option value="Internship Opportunity">Internship Opportunity</option>
+          <option value="Applied AI / RAG Project">Applied AI / RAG Project</option>
+          <option value="LLM Evaluation & Benchmarking">LLM Evaluation & Benchmarking</option>
+          <option value="Data Pipeline / Analysis">Data Pipeline / Analysis</option>
+          <option value="Full Stack Application">Full Stack Application</option>
+          <option value="Other">Other</option>
         </select>
       </div>
 
       {/* Message Input */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
         <label htmlFor="form-message" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Project Brief / Message
+          Message
         </label>
         <textarea
           id="form-message"
           name="message"
           rows="5"
-          placeholder="Tell me about your goals, features, and target launch timeline..."
+          placeholder="Tell me about the role, project, or problem you are solving..."
           value={formData.message}
           onChange={handleChange}
           disabled={status === 'loading'}

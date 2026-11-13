@@ -14,10 +14,7 @@ export const useAudio = () => useContext(AudioContext);
 
 export const AudioProvider = ({ children }) => {
     // Persist mute preference
-    const [isMuted, setIsMuted] = useState(() => {
-        const saved = localStorage.getItem('audio_muted');
-        return saved === 'true';
-    });
+    const [isMuted, setIsMuted] = useState(true);
 
     // Persist volume preference (0.0 to 1.0)
     const [globalVolume, setGlobalVolume] = useState(() => {

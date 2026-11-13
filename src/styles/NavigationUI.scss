@@ -175,12 +175,16 @@
 
 // === MAP PANEL ===
 .map-panel {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%) translateY(-100%);
     width: 90%;
-    max-width: 500px;
+    max-width: 380px;
+    max-height: 92vh;
     border: none;
     border-radius: 0;
     filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.15));
@@ -307,6 +311,75 @@
     }
 
     // === HOVER ZONES — 4 quadrants ===
+    // === COLORED SECTION MARKERS (one per room) ===
+    .map-section-marker {
+        position: absolute;
+        z-index: 6;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 0;
+        margin: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        .map-section-icon {
+            width: 46px;
+            height: 46px;
+            display: block;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.18));
+        }
+
+        span {
+            font-family: 'Cabin Sketch', cursive, sans-serif;
+            font-size: 0.62rem;
+            line-height: 1;
+            letter-spacing: 0.4px;
+            color: #1a1a1a;
+            text-align: center;
+            max-width: 90px;
+            background: rgba(250, 244, 229, 0.92);
+            border-radius: 3px;
+            padding: 1px 3px;
+        }
+
+        &:hover,
+        &.hovered {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        &.active .map-section-icon {
+            box-shadow: 0 0 0 3px #fff, 0 0 0 5px #664E44;
+            border-radius: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .map-section-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            span {
+                font-size: 0.52rem;
+                max-width: 74px;
+            }
+        }
+    }
+
+    .map-sketch-icon {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 46px;
+        height: 46px;
+        z-index: 3;
+        pointer-events: none;
+        opacity: 0.92;
+    }
+
     .map-hover-zone {
         position: absolute;
         z-index: 2;
@@ -352,7 +425,7 @@
         margin-right: 5%;
     }
 
-    .zone-studio {
+    .zone-experience {
         bottom: 0;
         right: 0;
         width: 25%;
@@ -365,7 +438,7 @@
     .map-room-label {
         position: absolute;
         font-family: 'Cabin Sketch', cursive, sans-serif;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 700;
         color: #1a1a1a;
         pointer-events: none;
@@ -382,23 +455,33 @@
             1px 1px 0 #fff;
 
         &.about {
-            top: 28%;
-            left: 26%;
+            top: 51%;
+            left: 25%;
         }
 
         &.gallery {
-            top: 94%;
-            left: 26%;
+            top: 82%;
+            left: 25%;
         }
 
         &.contact {
-            top: 14%;
-            left: 76%;
+            top: 27%;
+            left: 75%;
         }
 
-        &.studio {
-            top: 75%;
-            left: 72%;
+        &.experience {
+            top: 51%;
+            left: 75%;
+        }
+
+        &.rewards {
+            top: 27%;
+            left: 25%;
+        }
+
+        &.extracurricular {
+            top: 82%;
+            left: 75%;
         }
     }
 
@@ -634,31 +717,6 @@
     }
 }
 
-// === ENTRANCE HINT - Before entering (same style as corridor hint) ===
-.entrance-hint {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 24px;
-    padding: 16px 24px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #1a1a1a;
-    border-radius: 12px;
-    box-shadow: 3px 3px 0 #1a1a1a;
-    font-size: 14px;
-    color: #1a1a1a;
-    pointer-events: auto;
-    animation: hintFadeIn 0.5s ease-out;
-
-    span {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-}
-
 // === CORRIDOR HINT - After entering ===
 .corridor-hint {
     position: fixed;
@@ -740,14 +798,6 @@
         }
     }
 
-    .entrance-hint {
-        gap: 8px;
-        bottom: 24px;
-        padding: 10px 16px;
-        font-size: 12px;
-        max-width: 90vw;
-    }
-
     .corridor-hint {
         gap: 8px;
         bottom: 24px;
@@ -786,3 +836,34 @@
     }
 }
 
+
+
+// === ENTRANCE GUIDANCE ===
+.entrance-hint {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    pointer-events: none;
+    font-family: 'Cabin Sketch', cursive, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #664E44;
+    background: rgba(250, 244, 229, 0.92);
+    border: 1.5px solid #664E44;
+    border-radius: 999px;
+    padding: 8px 18px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .entrance-hint {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+        white-space: normal;
+        max-width: 90vw;
+    }
+}

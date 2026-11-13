@@ -42,11 +42,11 @@ const SegmentDoors = ({
     // Load textures
     // Note: User provided specific filenames in corridor/doors/
     const frameTexture = useTexture('/textures/corridor/doors/frame_sketch.webp');
-    const doorLeftTexture = useTexture('/textures/corridor/doors/doorrleft.webp');
-    const doorRightTexture = useTexture('/textures/corridor/doors/dorright.webp');
+    const doorLeftTexture = useTexture('/textures/doors/door_main_clean.webp');
+    const doorRightTexture = useTexture('/textures/doors/door_main_clean.webp');
     const handleLeftTexture = useTexture('/textures/corridor/doors/handle_left_sketch.webp');
     const handleRightTexture = useTexture('/textures/corridor/doors/handle_right_sketch.webp');
-    const doorBackTexture = useTexture('/textures/corridor/doors/door_back.webp');
+    const doorBackTexture = useTexture('/textures/doors/door_main_clean.webp');
     const edgeTexture = useTexture('/textures/corridor/doors/pien.webp');
     const wallTexture = useTexture('/textures/corridor/wall_texture.webp');
 
@@ -150,61 +150,23 @@ const SegmentDoors = ({
 
     // Wall Decorations
     const whileTrueTexture = useTexture('/textures/corridor/decorations/while_true_loop.webp');
-    const coffeeTexture = useTexture('/textures/corridor/decorations/coffee_debug.webp');
-    const ideaTexture = useTexture('/textures/corridor/decorations/idea_process.webp');
 
     return (
         <group position={[position[0], 0, position[2]]}>
             {/* === LEFT WALL PANEL (Brainstorming) === */}
             <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
             </mesh>
-            {/* Decoration Left (Idea Process) */}
-            {/* 
-                EDYCJA GRAFIKI LEWEJ (Idea):
-                - rotation={[x, y, z]} -> Obrót (np. z = 0.1 to lekki przechył)
-                - args={[Szerokość, Wysokość]} -> Rozmiar
-            */}
-            <mesh
-                position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0.07]}
-                rotation={[0, 0, 0.05]}
-            >
-                <planeGeometry args={[1.2, 1.2 / 0.402]} />
-                <meshBasicMaterial color="#fcf3c6"
-                    map={ideaTexture}
-                    transparent={true}
-                    roughness={0.9}
-                    alphaTest={0.1}
-                />
-            </mesh>
-
             {/* === RIGHT WALL PANEL (Coffee & Bug) === */}
             <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
             </mesh>
-            {/* Decoration Right (Coffee) */}
-            {/* 
-                EDYCJA GRAFIKI PRAWEJ (Coffee):
-            */}
-            <mesh
-                position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0.08]}
-                rotation={[0, 0, -0.05]}
-            >
-                <planeGeometry args={[2.2, 2.2 / 1.833]} />
-                <meshBasicMaterial color="#fcf3c6"
-                    map={coffeeTexture}
-                    transparent={true}
-                    roughness={0.9}
-                    alphaTest={0.1}
-                />
-            </mesh>
-
             {/* === TOP WALL PANEL (While True) === */}
             <mesh position={[0, topWallCenterY, 0]}>
                 <boxGeometry args={[doorOpeningWidth, topWallHeight, wallThickness]} />
-                <meshBasicMaterial color="#fcf3c6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* Decoration Top (While True) */}
             <mesh position={[0, topWallCenterY, 0.07]}>
@@ -221,7 +183,7 @@ const SegmentDoors = ({
             {/* Moved to Z = 0.09 to sit in front of baseboards (Z=0.07), hiding the hole edges */}
             <mesh position={[0, frameCenterY, 0.09]}>
                 <planeGeometry args={[frameWidth, frameHeight]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#664E44"
                     map={frameTexture}
                     transparent={true}
                     alphaTest={0.1}
@@ -235,13 +197,13 @@ const SegmentDoors = ({
                 {/* Solid 3D Door Body with edge texture */}
                 <mesh position={[doorWidth / 2, 0, 0.06]}>
                     <boxGeometry args={[doorWidth, doorHeight, 0.04]} />
-                    <meshBasicMaterial color="#fcf3c6" map={edgeTexture} roughness={0.9} />
+                    <meshBasicMaterial color="#664E44" map={edgeTexture} roughness={0.9} />
                 </mesh>
 
                 {/* Front Texture Face */}
                 <mesh position={[doorWidth / 2, 0, 0.09]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorLeftTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -252,7 +214,7 @@ const SegmentDoors = ({
                 {/* Back Texture Face (mirrored) */}
                 <mesh position={[doorWidth / 2, 0, 0.03]} rotation={[0, Math.PI, 0]} scale={[-1, 1, 1]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorBackTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -280,13 +242,13 @@ const SegmentDoors = ({
                 {/* Solid 3D Door Body with edge texture */}
                 <mesh position={[-doorWidth / 2, 0, 0.06]}>
                     <boxGeometry args={[doorWidth, doorHeight, 0.04]} />
-                    <meshBasicMaterial color="#fcf3c6" map={edgeTexture} roughness={0.9} />
+                    <meshBasicMaterial color="#664E44" map={edgeTexture} roughness={0.9} />
                 </mesh>
 
                 {/* Front Texture Face */}
                 <mesh position={[-doorWidth / 2, 0, 0.09]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorRightTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -297,7 +259,7 @@ const SegmentDoors = ({
                 {/* Back Texture Face */}
                 <mesh position={[-doorWidth / 2, 0, 0.03]} rotation={[0, Math.PI, 0]}>
                     <planeGeometry args={[doorWidth, doorHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#664E44"
                         map={doorBackTexture}
                         transparent={true}
                         alphaTest={0.5}

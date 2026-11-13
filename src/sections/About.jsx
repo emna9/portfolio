@@ -6,37 +6,37 @@ gsap.registerPlugin(ScrollTrigger);
 
 const highlightCards = [
   {
-    title: "Creative Development",
-    desc: "Blending real-time WebGL, GSAP physics, and custom canvas shaders to build bespoke, memorable digital worlds."
+    title: "Applied AI & RAG",
+    desc: "Building LLM-powered applications with hybrid retrieval, prompt engineering, and grounded answers."
   },
   {
-    title: "Full Stack Engineering",
-    desc: "Architecting robust backend services, Supabase & PostgreSQL database models, and scalable Node.js cloud APIs."
+    title: "AI Evaluation",
+    desc: "Benchmarking models and analysis layers by output quality, latency, cost, and reliability."
   },
   {
-    title: "Interactive Experiences",
-    desc: "Designing tactile micro-interactions, responsive 3D viewports, and scrollytelling mechanics that captivate users."
+    title: "Data Engineering",
+    desc: "Scraping, structuring, and preparing real datasets for AI workflows and evaluation."
   },
   {
-    title: "Performance First",
-    desc: "Optimizing Core Web Vitals to sustain smooth 60FPS canvas animations and instantaneous edge hydration."
+    title: "Full Stack Development",
+    desc: "Building web applications with React, Vue, Nuxt, Node.js, Express, PostgreSQL, and MongoDB."
   },
   {
-    title: "Modern Technologies",
-    desc: "Leveraging React, Next.js, TypeScript, Three.js, and modern cloud architecture for enduring technical quality."
+    title: "Business Analysis",
+    desc: "Turning user and business needs into prioritized requirements, use cases, and deliverable features."
   },
   {
-    title: "User-Centered Design",
-    desc: "Translating complex product requirements into clean, accessible, and human-centric visual interfaces."
+    title: "Workflow Automation",
+    desc: "Using Docker, Git, Postman, and n8n to make engineering and delivery workflows repeatable."
   }
 ];
 
 const stats = [
-  { value: "15+", label: "Projects Completed" },
-  { value: "18+", label: "Technologies Used" },
-  { value: "25+", label: "Interactive Experiences Built" },
-  { value: "1,500+", label: "GitHub Contributions" },
-  { value: "5+", label: "Years of Dedicated Learning" }
+  { value: "5", label: "Internships" },
+  { value: "3", label: "Selected Projects" },
+  { value: "3", label: "Hackathon Awards" },
+  { value: "2022", label: "Started Engineering Degree" },
+  { value: "3", label: "Languages" }
 ];
 
 export default function About() {
@@ -144,7 +144,7 @@ export default function About() {
                 marginBottom: '16px'
               }}
             >
-              ABOUT SHAN // CREATIVE FULL STACK DEVELOPER
+              ABOUT EMNA // SOFTWARE ENGINEERING STUDENT · APPLIED AI &amp; GENAI
             </p>
 
             {/* 2. Large heading */}
@@ -156,8 +156,8 @@ export default function About() {
                 marginBottom: '28px'
               }}
             >
-              Building Immersive Digital Experiences.<br />
-              <span className="text-gradient-purple">Where Design, Motion, and Engineering Become One.</span>
+              Building Reliable, Grounded AI Systems.<br />
+              <span className="text-gradient-purple">Where Applied AI, Data, and Software Engineering Meet.</span>
             </h2>
 
             {/* 3. Premium Paragraphs */}
@@ -170,7 +170,7 @@ export default function About() {
                 fontWeight: 300
               }}
             >
-              I am Shan, a Creative Full Stack Developer based in India. I specialize in building immersive digital experiences rather than ordinary websites—combining visual storytelling, 3D WebGL viewports, and resilient backend architecture into unified web applications.
+              I am Emna Smaali, a Software Engineering student at MedTech – South Mediterranean University in Tunis, Tunisia. I build and evaluate LLM-powered applications, RAG systems, and Machine Learning pipelines—turning real-world needs into practical technical systems.
             </p>
             <p
               style={{
@@ -181,7 +181,7 @@ export default function About() {
                 fontWeight: 300
               }}
             >
-              Drawing inspiration from Apple, Stripe, Linear, Framer, and Awwwards-winning standards, I write clean, intentional code engineered for fluidity and speed. From interactive canvas scenes to high-concurrency cloud APIs, every layer of my work is focused on precision and technical excellence.
+              My work spans Python, hybrid retrieval, data preparation, and REST APIs, with a full stack foundation in TypeScript, React, Vue, Node.js, and PostgreSQL. I care about reliable, grounded AI solutions—where evaluation, real data, and clear requirements matter as much as the model itself.
             </p>
             <p
               style={{
@@ -192,7 +192,7 @@ export default function About() {
                 fontWeight: 300
               }}
             >
-              I bridge the gap between creative design and complex full stack engineering—ensuring interfaces feel alive, responsive, and uncompromisingly fast on every device.
+              I am currently seeking a 6-month final-year internship starting January 2027, focused on applied AI, GenAI, or software engineering.
             </p>
 
             {/* 4. Personal Mission Statement */}
@@ -229,7 +229,7 @@ export default function About() {
                   fontWeight: 400
                 }}
               >
-                "My goal is to create digital experiences that are visually stunning, technically robust, and memorable. Every project should combine beautiful design, smooth interactions, scalable architecture, and exceptional user experience."
+                "My goal is to build AI systems that are reliable, grounded, and useful. Every project should combine real data, thoughtful evaluation, clean engineering, and a clear understanding of the people it serves."
               </p>
             </div>
           </div>
@@ -374,7 +374,7 @@ export default function About() {
         >
           {/* Skills Summary Tag */}
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
-            {['Full Stack Development', 'Creative Development', 'Interactive UI', 'Scrollytelling', '3D Web Experiences', 'Motion Design', 'Premium UI', 'Performance Optimization', 'Modern Web Architecture'].map(skill => (
+            {['Applied AI', 'GenAI', 'RAG', 'LLM Evaluation', 'LangChain', 'LangGraph', 'Python', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 'MongoDB', 'Docker'].map(skill => (
               <span
                 key={skill}
                 style={{
@@ -403,7 +403,7 @@ export default function About() {
               letterSpacing: '0.5px'
             }}
           >
-            "I don't just build for the web — I shape how digital interactions feel."
+            "I turn real-world needs into practical technical systems."
           </p>
         </div>
       </div>

@@ -45,7 +45,7 @@ export default function Contact() {
   }, []);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('contact@shan.dev');
+    navigator.clipboard.writeText('emna.smaali@medtech.tn');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -96,7 +96,7 @@ export default function Contact() {
               }}
             >
               <span className="pulse-dot" style={{ width: '8px', height: '8px', backgroundColor: 'var(--accent-primary)', borderRadius: '50%', display: 'inline-block' }}></span>
-              Open for select projects & full stack commissions
+              Open to a 6-month final-year internship · January 2027
             </div>
 
             <p
@@ -121,7 +121,7 @@ export default function Contact() {
               }}
             >
               Let's Build Something<br />
-              <span className="text-gradient-purple">People Remember.</span>
+              <span className="text-gradient-purple">That Matters.</span>
             </h2>
             <p
               style={{
@@ -133,7 +133,7 @@ export default function Contact() {
                 maxWidth: '560px'
               }}
             >
-              Whether it's an immersive portfolio, premium product website, or scalable full stack application, I'm always excited to create meaningful digital experiences.
+              Whether it's an applied AI prototype, a RAG system, or a full stack application, I'm excited to turn real-world needs into practical technical systems.
             </p>
 
             {/* Direct Email Card with Copy Trigger */}
@@ -153,7 +153,7 @@ export default function Contact() {
               </span>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                 <a
-                  href="mailto:contact@shan.dev"
+                  href="mailto:emna.smaali@medtech.tn"
                   style={{
                     fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
                     color: 'var(--text-primary)',
@@ -163,7 +163,7 @@ export default function Contact() {
                   }}
                   className="contact-email-link"
                 >
-                  contact@shan.dev
+                  emna.smaali@medtech.tn
                 </a>
                 <button
                   onClick={handleCopyEmail}
@@ -192,7 +192,7 @@ export default function Contact() {
                   Location
                 </span>
                 <span style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 500 }}>
-                  India 🇮🇳 (UTC +5:30)
+                  Tunis, Tunisia 🇹🇳 (UTC +1)
                 </span>
               </div>
 
@@ -202,7 +202,7 @@ export default function Contact() {
                 </span>
                 <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/emna9"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}
@@ -212,7 +212,7 @@ export default function Contact() {
                     GitHub
                   </a>
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/emna-smaali-8855a7258"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}
@@ -222,14 +222,14 @@ export default function Contact() {
                     LinkedIn
                   </a>
                   <a
-                    href="https://twitter.com"
+                    href="/Emna_Smaali_CV.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}
                     className="contact-item-hover"
-                    aria-label="Twitter Profile"
+                    aria-label="Download Resume"
                   >
-                    Twitter / X
+                    Resume
                   </a>
                 </div>
               </div>
