@@ -223,7 +223,7 @@ $rust: #a34a4a;
 
     &__tail {
         position: absolute;
-        left: 50%;
+        left: clamp(22px, calc(50% - var(--bubble-shift, 0px)), calc(100% - 22px));
         bottom: -9px;
         width: 16px;
         height: 16px;
