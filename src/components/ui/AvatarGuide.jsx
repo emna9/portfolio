@@ -301,12 +301,8 @@ const AvatarGuide = () => {
                             <circle cx="137" cy="104" r="5" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
                             <path d="M84 100 C84 78 95 68 110 68 C125 68 136 78 136 100 C136 116 128 130 110 136 C92 130 84 116 84 100 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
 
-                            {/* side-swept fringe */}
-                            <path d="M80 98 C78 70 94 58 108 58 C126 58 140 70 140 96 C136 82 126 74 114 74 C102 74 90 82 80 98 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M104 62 C110 68 116 76 122 86" stroke="#5a3a30" strokeWidth="2" fill="none" strokeLinecap="round" />
-                            <path d="M106 62 C116 64 126 72 132 82 C124 80 114 82 106 88 C104 80 104 70 106 62 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
-                            <rect x="91" y="81" width="10" height="3.2" rx="1.6" fill="#c9a227" stroke="#241610" strokeWidth="1" transform="rotate(-12 96 83)" />
-                            <path d="M103 64 C101 72 102 78 100 84" stroke="#6b4a3a" strokeWidth="2" fill="none" strokeLinecap="round" />
+                            {/* neat, even fringe across the forehead */}
+                            <path d="M82 96 C82 72 94 60 110 60 C126 60 138 72 138 96 C136 92 130 88 122 87 C116 86 112 86 110 86 C108 86 104 86 98 87 C90 88 84 92 82 96 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
 
                             {/* long face-framing waves */}
                             <path d="M82 94 C72 112 84 128 68 144 C58 158 74 172 60 186 C52 198 64 210 72 218 C80 212 86 222 94 216 C88 200 92 186 86 172 C80 158 90 144 88 130 C86 116 90 104 92 96 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
@@ -322,32 +318,32 @@ const AvatarGuide = () => {
                             <path d="M94 92 Q100 89 106 92" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
                             <path d="M114 92 Q120 89 126 92" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
 
-                            {/* almond eyes with a soft lash line */}
+                            {/* fresh, bright eyes with delicate lashes */}
                             <g className="avatar-eyes">
-                                <path d="M95 104 C98 101 102 101 104 104 C102 107 98 107 95 104 Z" fill="#5a3a30" />
-                                <path d="M116 104 C118 101 122 101 125 104 C122 107 118 107 116 104 Z" fill="#5a3a30" />
-                                <path d="M95 104 C98 101 102 101 104 104" stroke="#241610" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                                <path d="M95 104 L92 102" stroke="#241610" strokeWidth="1.4" strokeLinecap="round" />
-                                <path d="M96 107 Q100 109 103 107" stroke="#6b4a3a" strokeWidth="1" fill="none" strokeLinecap="round" />
-                                <path d="M116 104 C118 101 122 101 125 104" stroke="#241610" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                                <path d="M125 104 L128 102" stroke="#241610" strokeWidth="1.4" strokeLinecap="round" />
-                                <path d="M117 107 Q120 109 124 107" stroke="#6b4a3a" strokeWidth="1" fill="none" strokeLinecap="round" />
-                                <circle cx="100" cy="103" r="1.25" fill="#fff" />
-                                <path d="M94 103 L91 101" stroke="#241610" strokeWidth="1.4" strokeLinecap="round" />
-                                <circle cx="121" cy="103" r="1.25" fill="#fff" />
-                                <path d="M126 103 L129 101" stroke="#241610" strokeWidth="1.4" strokeLinecap="round" />
+                                <path d="M94 104 C97 100 102 100 105 104 C102 108 97 108 94 104 Z" fill="#fffdf8" />
+                                <path d="M115 104 C118 100 123 100 126 104 C123 108 118 108 115 104 Z" fill="#fffdf8" />
+                                <circle cx="99.5" cy="104" r="2.8" fill="#5a3a30" />
+                                <circle cx="120.5" cy="104" r="2.8" fill="#5a3a30" />
+                                <circle cx="99.5" cy="104" r="1.3" fill="#241610" />
+                                <circle cx="120.5" cy="104" r="1.3" fill="#241610" />
+                                <circle cx="98.7" cy="103.2" r="0.9" fill="#fff" />
+                                <circle cx="119.7" cy="103.2" r="0.9" fill="#fff" />
+                                <path d="M94 104 C97 100.5 102 100.5 105 104" stroke="#3a241d" strokeWidth="1" fill="none" strokeLinecap="round" />
+                                <path d="M115 104 C118 100.5 123 100.5 126 104" stroke="#3a241d" strokeWidth="1" fill="none" strokeLinecap="round" />
+                                <path d="M94 104 L91.5 102" stroke="#3a241d" strokeWidth="1" strokeLinecap="round" />
+                                <path d="M95.5 102 L93.5 100" stroke="#3a241d" strokeWidth="1" strokeLinecap="round" />
+                                <path d="M126 104 L128.5 102" stroke="#3a241d" strokeWidth="1" strokeLinecap="round" />
+                                <path d="M124.5 102 L126.5 100" stroke="#3a241d" strokeWidth="1" strokeLinecap="round" />
                             </g>
 
                             {/* nose, smile, blush */}
                             <path d="M110 110 Q112 116 108 118" stroke="#c98f79" strokeWidth="2" fill="none" strokeLinecap="round" />
-                            <path d="M104 123 Q110 120 116 123 Q113 128 110 127 Q107 128 104 123 Z" fill="#d27b7b" stroke="#a34a4a" strokeWidth="1.8" strokeLinejoin="round" />
+                            <path d="M103 123 Q110 130 117 123" stroke="#a34a4a" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+                            <path d="M106 125 Q110 128 114 125" stroke="#d27b7b" strokeWidth="1.6" fill="none" strokeLinecap="round" />
                             <ellipse cx="91" cy="116" rx="6" ry="3.5" fill="#eaa9a0" opacity="0.5" />
                             <ellipse cx="129" cy="116" rx="6" ry="3.5" fill="#eaa9a0" opacity="0.5" />
                             <circle cx="124" cy="119" r="0.9" fill="#6b4533" opacity="0.7" />
 
-                            {/* gold earrings */}
-                            <circle cx="83" cy="112" r="2.2" fill="#c9a227" />
-                            <circle cx="137" cy="112" r="2.2" fill="#c9a227" />
                         </g>
                         {/* softly bent arms */}
                         <g className="avatar-arm avatar-arm--l">
@@ -357,10 +353,15 @@ const AvatarGuide = () => {
                             <path d="M76 298 L76 304" stroke="#d9a98f" strokeWidth="1.2" strokeLinecap="round" />
                         </g>
                         <g className="avatar-arm avatar-arm--r">
-                            <path d="M138 178 C148 196 154 220 152 244 C151 260 148 278 146 294 L134 292 C136 276 138 258 138 244 C138 224 134 202 128 184 Z" fill="#6a2731" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
-                            <path d="M133 290 L147 292" stroke="#f3e3c8" strokeWidth="3" strokeLinecap="round" />
-                            <ellipse cx="142" cy="301" rx="6" ry="7" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
-                            <path d="M144 298 L144 304" stroke="#d9a98f" strokeWidth="1.2" strokeLinecap="round" />
+                            <path d="M138 178 C148 194 152 216 151 238 L139 238 C138 216 134 198 128 184 Z" fill="#6a2731" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
+                            <g className="avatar-forearm avatar-forearm--r">
+                                <path d="M139 238 L151 238 C150 258 148 278 146 294 L134 292 C136 276 138 258 139 238 Z" fill="#6a2731" stroke="#241610" strokeWidth="3.5" strokeLinejoin="round" />
+                                <path d="M133 290 L147 292" stroke="#f3e3c8" strokeWidth="3" strokeLinecap="round" />
+                                <g className="avatar-hand avatar-hand--r">
+                                    <ellipse cx="142" cy="301" rx="6" ry="7" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
+                                    <path d="M144 298 L144 304" stroke="#d9a98f" strokeWidth="1.2" strokeLinecap="round" />
+                                </g>
+                            </g>
                         </g>
 
                     </svg>

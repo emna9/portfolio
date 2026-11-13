@@ -64,7 +64,15 @@ $rust: #a34a4a;
     }
 
     &.is-waving .avatar-arm--r {
-        animation: avatarWave 1.7s ease-in-out;
+        animation: avatarWaveUpper 2.6s ease-in-out;
+    }
+
+    &.is-waving .avatar-forearm--r {
+        animation: avatarWaveForearm 2.6s ease-in-out;
+    }
+
+    &.is-waving .avatar-hand--r {
+        animation: avatarWaveHand 2.6s ease-in-out;
     }
 
     &.is-talking .avatar-front {
@@ -134,6 +142,16 @@ $rust: #a34a4a;
     transform-origin: 138px 178px;
 }
 
+.avatar-forearm--r {
+    transform-box: view-box;
+    transform-origin: 145px 238px;
+}
+
+.avatar-hand--r {
+    transform-box: view-box;
+    transform-origin: 142px 294px;
+}
+
 .avatar-front {
     transform-box: view-box;
     transform-origin: 110px 120px;
@@ -169,14 +187,28 @@ $rust: #a34a4a;
     50% { transform: rotate(-10deg); }
 }
 
-@keyframes avatarWave {
-    0% { transform: rotate(0deg); }
-    18% { transform: rotate(-148deg); }
-    34% { transform: rotate(-126deg); }
-    50% { transform: rotate(-154deg); }
-    66% { transform: rotate(-130deg); }
-    82% { transform: rotate(-148deg); }
-    100% { transform: rotate(0deg); }
+@keyframes avatarWaveUpper {
+    0%, 100% { transform: rotate(0deg); }
+    18%, 82% { transform: rotate(-58deg); }
+}
+
+@keyframes avatarWaveForearm {
+    0%, 100% { transform: rotate(0deg); }
+    18% { transform: rotate(-62deg); }
+    30% { transform: rotate(-50deg); }
+    42% { transform: rotate(-70deg); }
+    54% { transform: rotate(-50deg); }
+    66% { transform: rotate(-70deg); }
+    78% { transform: rotate(-56deg); }
+    88% { transform: rotate(-62deg); }
+}
+
+@keyframes avatarWaveHand {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    45% { transform: rotate(10deg); }
+    65% { transform: rotate(-8deg); }
+    85% { transform: rotate(6deg); }
 }
 
 @keyframes avatarBlink {
