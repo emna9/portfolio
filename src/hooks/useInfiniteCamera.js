@@ -6,6 +6,21 @@ gsap.registerPlugin(Observer);
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useAchievements } from '../context/AchievementsContext';
+import { isLocked, getVirtualAxis, getPov } from '../utils/controls';
+
+// Comfortable walking model
+const WALK_SPEED = 2.3;        // units per second (slow, natural)
+const STRAFE_SPEED = 1.35;     // units per second
+const ACCELERATION = 5.5;      // units per second²
+const DECELERATION = 8;        // units per second²
+const MAX_STRAFE = 1.15;       // stay clear of the walls
+const MAX_BACK_Z = 9.4;        // do not walk back out of the house
+
+const approach = (current, target, maxDelta) => {
+    if (current < target) return Math.min(current + maxDelta, target);
+    if (current > target) return Math.max(current - maxDelta, target);
+    return current;
+};
 
 // Door positions for auto-glance
 const DOOR_POSITIONS = [
@@ -24,7 +39,7 @@ const DOOR_POSITIONS = [
  */
 const useInfiniteCamera = ({
     segmentLength = 80,
-    scrollSpeed = 0.02,
+    scrollSpeed = 0.014,
     parallaxIntensity = 0.3,
     smoothing = 0.035, // Lower = longer deceleration, smoother feel
     glanceIntensity = 0.15,
@@ -45,6 +60,12 @@ const useInfiniteCamera = ({
     const parallaxEnabledRef = useRef(parallaxEnabled);
     const justEnabled = useRef(false);
     const { unlockAchievement } = useAchievements();
+
+    // Keyboard / virtual-pad walking state
+    const moveKeys = useRef({ forward: false, back: false, left: false, right: false });
+    const walkVelocity = useRef({ z: 0, x: 0 });
+    const strafeX = useRef(0);
+    const eyeHeight = useRef(0.2);
 
     // Mobile touch tracking
     const touchStart = useRef({ x: 0, y: 0 });
@@ -127,40 +148,61 @@ const useInfiniteCamera = ({
         unlockAchievement('corridor_explore');
     }, [scrollSpeed, unlockAchievement]);
 
-    // Handle keyboard navigation (A1 accessibility)
+    // Handle keyboard navigation - arrows + WASD walk, PageUp/Down & space scroll
     const handleKeyDown = useCallback((e) => {
         if (!scrollEnabledRef.current) return;
 
         // Don't interfere when user is typing in inputs or textareas
-        const tag = e.target.tagName;
-        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+        const tag = e.target?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable) return;
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+        const moveMap = {
+            ArrowUp: 'forward', w: 'forward', W: 'forward',
+            ArrowDown: 'back', s: 'back', S: 'back',
+            ArrowLeft: 'left', a: 'left', A: 'left',
+            ArrowRight: 'right', d: 'right', D: 'right',
+        };
+
+        const action = moveMap[e.key];
+        if (action) {
+            e.preventDefault();
+            if (isLocked()) return;
+            moveKeys.current[action] = true;
+            unlockAchievement('corridor_explore');
+            return;
+        }
 
         const keyScrollMap = {
-            'ArrowDown': 100,
-            'ArrowUp': -100,
-            'PageDown': 400,
-            'PageUp': -400,
-            ' ': 200,           // Spacebar
+            PageDown: 400,
+            PageUp: -400,
+            ' ': 200, // Spacebar
         };
 
         const delta = keyScrollMap[e.key];
         if (delta !== undefined) {
             e.preventDefault();
+            if (isLocked()) return;
             targetZ.current -= delta * scrollSpeed;
             unlockAchievement('corridor_explore');
         }
+    }, [scrollSpeed, unlockAchievement]);
 
-        // Arrow Left/Right → subtle camera glance
-        if (parallaxEnabledRef.current) {
-            if (e.key === 'ArrowLeft') {
-                targetSwipeGlance.current = Math.max(-MAX_SWIPE_GLANCE, targetSwipeGlance.current - 0.08);
-                e.preventDefault();
-            } else if (e.key === 'ArrowRight') {
-                targetSwipeGlance.current = Math.min(MAX_SWIPE_GLANCE, targetSwipeGlance.current + 0.08);
-                e.preventDefault();
-            }
-        }
-    }, [scrollSpeed, MAX_SWIPE_GLANCE, unlockAchievement]);
+    // Release walking keys
+    const handleKeyUp = useCallback((e) => {
+        const moveMap = {
+            ArrowUp: 'forward', w: 'forward', W: 'forward',
+            ArrowDown: 'back', s: 'back', S: 'back',
+            ArrowLeft: 'left', a: 'left', A: 'left',
+            ArrowRight: 'right', d: 'right', D: 'right',
+        };
+        const action = moveMap[e.key];
+        if (action) moveKeys.current[action] = false;
+    }, []);
+
+    const clearMoveKeys = useCallback(() => {
+        moveKeys.current = { forward: false, back: false, left: false, right: false };
+    }, []);
 
     // Handle mouse parallax (desktop) - ALWAYS tracks mouse position
     // but only applies to targetParallax when enabled
@@ -262,6 +304,8 @@ const useInfiniteCamera = ({
         // Desktop non-scroll events
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+        window.addEventListener('blur', clearMoveKeys);
 
         // GSAP Observer for unified scroll/touch handling
         const scrollObserver = Observer.create({
@@ -289,12 +333,14 @@ const useInfiniteCamera = ({
             scrollObserver.kill();
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+            window.removeEventListener('blur', clearMoveKeys);
             window.removeEventListener('deviceorientation', handleDeviceOrientation);
         };
-    }, [handleWheel, handleMouseMove, handleKeyDown, handleTouchStart, handleTouchMove, handleDeviceOrientation, requestGyroscopePermission]);
+    }, [handleWheel, handleMouseMove, handleKeyDown, handleKeyUp, clearMoveKeys, handleTouchStart, handleTouchMove, handleDeviceOrientation, requestGyroscopePermission]);
 
     // Main camera update loop
-    useFrame(() => {
+    useFrame((state, delta) => {
         // If camera override is active, let external code control the camera
         if (cameraOverride.current) {
             return;
@@ -332,6 +378,49 @@ const useInfiniteCamera = ({
 
         // Z movement and door glance - only when scroll is enabled
         if (scrollActive) {
+            // === KEYBOARD / VIRTUAL PAD WALKING ===
+            // Velocity-based so movement starts and stops gently.
+            const dt = Math.min(delta || 0.016, 0.05);
+            const virtualAxis = getVirtualAxis();
+            const locked = isLocked();
+
+            let forwardInput = 0;
+            let strafeInput = 0;
+            if (!locked) {
+                forwardInput = (moveKeys.current.forward ? 1 : 0)
+                    - (moveKeys.current.back ? 1 : 0)
+                    + virtualAxis.forward;
+                strafeInput = (moveKeys.current.right ? 1 : 0)
+                    - (moveKeys.current.left ? 1 : 0)
+                    + virtualAxis.strafe;
+            }
+            forwardInput = THREE.MathUtils.clamp(forwardInput, -1, 1);
+            strafeInput = THREE.MathUtils.clamp(strafeInput, -1, 1);
+
+            const targetVelocityZ = -forwardInput * WALK_SPEED;
+            const targetVelocityX = strafeInput * STRAFE_SPEED;
+
+            const zRate = Math.abs(targetVelocityZ) > Math.abs(walkVelocity.current.z)
+                ? ACCELERATION
+                : DECELERATION;
+            const xRate = Math.abs(targetVelocityX) > Math.abs(walkVelocity.current.x)
+                ? ACCELERATION
+                : DECELERATION;
+
+            walkVelocity.current.z = approach(walkVelocity.current.z, targetVelocityZ, zRate * dt);
+            walkVelocity.current.x = approach(walkVelocity.current.x, targetVelocityX, xRate * dt);
+
+            if (Math.abs(walkVelocity.current.z) > 0.0005) {
+                targetZ.current += walkVelocity.current.z * dt;
+            }
+            if (targetZ.current > MAX_BACK_Z) targetZ.current = MAX_BACK_Z;
+
+            strafeX.current = THREE.MathUtils.clamp(
+                strafeX.current + walkVelocity.current.x * dt,
+                -MAX_STRAFE,
+                MAX_STRAFE
+            );
+
             // Smooth Z movement
             currentZ.current = THREE.MathUtils.lerp(currentZ.current, targetZ.current, smoothing);
 
@@ -345,18 +434,23 @@ const useInfiniteCamera = ({
 
             glanceOffset.current = THREE.MathUtils.lerp(glanceOffset.current, targetGlance.current, lerpSpeed);
 
+            // Eye height: low glide by default, eye level in first-person mode.
+            const targetEyeHeight = getPov() ? 1.15 : 0.2;
+            eyeHeight.current = THREE.MathUtils.lerp(eyeHeight.current, targetEyeHeight, 0.08);
+
             // Apply Z position to camera (only when scroll enabled)
             camera.position.z = currentZ.current;
-            camera.position.x = parallax.current.x;
-            camera.position.y = 0.2 + parallax.current.y;
+            camera.position.x = parallax.current.x + strafeX.current;
+            camera.position.y = eyeHeight.current + parallax.current.y;
 
             // Look direction with glance + swipe glance
             const lookX = parallax.current.x * 0.3 + glanceOffset.current * 3 + swipeGlance.current * 4;
+            const lookY = eyeHeight.current * 0.65 + parallax.current.y;
 
             // BLEND-IN PHASE: Smoothly transition from saved rotation to lookAt
             if (blendInFrames.current > 0) {
                 // Calculate what lookAt WOULD set the rotation to
-                camera.lookAt(lookX, 0.13 + parallax.current.y, currentZ.current - 10);
+                camera.lookAt(lookX, lookY, currentZ.current - 10);
                 const targetRotation = {
                     x: camera.rotation.x,
                     y: camera.rotation.y,
@@ -374,7 +468,7 @@ const useInfiniteCamera = ({
                 blendInFrames.current--;
             } else {
                 // Normal mode - apply lookAt directly
-                camera.lookAt(lookX, 0.13 + parallax.current.y, currentZ.current - 10);
+                camera.lookAt(lookX, lookY, currentZ.current - 10);
             }
 
             // Update segment tracking

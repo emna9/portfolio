@@ -5,7 +5,8 @@ import { useAudio } from '../../context/AudioManager';
 import { setMusicVolume, getMusicVolume } from '../../utils/audioManager';
 import { useAchievements } from '../../context/AchievementsContext';
 import AchievementPopup from './AchievementPopup';
-import AchievementsPanel from './AchievementsPanel';
+import HelpPanel from './HelpPanel';
+import { lockControls, unlockControls } from '../../utils/controls';
 import '../../styles/NavigationUI.scss';
 
 // Room data for the map - positions are percentages on the map image
@@ -32,7 +33,7 @@ const NavigationUI = () => {
 
     // Audio controls state
     const [isAudioMenuOpen, setIsAudioMenuOpen] = useState(false);
-    const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [bgmVol, setBgmVol] = useState(0.3);
     const [isUIHidden, setIsUIHidden] = useState(false);
 
@@ -46,7 +47,7 @@ const NavigationUI = () => {
             if (e.detail) {
                 setIsMenuOpen(false);
                 setIsAudioMenuOpen(false);
-                setIsAchievementsOpen(false);
+                setIsHelpOpen(false);
             }
         };
         window.addEventListener('inspectChange', handleInspectChange);
@@ -137,7 +138,7 @@ const NavigationUI = () => {
         if (isInRoom || isTeleporting) {
             setIsMenuOpen(false);
             setIsAudioMenuOpen(false);
-            setIsAchievementsOpen(false);
+            setIsHelpOpen(false);
             setIsExiting(false);
         }
     }, [isInRoom, isTeleporting]);
@@ -157,18 +158,25 @@ const NavigationUI = () => {
         }
     }, [isMenuOpen]);
 
+    // Freeze walking while the map is open so keys don't move the camera.
+    useEffect(() => {
+        if (isMenuOpen) lockControls('map');
+        else unlockControls('map');
+        return () => unlockControls('map');
+    }, [isMenuOpen]);
+
     // Global Escape key handler — closes any open panel
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape') {
                 if (isMenuOpen) setIsMenuOpen(false);
                 if (isAudioMenuOpen) setIsAudioMenuOpen(false);
-                if (isAchievementsOpen) setIsAchievementsOpen(false);
+                if (isHelpOpen) setIsHelpOpen(false);
             }
         };
         window.addEventListener('keydown', handleEscape);
         return () => window.removeEventListener('keydown', handleEscape);
-    }, [isMenuOpen, isAudioMenuOpen, isAchievementsOpen]);
+    }, [isMenuOpen, isAudioMenuOpen, isHelpOpen]);
 
     // Focus trap handler for map panel
     const handleMapKeyDown = (e) => {
@@ -204,7 +212,7 @@ const NavigationUI = () => {
         // Close map first, then start teleport
         setIsMenuOpen(false);
         setIsAudioMenuOpen(false);
-        setIsAchievementsOpen(false);
+        setIsHelpOpen(false);
         teleportTo(roomId);
     };
 
@@ -267,13 +275,15 @@ const NavigationUI = () => {
                     </button>
                     {/* Achievements Toggle Button */}
                     <button
-                        className={`nav-btn achievements-btn ${isAchievementsOpen ? 'open' : ''}`}
-                        onClick={() => setIsAchievementsOpen(!isAchievementsOpen)}
-                        aria-label="Tutorial"
-                        aria-expanded={isAchievementsOpen}
+                        className={`nav-btn achievements-btn ${isHelpOpen ? 'open' : ''}`}
+                        onClick={() => setIsHelpOpen(!isHelpOpen)}
+                        aria-label="Help and guide"
+                        aria-expanded={isHelpOpen}
                     >
-                        <svg viewBox="0 0 24 24" className="icon-trophy">
-                            <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg viewBox="0 0 24 24" className="icon-help">
+                            <circle cx="12" cy="12" r="9" fill="none" strokeWidth="2" />
+                            <path d="M9.6 9.2a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2-2.4 3.6" fill="none" strokeWidth="2" strokeLinecap="round" />
+                            <circle cx="12" cy="17.3" r="1.1" fill="currentColor" stroke="none" />
                         </svg>
                     </button>
                 </div>
@@ -476,20 +486,20 @@ const NavigationUI = () => {
                 </div>
             )}
 
-            {/* Achievements Panel */}
-            <AchievementsPanel
-                isOpen={isAchievementsOpen}
-                onClose={() => setIsAchievementsOpen(false)}
+            {/* Help & guide panel */}
+            <HelpPanel
+                isOpen={isHelpOpen}
+                onClose={() => setIsHelpOpen(false)}
             />
 
             {/* Overlay to close menus */}
-            {(isMenuOpen || isAudioMenuOpen || isAchievementsOpen) && (
+            {(isMenuOpen || isAudioMenuOpen || isHelpOpen) && (
                 <div
                     className="menu-overlay"
                     onClick={() => {
                         setIsMenuOpen(false);
                         setIsAudioMenuOpen(false);
-                        setIsAchievementsOpen(false);
+                        setIsHelpOpen(false);
                     }}
                 />
             )}

@@ -8,6 +8,7 @@ import '../shaders/RevealMaterial'; // Registers alpha-discard reveal shader
 import { useScene } from '../../../context/SceneContext';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { useAudio } from '../../../context/AudioManager';
+import { useGuidance } from '../../../context/GuidanceContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 
 // Constants from CorridorSegment
@@ -59,6 +60,26 @@ const DOOR_PAINTED_TEXTURES = {
     'THE ABOUT': 'textures/corridor/doors/drzwiabout_painted.webp',
     "LET'S CONNECT": 'textures/corridor/doors/drzwikontakt_painted.webp',
     'EXTRACURRICULAR': 'textures/corridor/doors/drzwisocial_painted.webp',
+};
+
+// Soft warm halo used to light up a door when the visitor gets close.
+// Generated once and shared by every door.
+let doorGlowTexture = null;
+const getDoorGlowTexture = () => {
+    if (doorGlowTexture || typeof document === 'undefined') return doorGlowTexture;
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(size / 2, size / 2, 8, size / 2, size / 2, size / 2);
+    gradient.addColorStop(0, 'rgba(255, 232, 190, 1)');
+    gradient.addColorStop(0.45, 'rgba(255, 209, 140, 0.55)');
+    gradient.addColorStop(1, 'rgba(255, 209, 140, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    doorGlowTexture = new THREE.CanvasTexture(canvas);
+    return doorGlowTexture;
 };
 
 
@@ -118,6 +139,12 @@ const DoorSection = ({
 
     const { unlockAchievement } = useAchievements();
     const { globalVolume, isMuted } = useAudio();
+    const { registerDoor } = useGuidance();
+
+    // Proximity glow
+    const glowRef = useRef();
+    const glowStrength = useRef(0);
+    const glowTexture = useMemo(() => getDoorGlowTexture(), []);
 
     // Audio Refs for 3D positional sound
     const hoverAudioRef = useRef();
@@ -364,6 +391,29 @@ const DoorSection = ({
             }
         }
 
+        // === PROXIMITY GLOW ===
+        // The door gently lights up as the visitor walks closer.
+        const proximityDistance = Math.abs(camera.position.z - position[2]);
+        const targetGlow = (isTiltLocked || isOpen)
+            ? 0
+            : THREE.MathUtils.clamp((10 - proximityDistance) / 7, 0, 1);
+        glowStrength.current = THREE.MathUtils.lerp(glowStrength.current, targetGlow, 0.08);
+
+        if (glowRef.current) {
+            glowRef.current.material.opacity = glowStrength.current * 0.55;
+            glowRef.current.visible = glowStrength.current > 0.02;
+        }
+
+        // Reveal the painted door as it lights up (hover still takes priority).
+        if (!isHovered && !isOpen) {
+            const reveal = Math.min(0.65, glowStrength.current * 0.65);
+            if (doorMaterialRef.current) doorMaterialRef.current.uProgress = reveal;
+            if (handleMaterialRef.current) handleMaterialRef.current.uProgress = reveal;
+            const showPainted = reveal > 0.02;
+            if (doorPaintedRef.current) doorPaintedRef.current.visible = showPainted;
+            if (handlePaintedRef.current) handlePaintedRef.current.visible = showPainted;
+        }
+
         // Smooth interpolation
         currentTilt.current = THREE.MathUtils.lerp(currentTilt.current, targetTilt, 0.06);
 
@@ -542,6 +592,26 @@ const DoorSection = ({
             }
         });
     }, [camera, side, isOpen, isAnimating, setCameraOverride, isFastTeleport]);
+
+    // Register this door with the guidance layer (bubble + ENTER interaction).
+    const doorAnchorX = position[0];
+    const doorAnchorZ = position[2];
+    useEffect(() => {
+        if (!doorId) return undefined;
+        const key = `${doorId}-${segmentIndex}`;
+        return registerDoor(key, {
+            key,
+            roomId: doorId,
+            label: wallTitle,
+            side,
+            position: new THREE.Vector3(doorAnchorX, 1.05, doorAnchorZ),
+            getPosition: (target) => {
+                if (!doorRef.current) return null;
+                return doorRef.current.getWorldPosition(target);
+            },
+            open: () => handleClick({ stopPropagation: () => { } }),
+        });
+    }, [doorId, segmentIndex, registerDoor, wallTitle, side, doorAnchorX, doorAnchorZ, handleClick]);
 
     const openDoor = useCallback((fastMode = false) => {
         if (!doorRef.current) return;
@@ -1080,6 +1150,23 @@ const DoorSection = ({
                         </mesh>
                     );
                 })()}
+
+                {/* Soft warm halo that grows as the visitor approaches */}
+                <mesh
+                    ref={glowRef}
+                    position={[wallOffsetX, -0.15, 0.06]}
+                    visible={false}
+                >
+                    <planeGeometry args={[2.7, 3.3]} />
+                    <meshBasicMaterial
+                        map={glowTexture}
+                        color="#ffd79a"
+                        transparent
+                        opacity={0}
+                        depthWrite={false}
+                        blending={THREE.AdditiveBlending}
+                    />
+                </mesh>
 
                 {/* Door and frame - centered on wall */}
                 <group position={[wallOffsetX, -0.4, 0]}>

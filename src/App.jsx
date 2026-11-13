@@ -12,6 +12,9 @@ import { SceneProvider, useScene } from './context/SceneContext';
 import NavigationUI from './components/ui/NavigationUI';
 import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
+import TutorialOverlay from './components/ui/TutorialOverlay';
+import GuidanceUI from './components/ui/GuidanceUI';
+import { GuidanceProvider } from './context/GuidanceContext';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
 
 // Lazy load the heavy 3D experience
@@ -108,6 +111,7 @@ function AppContent() {
   return (
     <AudioProvider>
       <SceneProvider>
+        <GuidanceProvider>
         <DocumentMetaBridge />
         <GlobalAudioEnabler />
         <div className="app">
@@ -156,6 +160,8 @@ function AppContent() {
               <GlobalOverlay />
               <PaperTransition />
               <ScreenReaderOverlay />
+              <TutorialOverlay />
+              <GuidanceUI />
             </>
           )}
 
@@ -165,6 +171,7 @@ function AppContent() {
             onComplete={() => setIsLoaded(true)}
           />
         </div>
+        </GuidanceProvider>
       </SceneProvider>
     </AudioProvider>
   );

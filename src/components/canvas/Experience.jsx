@@ -6,6 +6,8 @@ import EntranceDoors from './entrance/EntranceDoors';
 import EmptyCorridor from './entrance/EmptyCorridor';
 import TeleportRoom from './corridor/TeleportRoom';
 import RoomWarmup from './corridor/RoomWarmup';
+import DoorProximityManager from './corridor/DoorProximityManager';
+import FloorGuide from './corridor/FloorGuide';
 import useInfiniteCamera from '../../hooks/useInfiniteCamera';
 import SignSystem from './entrance/SignSystem';
 import { useScene } from '../../context/SceneContext';
@@ -35,7 +37,7 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
     // Disable during teleporting to prevent scroll interference
     const { setCameraOverride } = useInfiniteCamera({
         segmentLength: 80,
-        scrollSpeed: 0.025,
+        scrollSpeed: 0.014,
         parallaxIntensity: 0.4,
         smoothing: 0.06,
         scrollEnabled: hasEntered && !isTeleporting && !isInRoom,
@@ -109,6 +111,11 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
 
             {/* === TELEPORT ROOM (renders room directly during teleportation) === */}
             <TeleportRoom />
+
+            {/* === GUIDANCE === */}
+            {/* Publishes the nearest door to the DOM bubble + draws the floor trail. */}
+            <DoorProximityManager />
+            <FloorGuide />
         </>
     );
 };
