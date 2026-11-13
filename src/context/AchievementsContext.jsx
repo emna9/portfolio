@@ -125,6 +125,9 @@ export const AchievementsProvider = ({ children }) => {
             // Trigger sound effect
             playUnlockChime();
 
+            // Walking progress is recorded silently - the avatar already teaches it.
+            if (id === 'corridor_explore') return;
+
             setActivePopup(prev => {
                 // If this is the current active popup, transition it to 'completed' then hide
                 if (prev && prev.id === id) {

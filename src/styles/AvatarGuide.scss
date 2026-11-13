@@ -1,0 +1,513 @@
+// =============================================================================
+// AVATAR GUIDE - minimal illustrated host with long wavy hair
+// =============================================================================
+
+$ink: #241610;
+$brown: #5a3a2e;
+$paper: #fffaf0;
+$cream: #f3e3c8;
+$gold: #b08d57;
+$wine: #6a2731;
+$rust: #a34a4a;
+
+.avatar-guide {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 220px;
+    height: 460px;
+    transform: translate(-50%, -100%);
+    transform-origin: bottom center;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    will-change: left, top;
+
+    &__figure {
+        position: absolute;
+        inset: 0;
+        transform: scale(var(--avatar-scale, 0.8));
+        transform-origin: bottom center;
+        transition: transform 0.2s linear;
+        filter: drop-shadow(0 10px 14px rgba(60, 34, 24, 0.18));
+    }
+
+    &__pose {
+        width: 100%;
+        height: 100%;
+        animation: avatarIdle 4.8s ease-in-out infinite;
+    }
+
+    &[data-facing="left"] &__figure {
+        transform: scaleX(-1) scale(var(--avatar-scale, 0.8));
+    }
+
+    &[data-moving="true"] &__pose {
+        animation: avatarWalkBob 0.6s ease-in-out infinite;
+    }
+
+    &[data-moving="true"] .avatar-leg--l {
+        animation: avatarLegL 0.6s ease-in-out infinite;
+    }
+
+    &[data-moving="true"] .avatar-leg--r {
+        animation: avatarLegR 0.6s ease-in-out infinite;
+    }
+
+    &[data-moving="true"] .avatar-arm--l {
+        animation: avatarArmL 0.6s ease-in-out infinite;
+    }
+
+    &[data-moving="true"] .avatar-arm--r {
+        animation: avatarArmR 0.6s ease-in-out infinite;
+    }
+
+    &.is-waving .avatar-arm--r {
+        animation: avatarWave 1.7s ease-in-out;
+    }
+
+    &.is-talking .avatar-front {
+        animation: avatarHeadTalk 3.4s ease-in-out infinite;
+    }
+}
+
+.avatar-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+// Turn between the front and back of the character
+.avatar-front,
+.avatar-detail-front {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-back,
+.avatar-detail-back {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-guide[data-view="front"],
+.avatar-guide.is-talking {
+    .avatar-front,
+    .avatar-detail-front {
+        opacity: 1;
+    }
+
+    .avatar-back,
+    .avatar-detail-back {
+        opacity: 0;
+    }
+}
+
+.avatar-eyes {
+    animation: avatarBlink 5.4s infinite;
+    transform-origin: 110px 99px;
+    transform-box: view-box;
+}
+
+.avatar-leg {
+    transform-box: view-box;
+}
+
+.avatar-leg--l {
+    transform-origin: 100px 300px;
+}
+
+.avatar-leg--r {
+    transform-origin: 120px 300px;
+}
+
+.avatar-arm {
+    transform-box: view-box;
+}
+
+.avatar-arm--l {
+    transform-origin: 82px 170px;
+}
+
+.avatar-arm--r {
+    transform-origin: 148px 170px;
+}
+
+.avatar-front {
+    transform-box: view-box;
+    transform-origin: 110px 120px;
+}
+
+@keyframes avatarIdle {
+    0%, 100% { transform: translateY(0) rotate(-0.35deg); }
+    50% { transform: translateY(-2px) rotate(0.45deg); }
+}
+
+@keyframes avatarWalkBob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-4px) rotate(0.6deg); }
+}
+
+@keyframes avatarLegL {
+    0%, 100% { transform: rotate(10deg); }
+    50% { transform: rotate(-13deg); }
+}
+
+@keyframes avatarLegR {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(13deg); }
+}
+
+@keyframes avatarArmL {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(10deg); }
+}
+
+@keyframes avatarArmR {
+    0%, 100% { transform: rotate(8deg); }
+    50% { transform: rotate(-10deg); }
+}
+
+@keyframes avatarWave {
+    0% { transform: rotate(0deg); }
+    18% { transform: rotate(-148deg); }
+    34% { transform: rotate(-126deg); }
+    50% { transform: rotate(-154deg); }
+    66% { transform: rotate(-130deg); }
+    82% { transform: rotate(-148deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes avatarBlink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    94%, 96% { transform: scaleY(0.08); }
+}
+
+@keyframes avatarHeadTalk {
+    0%, 100% { transform: rotate(0deg); }
+    35% { transform: rotate(-1.4deg); }
+    70% { transform: rotate(1deg); }
+}
+
+// === SPEECH BUBBLE ===
+.avatar-speech {
+    position: absolute;
+    left: calc(50% + var(--bubble-shift, 0px));
+    bottom: calc(var(--avatar-scale, 0.8) * 460px + 10px);
+    transform: translateX(-50%);
+    width: 360px;
+    max-width: 88vw;
+    padding: 14px 16px 13px;
+    background: $paper;
+    border: 2px solid $ink;
+    border-radius: 18px 20px 16px 19px;
+    box-shadow: 4px 4px 0 rgba(36, 22, 16, 0.85);
+    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    color: $brown;
+    pointer-events: auto;
+    z-index: 6;
+    animation: avatarBubbleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: url('/textures/paper-texture.webp') center center;
+        background-size: cover;
+        opacity: 0.45;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    &__tail {
+        position: absolute;
+        left: 50%;
+        bottom: -9px;
+        width: 16px;
+        height: 16px;
+        background: $paper;
+        border-right: 2px solid $ink;
+        border-bottom: 2px solid $ink;
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 0 0 4px 0;
+    }
+
+    &__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding-bottom: 7px;
+        margin-bottom: 7px;
+        border-bottom: 2px dashed rgba(36, 22, 16, 0.28);
+    }
+
+    &__head-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__kicker {
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: $rust;
+    }
+
+    &__count {
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        color: rgba(90, 58, 46, 0.6);
+    }
+
+    &__skip {
+        border: none;
+        background: transparent;
+        font-family: inherit;
+        font-size: 0.68rem;
+        color: rgba(90, 58, 46, 0.7);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        cursor: pointer;
+        padding: 0;
+
+        &:hover {
+            color: $ink;
+        }
+    }
+
+    &__body {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    &__text {
+        display: block;
+        font-size: 0.94rem;
+        line-height: 1.5;
+        color: #46322a;
+        white-space: pre-line;
+    }
+
+    &__note {
+        margin: 9px 0 0;
+        padding: 6px 10px;
+        border-left: 3px solid $gold;
+        background: rgba(243, 227, 200, 0.5);
+        border-radius: 0 7px 7px 0;
+        font-size: 0.76rem;
+        line-height: 1.35;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    &__dots {
+        display: flex;
+        gap: 5px;
+
+        span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 1.4px solid rgba(36, 22, 16, 0.5);
+
+            &.is-active {
+                background: $gold;
+                border-color: $gold;
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    &__enter {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 5px 12px 6px 6px;
+        border: 1.5px solid $ink;
+        border-radius: 10px;
+        background: $cream;
+        box-shadow: 2px 2px 0 $ink;
+        font-family: inherit;
+        font-size: 0.78rem;
+        color: $ink;
+        cursor: pointer;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+        &:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 $ink;
+        }
+
+        &:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0 $ink;
+        }
+    }
+}
+
+.avatar-btn {
+    padding: 7px 16px 8px;
+    border: 2px solid $ink;
+    border-radius: 11px 13px 10px 12px;
+    background: $ink;
+    box-shadow: 2px 2px 0 rgba(90, 58, 46, 0.5);
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: $paper;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+    &:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 rgba(90, 58, 46, 0.5);
+    }
+
+    &:active {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 rgba(90, 58, 46, 0.5);
+    }
+
+    &--ghost {
+        background: transparent;
+        color: $ink;
+        box-shadow: none;
+
+        &:hover {
+            box-shadow: none;
+            background: rgba(243, 227, 200, 0.55);
+        }
+    }
+
+    &:focus-visible {
+        outline: 3px solid $rust;
+        outline-offset: 2px;
+    }
+}
+
+// === MINI KEYBOARD / DOOR ILLUSTRATIONS ===
+.avatar-mini-keys {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 8px;
+    border: 1.4px dashed rgba(36, 22, 16, 0.4);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.45);
+
+    &__row {
+        display: flex;
+        gap: 3px;
+    }
+
+    &__or {
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(90, 58, 46, 0.6);
+        margin: 1px 0;
+    }
+}
+
+.avatar-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 4px;
+    border: 1.4px solid $ink;
+    border-radius: 6px;
+    background: $paper;
+    box-shadow: 0 1.5px 0 $ink;
+    font-family: inherit;
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: $ink;
+
+    &--wide {
+        min-width: 50px;
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+    }
+}
+
+.avatar-mini-door {
+    flex-shrink: 0;
+    width: 64px;
+    height: 80px;
+    fill: none;
+    stroke: $ink;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.85;
+}
+
+@keyframes avatarBubbleIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+    }
+}
+
+// === RESPONSIVE ===
+@media (max-width: 640px) {
+    .avatar-speech {
+        width: 310px;
+        padding: 11px 13px 11px;
+        bottom: calc(var(--avatar-scale, 0.8) * 460px + 8px);
+
+        &__text {
+            font-size: 0.86rem;
+        }
+    }
+
+    .avatar-mini-keys {
+        display: none;
+    }
+
+    .avatar-mini-door {
+        width: 48px;
+        height: 60px;
+    }
+}
+
+// === REDUCED MOTION ===
+@media (prefers-reduced-motion: reduce) {
+    .avatar-guide__pose,
+    .avatar-leg,
+    .avatar-arm,
+    .avatar-front,
+    .avatar-eyes {
+        animation: none !important;
+    }
+
+    .avatar-speech {
+        animation: none !important;
+    }
+}

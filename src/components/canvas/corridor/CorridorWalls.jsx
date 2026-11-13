@@ -10,6 +10,24 @@ const WALL_X_OUTER = 3.5;
 const WALL_X_INNER = 1.7;
 // Note: DOOR_Z_SPAN = 4 (from CorridorSegment)
 
+// Soft corner shading used to add depth to the walls.
+let wallShadeTexture = null;
+const getWallShadeTexture = () => {
+    if (typeof document === 'undefined') return null;
+    if (wallShadeTexture) return wallShadeTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 4;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 128);
+    gradient.addColorStop(0, 'rgba(43, 26, 20, 0)');
+    gradient.addColorStop(1, 'rgba(43, 26, 20, 0.8)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 4, 128);
+    wallShadeTexture = new THREE.CanvasTexture(canvas);
+    return wallShadeTexture;
+};
+
 /**
  * DoorWallSegment - Dynamic wall segment that tilts towards camera
  * Used for the angled walls next to doors
@@ -62,7 +80,7 @@ const DoorWallSegment = ({ position, baseRotationY, width, corridorHeight, wallT
     return (
         <mesh ref={meshRef} position={position}>
             <planeGeometry args={[width, corridorHeight]} />
-            <meshBasicMaterial color="#fcf3c6" map={segTexture} roughness={1} metalness={0} />
+            <meshBasicMaterial color="#F2DECC" map={segTexture} roughness={1} metalness={0} />
         </mesh>
     );
 };
@@ -335,7 +353,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#664E44"
+                            <meshBasicMaterial color="#4e3328"
                                 map={leftSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -353,7 +371,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#664E44"
+                            <meshBasicMaterial color="#4e3328"
                                 map={rightSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -396,7 +414,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[tileWidth, tileLength]} />
-                            <meshBasicMaterial color="#FFFFFF"
+                            <meshBasicMaterial color="#FBF3E4"
                                 map={ceilingTexture}
                                 map-repeat={[tileWidth / 2, tileLength / 2]}
                                 side={THREE.DoubleSide}
@@ -461,20 +479,63 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#FFE8D6"
+                                <meshBasicMaterial color="#F3DFCD"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
                                 />
                             </mesh>
 
+                            {/* Dusty-rose wainscot panel */}
+                            <mesh position={[0, -corridorHeight / 2 + 0.49, 0.003]}>
+                                <planeGeometry args={[seg.width, 0.82]} />
+                                <meshBasicMaterial color="#E0C1B3"
+                                    map={segTexture}
+                                    roughness={1}
+                                />
+                            </mesh>
+
+                            {/* Chair rail in deep chocolate */}
+                            <mesh position={[0, -corridorHeight / 2 + 0.93, 0.006]}>
+                                <planeGeometry args={[seg.width, 0.055]} />
+                                <meshBasicMaterial color="#6b3f30" roughness={0.8} />
+                            </mesh>
+
+                            {/* Antique-gold crown molding */}
+                            <mesh position={[0, corridorHeight / 2 - 0.055, 0.006]}>
+                                <planeGeometry args={[seg.width, 0.07]} />
+                                <meshBasicMaterial color="#b08d57" roughness={0.7} />
+                            </mesh>
+
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
                             <mesh position={[bbOffsetX, -corridorHeight / 2 + 0.075, 0.01]}>
                                 <planeGeometry args={[bbWidth, 0.15]} />
-                                <meshBasicMaterial color="#fcf3c6"
+                                <meshBasicMaterial color="#8a5a44"
                                     map={bbTexture}
                                     roughness={0.8}
                                     side={THREE.DoubleSide}
+                                />
+                            </mesh>
+
+                            {/* Corner depth - soft dark gradient at the floor line */}
+                            <mesh position={[0, -corridorHeight / 2 + 0.42, 0.008]}>
+                                <planeGeometry args={[seg.width, 0.84]} />
+                                <meshBasicMaterial
+                                    map={getWallShadeTexture()}
+                                    transparent
+                                    opacity={0.38}
+                                    depthWrite={false}
+                                />
+                            </mesh>
+
+                            {/* Ceiling shadow */}
+                            <mesh position={[0, corridorHeight / 2 - 0.36, 0.008]} rotation={[0, 0, Math.PI]}>
+                                <planeGeometry args={[seg.width, 0.72]} />
+                                <meshBasicMaterial
+                                    map={getWallShadeTexture()}
+                                    transparent
+                                    opacity={0.2}
+                                    depthWrite={false}
                                 />
                             </mesh>
                         </group>

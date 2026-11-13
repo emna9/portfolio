@@ -143,7 +143,10 @@ const DoorSection = ({
 
     // Proximity glow
     const glowRef = useRef();
+    const innerGlowRef = useRef();
+    const underLightRef = useRef();
     const glowStrength = useRef(0);
+    const cinematicGlow = useRef(0);
     const glowTexture = useMemo(() => getDoorGlowTexture(), []);
 
     // Audio Refs for 3D positional sound
@@ -399,9 +402,19 @@ const DoorSection = ({
             : THREE.MathUtils.clamp((10 - proximityDistance) / 7, 0, 1);
         glowStrength.current = THREE.MathUtils.lerp(glowStrength.current, targetGlow, 0.08);
 
+        const cinematic = cinematicGlow.current;
+        const lightLevel = Math.max(glowStrength.current, cinematic);
+
         if (glowRef.current) {
-            glowRef.current.material.opacity = glowStrength.current * 0.55;
-            glowRef.current.visible = glowStrength.current > 0.02;
+            glowRef.current.material.opacity = lightLevel * 0.6;
+            glowRef.current.visible = lightLevel > 0.02;
+        }
+        if (innerGlowRef.current) {
+            innerGlowRef.current.material.opacity = lightLevel * 0.2;
+            innerGlowRef.current.visible = lightLevel > 0.02;
+        }
+        if (underLightRef.current) {
+            underLightRef.current.material.opacity = 0.16 + lightLevel * 0.75;
         }
 
         // Reveal the painted door as it lights up (hover still takes priority).
@@ -466,6 +479,21 @@ const DoorSection = ({
         document.body.style.cursor = "auto";
 
         setIsAnimating(true);
+
+        // Cinematic warm illumination before the transition.
+        gsap.to(cinematicGlow, {
+            current: 1,
+            duration: 0.3,
+            overwrite: true,
+            onComplete: () => {
+                gsap.to(cinematicGlow, {
+                    current: 0,
+                    duration: 1.4,
+                    delay: 0.7,
+                    overwrite: true,
+                });
+            }
+        });
 
         // Take control of camera from hook
         setCameraOverride?.(true);
@@ -1037,7 +1065,7 @@ const DoorSection = ({
             <group ref={groupRef}>
                 {/* Wall segment with door hole */}
                 <mesh position={[wallOffsetX, 0, 0]} geometry={wallWithHoleGeometry}>
-                    <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
+                    <meshBasicMaterial color="#F4E0CF" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
                 </mesh>
 
                 {/* === ARROW DECORATION === */}
@@ -1091,7 +1119,7 @@ const DoorSection = ({
                 <Text
                     position={[wallOffsetX - 1.1, 0.34, 0.03]}
                     fontSize={wallTitle.length > 11 ? 0.13 : 0.17}
-                    color="#664E44"
+                    color="#4a2c22"
                     anchorX="center"
                     anchorY="middle"
                     font="fonts/CabinSketch-Bold.ttf"
@@ -1106,7 +1134,7 @@ const DoorSection = ({
                 {/* Baseboard (Listwa) Left side of door */}
                 <mesh position={[wallOffsetX - 1.4, -CORRIDOR_HEIGHT / 2 + 0.075, 0.02]}>
                     <planeGeometry args={[doorBoardWidth, 0.15]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#8a5a44"
                         map={doorBbTexLeft}
                         roughness={0.8}
                         side={THREE.DoubleSide}
@@ -1116,7 +1144,7 @@ const DoorSection = ({
                 {/* Baseboard (Listwa) Right side of door */}
                 <mesh position={[wallOffsetX + 1.4, -CORRIDOR_HEIGHT / 2 + 0.075, 0.02]}>
                     <planeGeometry args={[doorBoardWidth, 0.15]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#8a5a44"
                         map={doorBbTexRight}
                         roughness={0.8}
                         side={THREE.DoubleSide}
@@ -1168,6 +1196,38 @@ const DoorSection = ({
                     />
                 </mesh>
 
+                {/* Inner champagne / dusty-rose light */}
+                <mesh
+                    ref={innerGlowRef}
+                    position={[wallOffsetX, -0.2, 0.065]}
+                    visible={false}
+                >
+                    <planeGeometry args={[1.9, 2.6]} />
+                    <meshBasicMaterial
+                        map={glowTexture}
+                        color="#f3b8ad"
+                        transparent
+                        opacity={0}
+                        depthWrite={false}
+                        blending={THREE.AdditiveBlending}
+                    />
+                </mesh>
+
+                {/* Warm light spilling from under the door */}
+                <mesh
+                    ref={underLightRef}
+                    position={[wallOffsetX, -1.36, 0.09]}
+                >
+                    <planeGeometry args={[1.05, 0.055]} />
+                    <meshBasicMaterial
+                        color="#ffe2ae"
+                        transparent
+                        opacity={0.16}
+                        depthWrite={false}
+                        blending={THREE.AdditiveBlending}
+                    />
+                </mesh>
+
                 {/* Door and frame - centered on wall */}
                 <group position={[wallOffsetX, -0.4, 0]}>
                     {/* === TEXTURED SIGN === */}
@@ -1180,7 +1240,7 @@ const DoorSection = ({
                         <mesh>
                             {/* Adjusted size for the signs - assuming rectangular aspect ratio */}
                             <planeGeometry args={[1.3, 0.65]} />
-                            <meshBasicMaterial color="#fcf3c6"
+                            <meshBasicMaterial color="#f3e2bd"
                                 map={signTexture}
                                 transparent={true}
                                 alphaTest={0.1}
@@ -1303,7 +1363,7 @@ const DoorSection = ({
                     {/* Moved to Z = 0.04 to sit in front of baseboards (Z=0.02), hiding the hole edges */}
                     <mesh position={[0, -0.1, 0.04]} scale={[side === 'right' ? -1 : 1, 1, 1]}>
                         <planeGeometry args={[frameWidth, frameHeight]} />
-                        <meshBasicMaterial color="#664E44"
+                        <meshBasicMaterial color="#4a2c22"
                             map={frameTexture}
                             transparent={true}
                             alphaTest={0.1}
@@ -1386,7 +1446,7 @@ const DoorSection = ({
                             {/* Painted handle (behind) - hidden after 2 frames */}
                             <mesh ref={handlePaintedRef} position={[side === 'left' ? -0.50 : 0.50, 0.14, -0.001]} scale={[side === 'right' ? -1 : 1, 1, 1]}>
                                 <planeGeometry args={[doorWidth, doorHeight]} />
-                                <meshBasicMaterial color="#fcf3c6"
+                                <meshBasicMaterial color="#f3e2bd"
                                     map={handlePaintedTexture}
                                     transparent={true}
                                     alphaTest={0.5}
@@ -1396,7 +1456,7 @@ const DoorSection = ({
                             {/* Sketch handle overlay (front) */}
                             <mesh position={[side === 'left' ? -0.50 : 0.50, 0.14, 0]} scale={[side === 'right' ? -1 : 1, 1, 1]}>
                                 <planeGeometry args={[doorWidth, doorHeight]} />
-                                <revealMaterial color="#fcf3c6"
+                                <revealMaterial color="#f3e2bd"
                                     ref={handleMaterialRef}
                                     map={handleTexture}
                                     transparent={true}

@@ -126,6 +126,8 @@ const DoorProximityManager = () => {
             distance: bestDistance,
             canEnter: bestDistance <= ENTER_DISTANCE,
             screen: { x: screenX, y: screenY },
+            worldX: bestVector.x,
+            worldZ: bestVector.z,
         });
     });
 

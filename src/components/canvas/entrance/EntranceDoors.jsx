@@ -8,6 +8,26 @@ import { playBackgroundMusic } from '../../../utils/audioManager';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 
+
+// Warm halo used around the main door.
+let entranceGlowTexture = null;
+const getEntranceGlowTexture = () => {
+    if (entranceGlowTexture || typeof document === 'undefined') return entranceGlowTexture;
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(size / 2, size / 2, 10, size / 2, size / 2, size / 2);
+    gradient.addColorStop(0, 'rgba(255, 226, 174, 1)');
+    gradient.addColorStop(0.45, 'rgba(255, 199, 126, 0.55)');
+    gradient.addColorStop(1, 'rgba(255, 199, 126, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    entranceGlowTexture = new THREE.CanvasTexture(canvas);
+    return entranceGlowTexture;
+};
+
 // Use same font as App.jsx preload (Inter) - works reliably
 const FONT_URL = 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff';
 
@@ -36,6 +56,9 @@ const EntranceDoors = ({
     const leftHandlePaintedRef = useRef(); // Painted handle mesh visibility
     const rightHandlePaintedRef = useRef(); // Painted handle mesh visibility
     const groupRef = useRef();
+    const entranceGlowRef = useRef();
+    const entranceInnerRef = useRef();
+    const entranceSpillRef = useRef();
     const [isOpen, setIsOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -561,6 +584,15 @@ const EntranceDoors = ({
         }
     };
 
+    // Warm, breathing golden light around the entrance.
+    useFrame(({ clock }) => {
+        const t = clock.elapsedTime;
+        const pulse = 0.62 + Math.sin(t * 1.5) * 0.07;
+        if (entranceGlowRef.current) entranceGlowRef.current.material.opacity = pulse;
+        if (entranceInnerRef.current) entranceInnerRef.current.material.opacity = 0.32 + Math.sin(t * 1.9 + 1) * 0.05;
+        if (entranceSpillRef.current) entranceSpillRef.current.material.opacity = 0.42 + Math.sin(t * 1.2) * 0.06;
+    });
+
     // Frame center Y - aligned with doors
     const frameCenterY = doorBottomY + frameHeight / 2;
 
@@ -592,19 +624,19 @@ const EntranceDoors = ({
             {/* LEFT WALL PANEL */}
             <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
+                <meshBasicMaterial color="#F6E4D3" roughness={0.95} />
             </mesh>
 
             {/* RIGHT WALL PANEL */}
             <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
+                <meshBasicMaterial color="#F6E4D3" roughness={0.95} />
             </mesh>
 
             {/* TOP WALL PANEL */}
             <mesh position={[0, topWallCenterY, 0]}>
                 <boxGeometry args={[doorOpeningWidth, topWallHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" roughness={0.95} />
+                <meshBasicMaterial color="#F6E4D3" roughness={0.95} />
             </mesh>
 
             {/* === BRICK FACADE === */}
@@ -616,7 +648,7 @@ const EntranceDoors = ({
             <mesh position={[0, wallCenterY + facadeYOffset + 1.65, 0.15]}>
                 {/* args={[Szerokość, Wysokość]} - Zmieniaj te liczby (np. 7, 8) */}
                 <planeGeometry args={[16., 8]} />
-                <meshBasicMaterial color="#FFE8D6"
+                <meshBasicMaterial color="#F6E4D3"
                     map={bricksTexture}
                     transparent={true}
                     alphaTest={0.01}
@@ -627,12 +659,61 @@ const EntranceDoors = ({
             {/* === TEXTURED FRAME === */}
             <mesh position={[0, frameCenterY, 0.12]}>
                 <planeGeometry args={[frameWidth, frameHeight]} />
-                <meshBasicMaterial color="#664E44"
+                <meshBasicMaterial color="#4a2c22"
                     map={frameTexture}
                     transparent={true}
                     alphaTest={0.1}
                     roughness={0.9}
                     depthWrite={false}
+                />
+            </mesh>
+
+            {/* === WARM GOLDEN LIGHT AROUND THE MAIN DOOR === */}
+            <mesh ref={entranceGlowRef} position={[0, frameCenterY - 0.1, 0.055]}>
+                <planeGeometry args={[5.6, 7.4]} />
+                <meshBasicMaterial
+                    map={getEntranceGlowTexture()}
+                    color="#ffd79a"
+                    transparent
+                    opacity={0.46}
+                    depthWrite={false}
+                    blending={THREE.AdditiveBlending}
+                />
+            </mesh>
+
+            <mesh ref={entranceInnerRef} position={[0, doorCenterY + 0.05, 0.105]}>
+                <planeGeometry args={[2.5, 3.2]} />
+                <meshBasicMaterial
+                    map={getEntranceGlowTexture()}
+                    color="#f7c9b6"
+                    transparent
+                    opacity={0.22}
+                    depthWrite={false}
+                    blending={THREE.AdditiveBlending}
+                />
+            </mesh>
+
+            {/* Light spilling from under the door onto the stone path */}
+            <mesh position={[0, doorBottomY + 0.035, 0.18]}>
+                <planeGeometry args={[1.9, 0.06]} />
+                <meshBasicMaterial
+                    color="#ffe2ae"
+                    transparent
+                    opacity={0.9}
+                    depthWrite={false}
+                    blending={THREE.AdditiveBlending}
+                />
+            </mesh>
+
+            <mesh ref={entranceSpillRef} position={[0, floorY + 0.03, 1.15]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[2.9, 2.5]} />
+                <meshBasicMaterial
+                    map={getEntranceGlowTexture()}
+                    color="#ffd9a0"
+                    transparent
+                    opacity={0.3}
+                    depthWrite={false}
+                    blending={THREE.AdditiveBlending}
                 />
             </mesh>
 

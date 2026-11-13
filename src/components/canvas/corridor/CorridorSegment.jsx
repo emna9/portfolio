@@ -1,11 +1,9 @@
 import { useMemo, memo } from 'react';
-import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 import CorridorWalls from './CorridorWalls';
 import DoorSection from './DoorSection';
 import SegmentDoors from './SegmentDoors';
-import HeroText from './HeroText';
 import CorridorDecorations from './CorridorDecorations';
 
 /**
@@ -131,26 +129,6 @@ const CorridorSegment = ({
                 doorPositions={doors}
                 zClip={zClip}
             />
-
-            {/* === EMNA SMAALI BRAND SIGN ON SIDE WALL === */}
-            <Text
-                position={[-3.46, 0.4, zOffset - 8]}
-                rotation={[0, Math.PI / 2, 0]}
-                fontSize={0.32}
-                color="#1a1a1a"
-                anchorX="center"
-                anchorY="middle"
-                font="fonts/CabinSketch-Bold.ttf"
-            >
-                EMNA SMAALI
-            </Text>
-
-            {/* === WELCOME AREA (Start of segment) - MOVED CLOSER === */}
-            <group position={[0, 0, zOffset - 2]}>
-                {/* EMNA 3D Header - Floating above avatar */}
-                <HeroText position={[0, 0.85, -0.5]} />
-
-            </group>
 
             {/* === DOOR SECTIONS (wall + door + label as one unit) === */}
             {/* Hidden during entrance animation for segment -1 */}

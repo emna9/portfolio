@@ -99,6 +99,84 @@ $rust: #b4552d;
     }
 }
 
+// === LANDING TITLE ===
+.landing-title {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 94;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+    pointer-events: none;
+    animation: landingIn 0.9s ease both;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -18px -34px;
+        z-index: -1;
+        background: radial-gradient(ellipse at center, rgba(255, 248, 232, 0.92) 0%, rgba(255, 248, 232, 0.55) 45%, rgba(255, 248, 232, 0) 72%);
+        filter: blur(2px);
+        pointer-events: none;
+    }
+
+    &__name {
+        font-family: 'Fredericka the Great', Georgia, 'Times New Roman', serif;
+        font-size: clamp(1.9rem, 4vw, 3rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: 0.03em;
+        color: #3a241b;
+        text-shadow:
+            0 1px 0 #fff8e8,
+            0 0 22px rgba(255, 214, 150, 0.8),
+            0 2px 6px rgba(90, 58, 46, 0.22);
+    }
+
+    &__ornament {
+        position: relative;
+        display: block;
+        width: 130px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #b08d57 25%, #b08d57 75%, transparent);
+
+        &::after {
+            content: '◆';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -55%);
+            font-size: 7px;
+            color: #b08d57;
+        }
+    }
+
+    &__role {
+        font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+        font-size: clamp(0.66rem, 1.1vw, 0.84rem);
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: #6b4a3a;
+        text-shadow: 0 1px 0 rgba(255, 248, 232, 0.9);
+    }
+}
+
+@keyframes landingIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
 // === DOOR BUBBLE ===
 .door-bubble {
     position: fixed;
@@ -236,7 +314,7 @@ $rust: #b4552d;
 .room-toast {
     position: fixed;
     left: 50%;
-    bottom: 96px;
+    bottom: 142px;
     transform: translateX(-50%);
     max-width: 430px;
     width: max-content;
@@ -930,7 +1008,7 @@ $rust: #b4552d;
     }
 
     .room-toast {
-        bottom: 120px;
+        bottom: 170px;
         max-width: 84vw;
         font-size: 0.85rem;
     }

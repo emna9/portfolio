@@ -30,6 +30,11 @@ export const GuidanceProvider = ({ children }) => {
     const [tutorialOpen, setTutorialOpen] = useState(false);
     const [helpOpen, setHelpOpen] = useState(false);
     const [pov, setPovState] = useState(getPov);
+    // Avatar guide (DOM node is positioned by the 3D layer every frame)
+    const avatarRef = useRef(null);
+    const avatarTalkingRef = useRef(false);
+    const [avatarSpeaking, setAvatarSpeaking] = useState(false);
+    const [guideLine, setGuideLine] = useState(null);
 
     // Keep the non-React control state in sync with the panels.
     useEffect(() => {
@@ -97,6 +102,14 @@ export const GuidanceProvider = ({ children }) => {
         setPovState(prev => !prev);
     }, []);
 
+    const showGuideLine = useCallback((line) => {
+        setGuideLine(line);
+    }, []);
+
+    const clearGuideLine = useCallback(() => {
+        setGuideLine(null);
+    }, []);
+
     const value = useMemo(() => ({
         doorsRef,
         nearestDoorRef,
@@ -114,6 +127,13 @@ export const GuidanceProvider = ({ children }) => {
         setPov,
         togglePov,
         hasSeenTutorial,
+        avatarRef,
+        avatarTalkingRef,
+        avatarSpeaking,
+        setAvatarSpeaking,
+        guideLine,
+        showGuideLine,
+        clearGuideLine,
     }), [
         setNearestDoor,
         registerDoor,
@@ -126,6 +146,10 @@ export const GuidanceProvider = ({ children }) => {
         pov,
         setPov,
         togglePov,
+        avatarSpeaking,
+        guideLine,
+        showGuideLine,
+        clearGuideLine,
     ]);
 
     return (

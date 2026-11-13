@@ -8,6 +8,7 @@ import TeleportRoom from './corridor/TeleportRoom';
 import RoomWarmup from './corridor/RoomWarmup';
 import DoorProximityManager from './corridor/DoorProximityManager';
 import FloorGuide from './corridor/FloorGuide';
+import AvatarAnchor from './corridor/AvatarAnchor';
 import useInfiniteCamera from '../../hooks/useInfiniteCamera';
 import SignSystem from './entrance/SignSystem';
 import { useScene } from '../../context/SceneContext';
@@ -116,6 +117,7 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
             {/* Publishes the nearest door to the DOM bubble + draws the floor trail. */}
             <DoorProximityManager />
             <FloorGuide />
+            <AvatarAnchor />
         </>
     );
 };

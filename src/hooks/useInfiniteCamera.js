@@ -6,7 +6,7 @@ gsap.registerPlugin(Observer);
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useAchievements } from '../context/AchievementsContext';
-import { isLocked, getVirtualAxis, getPov } from '../utils/controls';
+import { isLocked, getVirtualAxis, getPov, setMovementState } from '../utils/controls';
 
 // Comfortable walking model
 const WALK_SPEED = 2.3;        // units per second (slow, natural)
@@ -419,6 +419,11 @@ const useInfiniteCamera = ({
                 strafeX.current + walkVelocity.current.x * dt,
                 -MAX_STRAFE,
                 MAX_STRAFE
+            );
+
+            setMovementState(
+                Math.abs(walkVelocity.current.z) > 0.05 || Math.abs(walkVelocity.current.x) > 0.05,
+                walkVelocity.current.x
             );
 
             // Smooth Z movement

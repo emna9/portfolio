@@ -23,6 +23,16 @@ export const setVirtualAxis = (forward, strafe) => {
 
 export const getVirtualAxis = () => virtual;
 
+// Live movement state for the avatar guide (updated by the camera hook).
+const movement = { moving: false, strafe: 0 };
+
+export const setMovementState = (moving, strafe = 0) => {
+    movement.moving = !!moving;
+    movement.strafe = Math.max(-1, Math.min(1, strafe || 0));
+};
+
+export const getMovementState = () => movement;
+
 // First-person / eye-level preference
 let povEnabled = false;
 try {

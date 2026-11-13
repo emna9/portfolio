@@ -3,10 +3,10 @@ import gsap from 'gsap';
 import { useScene } from '../../context/SceneContext';
 import { useAudio } from '../../context/AudioManager';
 import { setMusicVolume, getMusicVolume } from '../../utils/audioManager';
-import { useAchievements } from '../../context/AchievementsContext';
 import AchievementPopup from './AchievementPopup';
 import HelpPanel from './HelpPanel';
 import { lockControls, unlockControls } from '../../utils/controls';
+import { useGuidance } from '../../context/GuidanceContext';
 import '../../styles/NavigationUI.scss';
 
 // Room data for the map - positions are percentages on the map image
@@ -26,7 +26,7 @@ const PIN_START_POSITION = { x: 50.5, y: 97 };
 const NavigationUI = () => {
     const { currentRoom, isInRoom, requestExit, hasEntered, teleportTo, isTeleporting } = useScene();
     const { isMuted, toggleMute, globalVolume, setGlobalVolume } = useAudio();
-    const { showTutorial, unlockAchievement } = useAchievements();
+    const { avatarSpeaking, tutorialOpen } = useGuidance();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [hoveredRoom, setHoveredRoom] = useState(null);
     const [isExiting, setIsExiting] = useState(false); // Track when back button is clicked
@@ -126,13 +126,6 @@ const NavigationUI = () => {
         setMusicVolume(val);
     };
 
-    // Show entrance hint before entering, and explore hint when user enters
-    useEffect(() => {
-        if (hasEntered && !isTeleporting && !isInRoom) {
-            showTutorial('corridor_explore');
-        }
-    }, [hasEntered, isTeleporting, isInRoom, showTutorial]);
-
     // Close menu when entering a room or starting teleport
     useEffect(() => {
         if (isInRoom || isTeleporting) {
@@ -229,8 +222,8 @@ const NavigationUI = () => {
                 <div className="entrance-hint">Click the door to explore the portfolio</div>
             )}
 
-            {/* Global Achievement Popup */}
-            <AchievementPopup />
+            {/* Global Achievement Popup - hidden while Emna is speaking */}
+            {!tutorialOpen && !avatarSpeaking && <AchievementPopup />}
 
             {/* Back Button - Only visible in rooms, hides up when clicked */}
             {hasEntered && isInRoom && (

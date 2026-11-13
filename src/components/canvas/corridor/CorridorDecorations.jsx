@@ -523,19 +523,19 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                     ].map((pos, i) => (
                         <mesh key={`leg-${i}`} position={[pos[0], tableConfig.height / 2, pos[1]]}>
                             <boxGeometry args={[tableConfig.legRadius * 2, tableConfig.height, tableConfig.legRadius * 2]} />
-                            <meshBasicMaterial color="#fcf3c6" map={legTexture} roughness={0.8} />
+                            <meshBasicMaterial color="#c89a6e" map={legTexture} roughness={0.8} />
                         </mesh>
                     ))}
 
                     {/* Blat stolika */}
                     <mesh position={[0, tableConfig.height + tableConfig.topThickness / 2, 0]}>
                         <boxGeometry args={[tableConfig.width, tableConfig.topThickness, tableConfig.depth]} />
-                        <meshBasicMaterial color="#fcf3c6" attach="material-0" map={woodTexture} />
-                        <meshBasicMaterial color="#fcf3c6" attach="material-1" map={woodTexture} />
-                        <meshBasicMaterial color="#fcf3c6" attach="material-2" map={tableTopTexture} roughness={0.5} />
+                        <meshBasicMaterial color="#d9b08c" attach="material-0" map={woodTexture} />
+                        <meshBasicMaterial color="#d9b08c" attach="material-1" map={woodTexture} />
+                        <meshBasicMaterial color="#c89a6e" attach="material-2" map={tableTopTexture} roughness={0.5} />
                         <meshBasicMaterial attach="material-3" color="#fcf3c6" />
-                        <meshBasicMaterial color="#fcf3c6" attach="material-4" map={woodTexture} />
-                        <meshBasicMaterial color="#fcf3c6" attach="material-5" map={woodTexture} />
+                        <meshBasicMaterial color="#d9b08c" attach="material-4" map={woodTexture} />
+                        <meshBasicMaterial color="#d9b08c" attach="material-5" map={woodTexture} />
                     </mesh>
 
                     {/* KWIATEK NA STOLE */}
@@ -583,12 +583,12 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                     4: Front (+z) -> szafkaprzodgora.png (side)
                     5: Back (-z) -> szafkaprzodgora.png (side)
                 */}
-                <meshBasicMaterial color="#fcf3c6" attach="material-0" map={cabinetRestTexture} />
-                <meshBasicMaterial color="#fcf3c6" attach="material-1" map={cabinetFrontTexture} />
-                <meshBasicMaterial color="#fcf3c6" attach="material-2" map={cabinetRestTexture} />
-                <meshBasicMaterial color="#fcf3c6" attach="material-3" map={cabinetRestTexture} />
-                <meshBasicMaterial color="#fcf3c6" attach="material-4" map={cabinetRestTexture} />
-                <meshBasicMaterial color="#fcf3c6" attach="material-5" map={cabinetRestTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-0" map={cabinetRestTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-1" map={cabinetFrontTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-2" map={cabinetRestTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-3" map={cabinetRestTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-4" map={cabinetRestTexture} />
+                <meshBasicMaterial color="#d9b28c" attach="material-5" map={cabinetRestTexture} />
             </mesh>
 
             {/* === POTTED PLANTS (3) — sage green === */}

@@ -22,6 +22,7 @@ const GuidanceUI = () => {
         tutorialOpen,
         helpOpen,
         setHelpOpen,
+        avatarSpeaking,
     } = useGuidance();
     const nearestDoor = useNearestDoor();
 
@@ -73,19 +74,28 @@ const GuidanceUI = () => {
     }, [helpOpen, tutorialOpen, isInRoom, isTeleporting, nearestDoor, openDoor, requestExit, setHelpOpen]);
 
     const bubble = useMemo(() => {
-        if (!hasEntered || isInRoom || isTeleporting || tutorialOpen || helpOpen || !nearestDoor) return null;
+        if (!hasEntered || isInRoom || isTeleporting || tutorialOpen || helpOpen || avatarSpeaking || !nearestDoor) return null;
         const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
         const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
         const margin = viewportWidth < 640 ? 120 : 170;
         const x = Math.min(Math.max(nearestDoor.screen.x, margin), viewportWidth - margin);
         const y = Math.min(Math.max(nearestDoor.screen.y - 30, 150), viewportHeight - 40);
         return { ...nearestDoor, x, y };
-    }, [hasEntered, isInRoom, isTeleporting, tutorialOpen, helpOpen, nearestDoor]);
+    }, [hasEntered, isInRoom, isTeleporting, tutorialOpen, helpOpen, avatarSpeaking, nearestDoor]);
 
     const showChrome = !isTeleporting;
 
     return (
         <div className="guidance-ui">
+            {/* Landing title - only outside the house */}
+            {!hasEntered && (
+                <div className="landing-title">
+                    <span className="landing-title__name">Emna Smaali</span>
+                    <span className="landing-title__ornament" aria-hidden="true" />
+                    <span className="landing-title__role">Software Engineering Student</span>
+                </div>
+            )}
+
             {/* Floating door bubble */}
             {bubble && (
                 <div
