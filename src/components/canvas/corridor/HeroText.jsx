@@ -4,8 +4,8 @@ import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Local fonts for sketch-style typography (TTF format required by troika)
-const RUBIK_SCRIBBLE_URL = '/fonts/RubikScribble-Regular.ttf';
-const CABIN_SKETCH_URL = '/fonts/CabinSketch-Regular.ttf';
+const RUBIK_SCRIBBLE_URL = 'fonts/RubikScribble-Regular.ttf';
+const CABIN_SKETCH_URL = 'fonts/CabinSketch-Regular.ttf';
 
 /**
  * HeroText Component - Custom styled for Emna

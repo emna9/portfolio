@@ -132,7 +132,7 @@ const AwardButton = ({ onClick, texture, paintedTexture, width, height, position
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Bold.ttf"
+                font="fonts/CabinSketch-Bold.ttf"
             >
                 VIEW
             </Text>
@@ -259,7 +259,7 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
  */
 const IntroMilestone = ({ z, scrollProgressRef }) => {
     // Load avatar texture
-    const avatarTexture = useLoader(THREE.TextureLoader, '/textures/about/awatarnachmurce.webp');
+    const avatarTexture = useLoader(THREE.TextureLoader, 'textures/about/awatarnachmurce.webp');
     const { camera, viewport } = useThree();
     const isTouch = isTouchDevice();
 
@@ -350,7 +350,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/RubikScribble-Regular.ttf"
+                font="fonts/RubikScribble-Regular.ttf"
             >
                 EMNA
             </Text>
@@ -363,7 +363,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 color="#4a4a4a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Bold.ttf"
+                font="fonts/CabinSketch-Bold.ttf"
             >
                 SOFTWARE ENGINEERING STUDENT
             </Text>
@@ -376,7 +376,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 color="#4a4a4a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Regular.ttf"
+                font="fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
                 "Building reliable, grounded AI systems
@@ -390,7 +390,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 color="#4a4a4a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Regular.ttf"
+                font="fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
                 that turn real-world needs into practical solutions"
@@ -408,9 +408,9 @@ const AWARDS_DATA = {
         layout: 'certificate_grid',
         title: 'Leadership & Languages',
         items: [
-            { label: 'Enactus SMU — Training Manager', date: 'Leadership', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Securinets SMU — Human Resources Manager', date: 'Leadership', image: '/textures/about/button.webp', url: '#' },
-            { label: 'Arabic — Native · French & English — Professional', date: 'Languages', image: '/textures/about/button.webp', url: '#' },
+            { label: 'Enactus SMU — Training Manager', date: 'Leadership', image: 'textures/about/button.webp', url: '#' },
+            { label: 'Securinets SMU — Human Resources Manager', date: 'Leadership', image: 'textures/about/button.webp', url: '#' },
+            { label: 'Arabic — Native · French & English — Professional', date: 'Languages', image: 'textures/about/button.webp', url: '#' },
         ],
         platformConfig: {
             label: 'LEADERSHIP',
@@ -423,7 +423,7 @@ const AWARDS_DATA = {
         layout: 'certificate_grid',
         title: '3rd Place — Cr4ck0ut Cybersecurity Hackathon',
         items: [
-            { label: 'Cr4ck0ut Cybersecurity Hackathon', date: '2024 · Securinets SMU × No Breach', image: '/textures/about/button.webp', url: '#' }
+            { label: 'Cr4ck0ut Cybersecurity Hackathon', date: '2024 · Securinets SMU × No Breach', image: 'textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
             label: 'ACHIEVEMENT',
@@ -436,7 +436,7 @@ const AWARDS_DATA = {
         layout: 'certificate_grid',
         title: '4th Place — She Helps Hackathon',
         items: [
-            { label: 'She Helps Hackathon — Software in Healthcare', date: '2023 · Teriak Kilani Group Labs', image: '/textures/about/button.webp', url: '#' }
+            { label: 'She Helps Hackathon — Software in Healthcare', date: '2023 · Teriak Kilani Group Labs', image: 'textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
             label: 'RECOGNITION',
@@ -449,7 +449,7 @@ const AWARDS_DATA = {
         layout: 'certificate_grid',
         title: '1st Place — Senior Student Project Competition',
         items: [
-            { label: 'Smart Matching Platform', date: '2026 · MedTech–SMU', image: '/textures/about/button.webp', url: '#' }
+            { label: 'Smart Matching Platform', date: '2026 · MedTech–SMU', image: 'textures/about/button.webp', url: '#' }
         ],
         platformConfig: {
             label: 'AWARD',
@@ -488,14 +488,14 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
     const sotyHideDelayRef = useRef();
 
     // Load textures
-    const sotyTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTY.webp');
-    const sotdTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTD.webp');
-    const sotmTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTM.webp');
-    const sotyPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTY.webp' : '/textures/about/SOTY_painted.webp');
-    const sotdPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTD.webp' : '/textures/about/SOTD_painted.webp');
-    const sotmPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTM.webp' : '/textures/about/SOTM_painted.webp');
-    const buttonTexture = useLoader(THREE.TextureLoader, '/textures/about/button.webp');
-    const buttonPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/button.webp' : '/textures/about/button_painted.webp');
+    const sotyTexture = useLoader(THREE.TextureLoader, 'textures/about/SOTY.webp');
+    const sotdTexture = useLoader(THREE.TextureLoader, 'textures/about/SOTD.webp');
+    const sotmTexture = useLoader(THREE.TextureLoader, 'textures/about/SOTM.webp');
+    const sotyPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? 'textures/about/SOTY.webp' : 'textures/about/SOTY_painted.webp');
+    const sotdPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? 'textures/about/SOTD.webp' : 'textures/about/SOTD_painted.webp');
+    const sotmPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? 'textures/about/SOTM.webp' : 'textures/about/SOTM_painted.webp');
+    const buttonTexture = useLoader(THREE.TextureLoader, 'textures/about/button.webp');
+    const buttonPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? 'textures/about/button.webp' : 'textures/about/button_painted.webp');
 
     // Color space fix
     sotyTexture.colorSpace = THREE.SRGBColorSpace;
@@ -611,7 +611,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/RubikScribble-Regular.ttf"
+                font="fonts/RubikScribble-Regular.ttf"
             >
                 ACHIEVEMENTS
             </Text>
@@ -660,7 +660,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
+                    font="fonts/CabinSketch-Bold.ttf"
                 >
                     3RD PLACE
                 </Text>
@@ -671,7 +671,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#4a4a4a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Regular.ttf"
+                    font="fonts/CabinSketch-Regular.ttf"
                 >
                     Cr4ck0ut Hackathon
                 </Text>
@@ -721,7 +721,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
+                    font="fonts/CabinSketch-Bold.ttf"
                 >
                     4TH PLACE
                 </Text>
@@ -732,7 +732,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#4a4a4a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Regular.ttf"
+                    font="fonts/CabinSketch-Regular.ttf"
                 >
                     She Helps Hackathon
                 </Text>
@@ -781,7 +781,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
+                    font="fonts/CabinSketch-Bold.ttf"
                 >
                     1ST PLACE
                 </Text>
@@ -792,7 +792,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     color="#4a4a4a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Regular.ttf"
+                    font="fonts/CabinSketch-Regular.ttf"
                 >
                     Senior Project
                 </Text>
@@ -813,8 +813,8 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
     const freelanceRef = useRef();
 
     // Load textures
-    const uoTexture = useLoader(THREE.TextureLoader, '/textures/about/uowyspa.webp');
-    const freelanceTexture = useLoader(THREE.TextureLoader, '/textures/about/freelancewyspa.webp');
+    const uoTexture = useLoader(THREE.TextureLoader, 'textures/about/uowyspa.webp');
+    const freelanceTexture = useLoader(THREE.TextureLoader, 'textures/about/freelancewyspa.webp');
 
     // Texture settings
     uoTexture.colorSpace = THREE.SRGBColorSpace;
@@ -890,7 +890,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/RubikScribble-Regular.ttf"
+                font="fonts/RubikScribble-Regular.ttf"
             >
                 JOURNEY
             </Text>
@@ -902,7 +902,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                 color="#4a4a4a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Regular.ttf"
+                font="fonts/CabinSketch-Regular.ttf"
             >
                 Education, Internships & Applied AI
             </Text>
@@ -934,7 +934,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         color="#1a1a1a"
                         anchorX="center"
                         anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                     >
                         EDUCATION
                     </Text>
@@ -947,7 +947,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
+                    font="fonts/CabinSketch-Bold.ttf"
                 >
                     MEDTECH – SMU
                 </Text>
@@ -980,7 +980,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         color="#1a1a1a"
                         anchorX="center"
                         anchorY="middle"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                     >
                         INTERNSHIPS
                     </Text>
@@ -993,7 +993,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
+                    font="fonts/CabinSketch-Bold.ttf"
                 >
                     5 ROLES · 2024–2026
                 </Text>
@@ -1011,19 +1011,19 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 // === EDYTUJ WYSOKOŚĆ TUTAJ (zmień wartość 'y' dla każdego balona) ===
 const BALLOON_CONFIG = [
     // Large balloons (main skills) - front and center
-    { texture: '/textures/about/emna-python.webp', paintedTexture: '/textures/about/emna-python_painted.webp', label: 'Python', size: 'large', x: -2.5, y: 2, z: 0.3, phase: 0 },
-    { texture: '/textures/about/emna-rag.webp', paintedTexture: '/textures/about/emna-rag_painted.webp', label: 'RAG', size: 'large', x: 2.5, y: 2.5, z: 0.2, phase: 1.5 },
-    { texture: '/textures/about/emna-langchain.webp', paintedTexture: '/textures/about/emna-langchain_painted.webp', label: 'LangChain', size: 'large', x: 0, y: 3, z: 0.5, phase: 3 },
+    { texture: 'textures/about/emna-python.webp', paintedTexture: 'textures/about/emna-python_painted.webp', label: 'Python', size: 'large', x: -2.5, y: 2, z: 0.3, phase: 0 },
+    { texture: 'textures/about/emna-rag.webp', paintedTexture: 'textures/about/emna-rag_painted.webp', label: 'RAG', size: 'large', x: 2.5, y: 2.5, z: 0.2, phase: 1.5 },
+    { texture: 'textures/about/emna-langchain.webp', paintedTexture: 'textures/about/emna-langchain_painted.webp', label: 'LangChain', size: 'large', x: 0, y: 3, z: 0.5, phase: 3 },
 
     // Medium balloons - scattered around
-    { texture: '/textures/about/emna-react.webp', paintedTexture: '/textures/about/emna-react_painted.webp', label: 'React', size: 'medium', x: -4, y: 1, z: -0.3, phase: 0.8 },
-    { texture: '/textures/about/emna-typescript.webp', paintedTexture: '/textures/about/emna-typescript_painted.webp', label: 'TypeScript', size: 'medium', x: 4, y: 1.5, z: -0.2, phase: 2.2 },
-    { texture: '/textures/about/emna-node.webp', paintedTexture: '/textures/about/emna-node_painted.webp', label: 'Node.js', size: 'medium', x: 0, y: 0.5, z: -0.4, phase: 4 },
+    { texture: 'textures/about/emna-react.webp', paintedTexture: 'textures/about/emna-react_painted.webp', label: 'React', size: 'medium', x: -4, y: 1, z: -0.3, phase: 0.8 },
+    { texture: 'textures/about/emna-typescript.webp', paintedTexture: 'textures/about/emna-typescript_painted.webp', label: 'TypeScript', size: 'medium', x: 4, y: 1.5, z: -0.2, phase: 2.2 },
+    { texture: 'textures/about/emna-node.webp', paintedTexture: 'textures/about/emna-node_painted.webp', label: 'Node.js', size: 'medium', x: 0, y: 0.5, z: -0.4, phase: 4 },
 
     // Small balloons - background accents
-    { texture: '/textures/about/emna-sql.webp', paintedTexture: '/textures/about/emna-sql_painted.webp', label: 'SQL', size: 'small', x: -5.5, y: 2.5, z: -0.8, phase: 1.2 },
-    { texture: '/textures/about/emna-git.webp', paintedTexture: '/textures/about/emna-git_painted.webp', label: 'Git', size: 'small', x: 5.5, y: 3, z: -0.7, phase: 2.8 },
-    { texture: '/textures/about/emna-docker.webp', paintedTexture: '/textures/about/emna-docker_painted.webp', label: 'Docker', size: 'small', x: -3, y: 4.5, z: -0.5, phase: 3.5 },
+    { texture: 'textures/about/emna-sql.webp', paintedTexture: 'textures/about/emna-sql_painted.webp', label: 'SQL', size: 'small', x: -5.5, y: 2.5, z: -0.8, phase: 1.2 },
+    { texture: 'textures/about/emna-git.webp', paintedTexture: 'textures/about/emna-git_painted.webp', label: 'Git', size: 'small', x: 5.5, y: 3, z: -0.7, phase: 2.8 },
+    { texture: 'textures/about/emna-docker.webp', paintedTexture: 'textures/about/emna-docker_painted.webp', label: 'Docker', size: 'small', x: -3, y: 4.5, z: -0.5, phase: 3.5 },
 ];
 
 // Size multipliers for balloon categories
@@ -1334,7 +1334,7 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
                         color="#1a1a1a"
                         anchorX="center"
                         anchorY="middle"
-                        font="/fonts/RubikScribble-Regular.ttf"
+                        font="fonts/RubikScribble-Regular.ttf"
                         fillOpacity={0}
                         outlineWidth={0.02}
                         outlineColor="#fff"
@@ -1346,7 +1346,7 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
 
                 <PositionalAudio
                     ref={balloonAudioRef}
-                    url="/sounds/baloonpoop.mp3"
+                    url="sounds/baloonpoop.mp3"
                     distanceModel="exponential"
                     rolloffFactor={BALLOON_AUDIO_SETTINGS.rolloff}
                     refDistance={BALLOON_AUDIO_SETTINGS.distance}
@@ -1423,7 +1423,7 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/RubikScribble-Regular.ttf"
+                font="fonts/RubikScribble-Regular.ttf"
             >
                 SKILLS
             </Text>
@@ -1435,7 +1435,7 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
                 color="#555555"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Regular.ttf"
+                font="fonts/CabinSketch-Regular.ttf"
             >
                 Technologies I love working with
             </Text>

@@ -128,12 +128,12 @@ const RAW_CONTENT_DATA = [
     },
 ];
 
-const ytTextures = ['/textures/studio/tvfront_filmikprojektdlamultiego.webp', '/textures/studio/tvfront_filmikedytowaniezdjec.webp'];
-const ytPaintedTextures = ['/textures/studio/tvfront_filmikprojektdlamultiego_painted.webp', '/textures/studio/tvfront_filmikedytowaniezdjec_painted.webp'];
-const blogTextures = ['/textures/studio/monitorfront_postnafbdoublewinner.webp'];
-const blogPaintedTextures = ['/textures/studio/monitorfront_postnafbdoublewinner_painted.webp'];
-const ttTextures = ['/textures/studio/phonefront_followmeontiktok.webp'];
-const ttPaintedTextures = ['/textures/studio/phonefront_followmeontiktok_painted.webp'];
+const ytTextures = ['textures/studio/tvfront_filmikprojektdlamultiego.webp', 'textures/studio/tvfront_filmikedytowaniezdjec.webp'];
+const ytPaintedTextures = ['textures/studio/tvfront_filmikprojektdlamultiego_painted.webp', 'textures/studio/tvfront_filmikedytowaniezdjec_painted.webp'];
+const blogTextures = ['textures/studio/monitorfront_postnafbdoublewinner.webp'];
+const blogPaintedTextures = ['textures/studio/monitorfront_postnafbdoublewinner_painted.webp'];
+const ttTextures = ['textures/studio/phonefront_followmeontiktok.webp'];
+const ttPaintedTextures = ['textures/studio/phonefront_followmeontiktok_painted.webp'];
 
 let ytIdx = 0, blogIdx = 0, ttIdx = 0;
 let ytPIdx = 0, blogPIdx = 0, ttPIdx = 0;

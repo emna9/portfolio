@@ -11,12 +11,12 @@ import '../../styles/NavigationUI.scss';
 // Room data for the map - positions are percentages on the map image
 // These positions correspond to the visual elements on the map
 const ROOMS = [
-    { id: 'about', label: 'ABOUT', x: 25, y: 45, icon: '/images/map-icons/about.webp' },
-    { id: 'gallery', label: 'PROJECTS', x: 25, y: 76, icon: '/images/map-icons/gallery.webp' },
-    { id: 'contact', label: 'CONTACT', x: 75, y: 14, icon: '/images/map-icons/contact.webp' },
-    { id: 'experience', label: 'EXPERIENCE', x: 75, y: 45, icon: '/images/map-icons/experience.webp' },
-    { id: 'rewards', label: 'REWARDS', x: 25, y: 14, icon: '/images/map-icons/rewards.webp' },
-    { id: 'extracurricular', label: 'EXTRACURRICULAR', x: 75, y: 76, icon: '/images/map-icons/extracurricular.webp' },
+    { id: 'about', label: 'ABOUT', x: 25, y: 45, icon: 'images/map-icons/about.webp' },
+    { id: 'gallery', label: 'PROJECTS', x: 25, y: 76, icon: 'images/map-icons/gallery.webp' },
+    { id: 'contact', label: 'CONTACT', x: 75, y: 14, icon: 'images/map-icons/contact.webp' },
+    { id: 'experience', label: 'EXPERIENCE', x: 75, y: 45, icon: 'images/map-icons/experience.webp' },
+    { id: 'rewards', label: 'REWARDS', x: 25, y: 14, icon: 'images/map-icons/rewards.webp' },
+    { id: 'extracurricular', label: 'EXTRACURRICULAR', x: 75, y: 76, icon: 'images/map-icons/extracurricular.webp' },
 ];
 
 // Pin starting position - the dashed circle at the bottom of the tower
@@ -243,7 +243,7 @@ const NavigationUI = () => {
                     {/* Exit Portfolio Button */}
                     <button
                         className="nav-btn exit-btn"
-                        onClick={() => { window.location.href = window.location.origin + '/'; }}
+                        onClick={() => { window.location.href = window.location.origin + import.meta.env.BASE_URL; }}
                         aria-label="Exit portfolio"
                         title="Exit portfolio"
                     >
@@ -324,14 +324,14 @@ const NavigationUI = () => {
                         </div>
                         <div className="map-container">
                             {/* Map background image */}
-                            <img src="/images/map.webp" alt="Portfolio Map" className="map-image" />
+                            <img src="images/map.webp" alt="Portfolio Map" className="map-image" />
 
                             {/* Colored painted icons — always visible */}
-                            <img src="/images/map_about_painted.webp" alt="" className="painted-map-layer" />
-                            <img src="/images/map_gallery_painted.webp" alt="" className="painted-map-layer" />
-                            <img src="/images/map_contact_painted.webp" alt="" className="painted-map-layer" />
-                            <img src="/images/map_studio_painted.webp" alt="" className="painted-map-layer" />
-                            <img src="/images/map_extracurricular_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="images/map_about_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="images/map_gallery_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="images/map_contact_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="images/map_studio_painted.webp" alt="" className="painted-map-layer" />
+                            <img src="images/map_extracurricular_painted.webp" alt="" className="painted-map-layer" />
 
                             {/* Hover Zones */}
                             <button
@@ -395,7 +395,7 @@ const NavigationUI = () => {
                                     title={room.label}
                                     aria-label={`Teleport to ${room.label} room`}
                                 >
-                                    <img src="/images/pin-slot.webp" alt="" className="slot-image" />
+                                    <img src="images/pin-slot.webp" alt="" className="slot-image" />
                                 </button>
                             ))}
 
@@ -417,7 +417,7 @@ const NavigationUI = () => {
                                         }%`
                                 }}
                             >
-                                <img src="/images/pin.webp" alt="You are here" className="pin-image" />
+                                <img src="images/pin.webp" alt="You are here" className="pin-image" />
                             </div>
                         </div>
                     </div>

@@ -222,7 +222,7 @@ export default function Contact() {
                     LinkedIn
                   </a>
                   <a
-                    href="/Emna_Smaali_CV.pdf"
+                    href="Emna_Smaali_CV.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}

@@ -5,7 +5,7 @@ export const projects = [
     category: "AI Matching / Product Engineering",
     shortDescription: "A Top 3 matching engine built with Gemini and CatBoost, delivered with a team of 5 using Agile and Scrum.",
     tags: ["Gemini", "CatBoost", "React", "Node.js"],
-    image: "/textures/gallery/proj-smart-matching.webp",
+    image: "textures/gallery/proj-smart-matching.webp",
     caseStudy: {
       overview: "A matching platform that turns user and business needs into a working product: a Top 3 ranking engine based on Gemini and CatBoost, with 6+ structured attributes, 3 user roles and 10+ features.",
       challenge: "Translate user and business needs into functional requirements and product features, then define and prioritize requirements and use cases with a team of 5.",
@@ -28,7 +28,7 @@ export const projects = [
     category: "Full Stack / LLM Agents",
     shortDescription: "A full-stack ecommerce platform with multi-role management, JWT auth and a LangGraph product recommendation assistant.",
     tags: ["React.js", "Express.js", "MongoDB", "LangGraph"],
-    image: "/textures/gallery/proj-ai-ecommerce.webp",
+    image: "textures/gallery/proj-ai-ecommerce.webp",
     caseStudy: {
       overview: "A full-stack ecommerce platform combining multi-role management, REST APIs and JWT authentication with an LLM-powered assistant for product recommendations.",
       challenge: "Build a complete ecommerce platform with secure multi-role access and an assistant that can recommend products using real product and review data.",
@@ -51,7 +51,7 @@ export const projects = [
     category: "Machine Learning / Data",
     shortDescription: "A complete ML pipeline with data preparation, feature engineering, 4 evaluated models and an interactive results dashboard.",
     tags: ["Python", "Scikit-learn", "Data Analysis"],
-    image: "/textures/gallery/proj-mental-health.webp",
+    image: "textures/gallery/proj-mental-health.webp",
     caseStudy: {
       overview: "A complete machine learning pipeline covering data preparation, exploratory analysis, feature engineering and evaluation, with an interactive dashboard for interpreting the results.",
       challenge: "Build an end-to-end ML pipeline and make model performance understandable to non-technical readers.",

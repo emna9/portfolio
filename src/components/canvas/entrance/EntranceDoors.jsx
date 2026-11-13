@@ -54,35 +54,35 @@ const EntranceDoors = ({
     const isMobileDevice = typeof window !== 'undefined' && (isTouchDevice() || window.innerWidth < 1000);
     const dummyTex = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-    const frameTexture = useTexture('/textures/doors/frame_sketch.webp');
-    const doorLeftTexture = useTexture('/textures/doors/door_main_clean.webp');
-    const doorRightTexture = useTexture('/textures/doors/door_main_clean.webp');
+    const frameTexture = useTexture('textures/doors/frame_sketch.webp');
+    const doorLeftTexture = useTexture('textures/doors/door_main_clean.webp');
+    const doorRightTexture = useTexture('textures/doors/door_main_clean.webp');
 
     // Clean brown doors (no tech stickers)
-    const doorRightPaintedTexture = useTexture('/textures/doors/door_main_clean.webp');
-    const doorLeftPaintedTexture = useTexture('/textures/doors/door_main_clean.webp');
-    const handleLeftTexture = useTexture('/textures/doors/handle_left_sketch.webp');
-    const handleLeftPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/handle_left_painted.webp');
-    const handleRightTexture = useTexture('/textures/doors/handle_right_sketch.webp');
-    const handleRightPaintedTexture = useTexture(isMobileDevice ? dummyTex : '/textures/doors/handle_right_painted.webp');
+    const doorRightPaintedTexture = useTexture('textures/doors/door_main_clean.webp');
+    const doorLeftPaintedTexture = useTexture('textures/doors/door_main_clean.webp');
+    const handleLeftTexture = useTexture('textures/doors/handle_left_sketch.webp');
+    const handleLeftPaintedTexture = useTexture(isMobileDevice ? dummyTex : 'textures/doors/handle_left_painted.webp');
+    const handleRightTexture = useTexture('textures/doors/handle_right_sketch.webp');
+    const handleRightPaintedTexture = useTexture(isMobileDevice ? dummyTex : 'textures/doors/handle_right_painted.webp');
 
     // Dynamic textures for mobile
-    const doorBackTexture = useTexture('/textures/doors/door_main_clean.webp');
-    const edgeTexture = useTexture(isMobileDevice ? '/textures/doors/pien_sketch.webp' : '/textures/doors/pien.webp');
+    const doorBackTexture = useTexture('textures/doors/door_main_clean.webp');
+    const edgeTexture = useTexture(isMobileDevice ? 'textures/doors/pien_sketch.webp' : 'textures/doors/pien.webp');
 
-    const bricksTexture = useTexture('/textures/entrance/wall_bricks_2.webp');
-    const woodBarTexture = useTexture('/textures/entrance/belka.webp');
-    const stonePathTexture = useTexture('/textures/entrance/stone-path.webp');
-    // const catTexture = useTexture('/textures/entrance/cat_sketch.webp'); // Old side cat
-    const catFrontBodyTexture = useTexture('/textures/entrance/cat_front_body.webp');
-    const windowSketchTexture = useTexture('/textures/entrance/window_sketch.webp');
-    const avatarWindowTexture = useTexture('/textures/entrance/avatar_window.webp');
-    const treeTexture = useTexture('/textures/entrance/tree_sketch.webp');
-    const mouseTexture = useTexture('/textures/entrance/mouse_hanging.webp');
-    const potTexture = useTexture('/textures/entrance/pot_with_duck.webp');
-    const bugTexture = useTexture('/textures/entrance/bug_sketch.webp');
-    const inkSplashTexture = useTexture('/images/ink-splash.webp');
-    const speechBubbleTexture = useTexture('/textures/entrance/speech_bubble.webp');
+    const bricksTexture = useTexture('textures/entrance/wall_bricks_2.webp');
+    const woodBarTexture = useTexture('textures/entrance/belka.webp');
+    const stonePathTexture = useTexture('textures/entrance/stone-path.webp');
+    // const catTexture = useTexture('textures/entrance/cat_sketch.webp'); // Old side cat
+    const catFrontBodyTexture = useTexture('textures/entrance/cat_front_body.webp');
+    const windowSketchTexture = useTexture('textures/entrance/window_sketch.webp');
+    const avatarWindowTexture = useTexture('textures/entrance/avatar_window.webp');
+    const treeTexture = useTexture('textures/entrance/tree_sketch.webp');
+    const mouseTexture = useTexture('textures/entrance/mouse_hanging.webp');
+    const potTexture = useTexture('textures/entrance/pot_with_duck.webp');
+    const bugTexture = useTexture('textures/entrance/bug_sketch.webp');
+    const inkSplashTexture = useTexture('images/ink-splash.webp');
+    const speechBubbleTexture = useTexture('textures/entrance/speech_bubble.webp');
 
     // Cat Ref
     const leftPupilRef = useRef();
@@ -863,7 +863,7 @@ const EntranceDoors = ({
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Bold.ttf"
+                font="fonts/CabinSketch-Bold.ttf"
                 outlineWidth={0.015}
                 outlineColor="#ffffff"
                 clipRect={[-1, -0.5, -1 + (clipProgress * 2.5), 0.5]}

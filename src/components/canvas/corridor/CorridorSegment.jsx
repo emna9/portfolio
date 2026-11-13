@@ -140,7 +140,7 @@ const CorridorSegment = ({
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/CabinSketch-Bold.ttf"
+                font="fonts/CabinSketch-Bold.ttf"
             >
                 EMNA SMAALI
             </Text>

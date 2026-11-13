@@ -38,29 +38,29 @@ const FALLBACK_PROJECTS = [
     {
         id: 'smart-matching-platform',
         title: 'SMART MATCHING PLATFORM',
-        front: '/textures/gallery/proj-smart-matching.webp',
-        painted: '/textures/gallery/proj-smart-matching_painted.webp',
+        front: 'textures/gallery/proj-smart-matching.webp',
+        painted: 'textures/gallery/proj-smart-matching_painted.webp',
         url: 'https://github.com/emna9',
         description: 'A matching platform built around a Top 3 ranking engine powered by Gemini and CatBoost, with 6+ structured attributes, 3 user roles and 10+ features.',
-        techStack: ['/textures/gallery/geminilogo.webp', '/textures/gallery/catboostlogo.webp', '/textures/gallery/reactlogo.webp', '/textures/gallery/nodelogo.webp']
+        techStack: ['textures/gallery/geminilogo.webp', 'textures/gallery/catboostlogo.webp', 'textures/gallery/reactlogo.webp', 'textures/gallery/nodelogo.webp']
     },
     {
         id: 'ai-ecommerce-platform',
         title: 'AI-POWERED ECOMMERCE',
-        front: '/textures/gallery/proj-ai-ecommerce.webp',
-        painted: '/textures/gallery/proj-ai-ecommerce_painted.webp',
+        front: 'textures/gallery/proj-ai-ecommerce.webp',
+        painted: 'textures/gallery/proj-ai-ecommerce_painted.webp',
         url: 'https://github.com/emna9',
         description: 'A full-stack ecommerce platform with multi-role management, REST APIs and JWT auth, plus a LangGraph agent for product recommendations.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/nodelogo.webp', '/textures/gallery/mongologo.webp', '/textures/gallery/langgraphlogo.webp']
+        techStack: ['textures/gallery/reactlogo.webp', 'textures/gallery/nodelogo.webp', 'textures/gallery/mongologo.webp', 'textures/gallery/langgraphlogo.webp']
     },
     {
         id: 'mental-health-risk-prediction',
         title: 'MENTAL HEALTH RISK PREDICTION',
-        front: '/textures/gallery/proj-mental-health.webp',
-        painted: '/textures/gallery/proj-mental-health_painted.webp',
+        front: 'textures/gallery/proj-mental-health.webp',
+        painted: 'textures/gallery/proj-mental-health_painted.webp',
         url: 'https://github.com/emna9',
         description: 'A complete machine learning pipeline — data preparation, exploratory analysis, feature engineering and evaluation of 4 models with an interactive results dashboard.',
-        techStack: ['/textures/gallery/pythonlogo.webp', '/textures/gallery/sklogo.webp', '/textures/gallery/datalogo.webp']
+        techStack: ['textures/gallery/pythonlogo.webp', 'textures/gallery/sklogo.webp', 'textures/gallery/datalogo.webp']
     }
 ];
 
@@ -219,8 +219,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
     const paintedTextures = useTexture(paintedUrls);
 
     // Load the universal back texture and the button texture conditionally
-    const backTextureRaw = useTexture(canHover ? '/textures/gallery/tylkartki_painted.webp' : '/textures/gallery/tylkartki.webp');
-    const overlayTextureRaw = useTexture(canHover ? '/textures/gallery/przyciskdotylukartki_painted.webp' : '/textures/gallery/przyciskdotylukartki.webp');
+    const backTextureRaw = useTexture(canHover ? 'textures/gallery/tylkartki_painted.webp' : 'textures/gallery/tylkartki.webp');
+    const overlayTextureRaw = useTexture(canHover ? 'textures/gallery/przyciskdotylukartki_painted.webp' : 'textures/gallery/przyciskdotylukartki.webp');
 
     // Preload tech stack logos to prevent stuttering on first flip
     // We use the same conditional logic: painted on desktop, regular on touch
@@ -232,9 +232,9 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
             'mongologo', 'sklogo', 'geminilogo', 'catboostlogo', 'langgraphlogo', 'datalogo'
         ];
         return names.map(name => {
-            if (!canHover) return `/textures/gallery/${name}.webp`;
-            if (name === 'csslogo') return `/textures/gallery/css3logo_painted.webp`;
-            return `/textures/gallery/${name}_painted.webp`;
+            if (!canHover) return `textures/gallery/${name}.webp`;
+            if (name === 'csslogo') return `textures/gallery/css3logo_painted.webp`;
+            return `textures/gallery/${name}_painted.webp`;
         });
     }, [canHover]);
     
@@ -269,8 +269,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
             const techStack = (projectData.techStack || []).map(path => {
                 if (!canHover) return path; // Keep regular
                 const name = path.split('/').pop().replace('.webp', '');
-                if (name === 'csslogo') return '/textures/gallery/css3logo_painted.webp';
-                return `/textures/gallery/${name}_painted.webp`;
+                if (name === 'csslogo') return 'textures/gallery/css3logo_painted.webp';
+                return `textures/gallery/${name}_painted.webp`;
             });
 
             return {
@@ -352,12 +352,12 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
     });
 
     // --- GEOMETRY & MATERIALS ---
-    const floorTexture = useTexture('/textures/gallery/floor.webp');
-    const railingTexture = useTexture('/textures/gallery/railing.webp');
-    const housesTexture = useTexture('/textures/gallery/domki.webp');
-    const cityTexture = useTexture('/textures/gallery/miastotlo.webp');
-    const birdTexture = useTexture('/textures/gallery/bird_gray.webp');
-    const clothespinTexture = useTexture('/textures/gallery/klamerka.webp');
+    const floorTexture = useTexture('textures/gallery/floor.webp');
+    const railingTexture = useTexture('textures/gallery/railing.webp');
+    const housesTexture = useTexture('textures/gallery/domki.webp');
+    const cityTexture = useTexture('textures/gallery/miastotlo.webp');
+    const birdTexture = useTexture('textures/gallery/bird_gray.webp');
+    const clothespinTexture = useTexture('textures/gallery/klamerka.webp');
 
     useEffect(() => {
         if (floorTexture) {
@@ -391,7 +391,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
         const thresholdMat = new THREE.MeshBasicMaterial({
             color: '#fcf3c6',
             map: (() => {
-                const t = new THREE.TextureLoader().load('/textures/corridor/texturadoprogow.webp');
+                const t = new THREE.TextureLoader().load('textures/corridor/texturadoprogow.webp');
                 t.colorSpace = THREE.SRGBColorSpace;
                 t.wrapS = t.wrapT = THREE.RepeatWrapping;
                 t.repeat.set(15 / 2.524, 1);
@@ -439,7 +439,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup, projectsData, var
             {!isWarmup && (
                 <PositionalAudio
                     ref={audioRef}
-                    url="/sounds/szummiasta.mp3"
+                    url="sounds/szummiasta.mp3"
                     distanceModel="exponential"
                     refDistance={AUDIO_SETTINGS.distance}
                     rolloffFactor={AUDIO_SETTINGS.rolloff}
@@ -1164,7 +1164,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         position={[0, 0, 0.01]}
                         fontSize={0.11}
                         color={btnHovered ? "#333333" : "#1c1c1c"}
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                         anchorX="center"
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
@@ -1225,7 +1225,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         position={[0, 0.28, 0.01]} // Względem środka detailsGroupRef, wyżej
                         fontSize={0.10}
                         color="#1c1c1c"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                         anchorX="center"
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
@@ -1238,7 +1238,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         position={[0, 0.2, 0.01]} // Poniżej nagłówka
                         fontSize={0.06}
                         color="#333333"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                         anchorX="center"
                         anchorY="top"
                         maxWidth={1.1} // Maksymalna szerokość zanim zacznie łamać linie
@@ -1254,7 +1254,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                             position={[0, -0.28, 0.01]}
                             fontSize={0.035}
                             color="#333333"
-                            font="/fonts/CabinSketch-Bold.ttf"
+                            font="fonts/CabinSketch-Bold.ttf"
                             anchorX="center"
                             anchorY="top"
                             maxWidth={1.2}
@@ -1278,7 +1278,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         position={[0, 0.15, 0.01]}
                         fontSize={0.08}
                         color="#1c1c1c"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                         anchorX="center"
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
@@ -1321,7 +1321,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         position={[0, 0.7, 0]} // Tylko dwa pierwsze parametry [X, Y] mają tutaj znaczenie
                         fontSize={0.20}
                         color="#1c1c1c"
-                        font="/fonts/CabinSketch-Bold.ttf"
+                        font="fonts/CabinSketch-Bold.ttf"
                         anchorX="center"
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
@@ -1332,7 +1332,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
 
                 <PositionalAudio
                     ref={paperAudioRef}
-                    url="/sounds/papersound.mp3"
+                    url="sounds/papersound.mp3"
                     distanceModel="exponential"
                     rolloffFactor={GALLERY_INTERACTION_AUDIO_SETTINGS.rolloff}
                     refDistance={GALLERY_INTERACTION_AUDIO_SETTINGS.distance}

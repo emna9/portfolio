@@ -112,13 +112,13 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
     }, [isExiting, isTeleporting, hidePopup]);
 
     // Load Sea Texture
-    const seaTexture = useTexture("/textures/contact/faletopdown.webp");
+    const seaTexture = useTexture("textures/contact/faletopdown.webp");
     // Load Molo Texture
-    const moloTexture = useTexture("/textures/contact/molo.webp");
+    const moloTexture = useTexture("textures/contact/molo.webp");
     // Load Latarnia Texture
-    const latarniaTexture = useTexture("/textures/contact/latarnia.webp");
+    const latarniaTexture = useTexture("textures/contact/latarnia.webp");
     // Load Statek Texture
-    const statekTexture = useTexture("/textures/contact/statek.webp");
+    const statekTexture = useTexture("textures/contact/statek.webp");
 
 
     // Configure texture repeating (1:1 scale)
@@ -356,7 +356,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             {!isWarmup && (
                 <PositionalAudio
                     ref={audioRef}
-                    url="/sounds/szummorza.mp3"
+                    url="sounds/szummorza.mp3"
                     distanceModel="exponential"
                     refDistance={AUDIO_SETTINGS.distance}
                     rolloffFactor={AUDIO_SETTINGS.rolloff}
@@ -397,7 +397,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [-1.2, 0.5, -10] : [-3, 0.5, -10]}
                 rotation={[0, 0.2, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="GITHUB"
                 onClick={() => window.open('https://github.com/emna9', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
@@ -407,7 +407,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [-1.5, -0.3, -7] : [-5, -0.3, -8]}
                 rotation={[0, 0.3, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="LINKEDIN"
                 onClick={() => window.open('https://www.linkedin.com/in/emna-smaali-8855a7258', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
@@ -417,9 +417,9 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [1.2, 0.5, -10] : [3, 0.5, -10]}
                 rotation={[0, -0.2, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="RESUME"
-                onClick={() => window.open('/Emna_Smaali_CV.pdf', '_blank')}
+                onClick={() => window.open('Emna_Smaali_CV.pdf', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -427,7 +427,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [1.5, -0.3, -7] : [5, -0.3, -8]}
                 rotation={[0, -0.3, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="EMAIL"
                 onClick={() => window.location.href = 'mailto:emna.smaali@medtech.tn'}
                 paintOnBeforeCompile={onBeforeCompile}
@@ -437,7 +437,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [0, -0.7, -6] : [0, -0.7, -7]}
                 rotation={[0, 0, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="MESSAGE"
                 onClick={handleMailSelect}
                 paintOnBeforeCompile={onBeforeCompile}

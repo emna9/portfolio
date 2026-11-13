@@ -18,7 +18,7 @@ const Avatar = ({ position = [10, -20, 30] }) => {
     const worldPosVec = useRef(new THREE.Vector3());
 
     // Single static texture
-    const texture = useTexture('/textures/corridor/avatar_anim/1.webp');
+    const texture = useTexture('textures/corridor/avatar_anim/1.webp');
 
     useEffect(() => {
         if (texture) {

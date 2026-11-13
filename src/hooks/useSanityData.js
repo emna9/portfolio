@@ -106,7 +106,7 @@ export function loadSanityData() {
                         ...p,
                         front: frontUrl,
                         painted: paintedUrl,
-                        techStack: p.techStack ? p.techStack.map(t => '/textures/gallery/' + t) : []
+                        techStack: p.techStack ? p.techStack.map(t => 'textures/gallery/' + t) : []
                     };
                 });
             }

@@ -5,6 +5,9 @@ import { useScene } from '../context/SceneContext';
  * useDocumentMeta — Dynamic Meta Tags & Virtual Routing (History API)
  */
 
+const BASE = import.meta.env.BASE_URL || '/';
+const withBase = (path) => `${BASE.replace(/\/$/, '')}${path}`;
+
 const ROOM_META = {
     null: {
         path: '/',
@@ -57,7 +60,13 @@ const PATH_TO_ROOM = {
 };
 
 export function getInitialRoomFromUrl() {
-    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    const base = import.meta.env.BASE_URL || '/';
+    const baseNoSlash = base.replace(/\/$/, '');
+    let path = window.location.pathname;
+    if (baseNoSlash && path.startsWith(baseNoSlash)) {
+        path = path.slice(baseNoSlash.length) || '/';
+    }
+    path = path.replace(/\/+$/, '') || '/';
     return PATH_TO_ROOM[path] !== undefined ? PATH_TO_ROOM[path] : null;
 }
 
@@ -88,7 +97,7 @@ export function useDocumentMeta() {
         if (ogDesc) ogDesc.setAttribute('content', meta.description);
 
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', `${window.location.origin}${meta.path}`);
+        if (ogUrl) ogUrl.setAttribute('content', `${window.location.origin}${withBase(meta.path)}`);
 
         // Update canonical link (created on first run when no static tag exists)
         let canonicalTag = document.querySelector('link[rel="canonical"]');
@@ -97,14 +106,14 @@ export function useDocumentMeta() {
             canonicalTag.rel = 'canonical';
             document.head.appendChild(canonicalTag);
         }
-        canonicalTag.setAttribute('href', `${window.location.origin}${meta.path}`);
+        canonicalTag.setAttribute('href', `${window.location.origin}${withBase(meta.path)}`);
 
         // Push to browser history
         if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {
             if (lastPushedRoom.current === undefined) {
-                window.history.replaceState({ room: currentRoom }, '', meta.path);
+                window.history.replaceState({ room: currentRoom }, '', withBase(meta.path));
             } else {
-                window.history.pushState({ room: currentRoom }, '', meta.path);
+                window.history.pushState({ room: currentRoom }, '', withBase(meta.path));
             }
             lastPushedRoom.current = currentRoom;
         }
