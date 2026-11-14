@@ -44,23 +44,23 @@ $rust: #a34a4a;
     }
 
     &[data-moving="true"] &__pose {
-        animation: avatarWalkBob 0.6s ease-in-out infinite;
+        animation: avatarWalkBob 0.5s ease-in-out infinite;
     }
 
     &[data-moving="true"] .avatar-leg--l {
-        animation: avatarLegL 0.6s ease-in-out infinite;
+        animation: avatarLegL 0.5s ease-in-out infinite;
     }
 
     &[data-moving="true"] .avatar-leg--r {
-        animation: avatarLegR 0.6s ease-in-out infinite;
+        animation: avatarLegR 0.5s ease-in-out infinite;
     }
 
     &[data-moving="true"] .avatar-arm--l {
-        animation: avatarArmL 0.6s ease-in-out infinite;
+        animation: avatarArmL 0.5s ease-in-out infinite;
     }
 
     &[data-moving="true"] .avatar-arm--r {
-        animation: avatarArmR 0.6s ease-in-out infinite;
+        animation: avatarArmR 0.5s ease-in-out infinite;
     }
 
     &.is-waving .avatar-arm--r {

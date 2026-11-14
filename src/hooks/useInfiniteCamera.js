@@ -10,12 +10,12 @@ import { isLocked, getVirtualAxis, getPov, setMovementState } from '../utils/con
 import { useGuidance } from '../context/GuidanceContext';
 
 // Comfortable walking model
-const WALK_SPEED = 3.6;           // comfortable cruising speed
-const NEAR_DOOR_WALK_SPEED = 1.7; // gentle approach near a door
-const STRAFE_SPEED = 2.4;         // units per second
-const NEAR_DOOR_STRAFE_SPEED = 1.3;
-const ACCELERATION = 8;           // units per second²
-const DECELERATION = 8;        // units per second²
+const WALK_SPEED = 5.2;           // faster cruising speed
+const NEAR_DOOR_WALK_SPEED = 2.4; // gentle approach near a door
+const STRAFE_SPEED = 3.2;         // units per second
+const NEAR_DOOR_STRAFE_SPEED = 1.7;
+const ACCELERATION = 12;          // units per second²
+const DECELERATION = 12;       // units per second²
 const MAX_STRAFE = 1.15;       // stay clear of the walls
 const MAX_BACK_Z = 9.4;        // do not walk back out of the house
 

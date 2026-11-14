@@ -75,7 +75,7 @@ const AvatarAnchor = () => {
         const movement = getMovementState();
         if (movement.moving && !isInRoom) {
             stepAccum.current += delta || 0.016;
-            if (stepAccum.current > 0.42) {
+            if (stepAccum.current > 0.36) {
                 playFootstep();
                 stepAccum.current = 0;
             }
