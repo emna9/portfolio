@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScene } from '../../context/SceneContext';
 import { useGuidance, useNearestDoor } from '../../context/GuidanceContext';
 import { getDoorInfo } from '../../data/doorContent';
-import { hasSeenTutorial, getMovementState, setIntroLookBack } from '../../utils/controls';
+import { hasSeenTutorial, getMovementState, setIntroLookBack, isEntranceOpening } from '../../utils/controls';
 import { Typewriter } from './Typewriter';
 import { playWelcome } from '../../utils/sfx';
 import '../../styles/AvatarGuide.scss';
@@ -90,6 +90,8 @@ const AvatarGuide = () => {
     const wasInRoom = useRef(false);
     const helpedRef = useRef(false);
     const welcomedRef = useRef(false);
+    const landingWavedRef = useRef(false);
+    const landingWelcomeRef = useRef(false);
     const nearestRef = useRef(nearestDoor);
 
     const wave = useCallback(() => {
@@ -106,9 +108,31 @@ const AvatarGuide = () => {
     useEffect(() => {
         if (hasEntered && !welcomedRef.current) {
             welcomedRef.current = true;
-            playWelcome();
             if (!hasSeenTutorial()) setIntroLookBack(true);
         }
+    }, [hasEntered]);
+
+    // Landing: she waves and greets before the visitor opens the door.
+    useEffect(() => {
+        if (hasEntered || landingWavedRef.current) return undefined;
+        landingWavedRef.current = true;
+        const timer = setTimeout(wave, 700);
+        return () => clearTimeout(timer);
+    }, [hasEntered, wave]);
+
+    useEffect(() => {
+        if (hasEntered) return undefined;
+        const onFirstGesture = () => {
+            if (landingWelcomeRef.current) return;
+            landingWelcomeRef.current = true;
+            playWelcome();
+        };
+        window.addEventListener('pointerdown', onFirstGesture, { once: true });
+        window.addEventListener('keydown', onFirstGesture, { once: true });
+        return () => {
+            window.removeEventListener('pointerdown', onFirstGesture);
+            window.removeEventListener('keydown', onFirstGesture);
+        };
     }, [hasEntered]);
 
     // First visit: she walks in, stops, turns, waves, then introduces herself.
@@ -137,7 +161,10 @@ const AvatarGuide = () => {
     }, [guideLine, wave]);
 
     // Tell the 3D anchor to face the visitor while a bubble is open.
-    const bubbleVisible = Boolean(hasEntered && !isInRoom && !helpOpen && (tutorialOpen || guideLine));
+    const bubbleVisible = Boolean(
+        (!hasEntered && !isEntranceOpening())
+        || (hasEntered && !isInRoom && !helpOpen && (tutorialOpen || guideLine))
+    );
     useEffect(() => {
         avatarTalkingRef.current = bubbleVisible;
         setAvatarSpeaking(bubbleVisible);
@@ -236,7 +263,6 @@ const AvatarGuide = () => {
             data-moving="false"
             data-view="back"
             data-facing="center"
-            aria-hidden={!hasEntered}
         >
             <div className="avatar-guide__figure">
                 <div className="avatar-guide__pose">
@@ -385,7 +411,27 @@ const AvatarGuide = () => {
                 <div className="avatar-speech" role="status" aria-live="polite">
                     <span className="avatar-speech__tail" aria-hidden="true" />
 
-                    {tutorialOpen ? (
+                    {!hasEntered ? (
+                        <>
+                            <div className="avatar-speech__head">
+                                <span className="avatar-speech__kicker">EMNA</span>
+                            </div>
+                            <Typewriter
+                                key="landing"
+                                text="Want to take a look at my portfolio? Click the door or press Enter."
+                                speed={20}
+                                className="avatar-speech__text"
+                            />
+                            <button
+                                type="button"
+                                className="avatar-speech__enter"
+                                onClick={() => window.dispatchEvent(new CustomEvent('sketch-enter-house'))}
+                            >
+                                <span className="avatar-key avatar-key--wide">ENTER</span>
+                                <span>enter the house</span>
+                            </button>
+                        </>
+                    ) : tutorialOpen ? (
                         <>
                             <div className="avatar-speech__head">
                                 <span className="avatar-speech__kicker">{currentStep.kicker}</span>

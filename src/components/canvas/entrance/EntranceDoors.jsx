@@ -8,6 +8,7 @@ import { playBackgroundMusic } from '../../../utils/audioManager';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 import { playDoorOpen } from '../../../utils/sfx';
+import { setEntranceOpening } from '../../../utils/controls';
 
 
 // Warm halo used around the main door.
@@ -72,6 +73,7 @@ const EntranceDoors = ({
 
     useEffect(() => {
         setIsMobile(isTouchDevice() || window.innerWidth < 1000);
+        setEntranceOpening(false);
     }, []);
 
     // Dla hooków tekstur musimy obliczyć to raz na starcie
@@ -285,6 +287,7 @@ const EntranceDoors = ({
 
         setIsOpen(true);
         setIsAnimating(true);
+        setEntranceOpening(true);
         playDoorOpen();
         playBackgroundMusic();
 
@@ -594,6 +597,25 @@ const EntranceDoors = ({
         if (entranceInnerRef.current) entranceInnerRef.current.material.opacity = 0.32 + Math.sin(t * 1.9 + 1) * 0.05;
         if (entranceSpillRef.current) entranceSpillRef.current.material.opacity = 0.42 + Math.sin(t * 1.2) * 0.06;
     });
+
+    // Enter key and the landing bubble button can open the main door too.
+    useEffect(() => {
+        const enter = () => {
+            if (!isOpen && !isAnimating) {
+                handleClick({ stopPropagation: () => {} });
+            }
+        };
+        const onKey = (event) => {
+            if (event.key === 'Enter') enter();
+        };
+        const onCustom = () => enter();
+        window.addEventListener('keydown', onKey);
+        window.addEventListener('sketch-enter-house', onCustom);
+        return () => {
+            window.removeEventListener('keydown', onKey);
+            window.removeEventListener('sketch-enter-house', onCustom);
+        };
+    }, [handleClick, isOpen, isAnimating]);
 
     // Frame center Y - aligned with doors
     const frameCenterY = doorBottomY + frameHeight / 2;

@@ -219,11 +219,6 @@ const NavigationUI = () => {
 
     return (
         <div className="navigation-ui">
-            {/* Entrance guidance */}
-            {!hasEntered && (
-                <div className="entrance-hint">Click the door to explore the portfolio</div>
-            )}
-
             {/* Global Achievement Popup - hidden while Emna is speaking */}
             {!tutorialOpen && !avatarSpeaking && <AchievementPopup />}
 

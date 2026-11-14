@@ -33,6 +33,15 @@ export const setMovementState = (moving, strafe = 0) => {
 
 export const getMovementState = () => movement;
 
+// Entrance door opening: hide the landing avatar while the camera flies in.
+let entranceOpening = false;
+
+export const setEntranceOpening = (value) => {
+    entranceOpening = !!value;
+};
+
+export const isEntranceOpening = () => entranceOpening;
+
 // Cinematic intro: look back at the main entrance door first.
 let introLookBack = false;
 let introCameraBusy = false;

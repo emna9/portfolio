@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useScene } from '../../../context/SceneContext';
 import { useGuidance } from '../../../context/GuidanceContext';
-import { getMovementState, isIntroCameraBusy, isIntroLookBack } from '../../../utils/controls';
+import { getMovementState, isIntroCameraBusy, isIntroLookBack, isEntranceOpening } from '../../../utils/controls';
 import { playFootstep } from '../../../utils/sfx';
 
 const FEET_Y = -1.74;
@@ -47,6 +47,45 @@ const AvatarAnchor = () => {
     useFrame((state, delta) => {
         const node = avatarRef.current;
         if (!node) return;
+
+        if (!hasEntered) {
+            if (isEntranceOpening()) {
+                node.style.opacity = '0';
+                node.dataset.moving = 'false';
+                return;
+            }
+
+            // Landing pose: standing on the path beside the main door.
+            feet.current.set(1.85, FEET_Y, 23.4);
+            head.current.set(1.85, FEET_Y + FIGURE_HEIGHT, 23.4);
+            feet.current.project(camera);
+            head.current.project(camera);
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const x = (feet.current.x * 0.5 + 0.5) * width;
+            const feetY = (-feet.current.y * 0.5 + 0.5) * height;
+            const headY = (-head.current.y * 0.5 + 0.5) * height;
+            const pixelHeight = Math.max(30, feetY - headY);
+            const scale = pixelHeight / FIGURE_VIEWBOX_HEIGHT;
+
+            node.style.left = `${x.toFixed(1)}px`;
+            node.style.top = `${feetY.toFixed(1)}px`;
+            node.style.setProperty('--avatar-scale', scale.toFixed(3));
+
+            const bubbleHalf = Math.min(width < 640 ? 155 : 180, width * 0.46);
+            let bubbleShift = 0;
+            if (x < bubbleHalf) bubbleShift = bubbleHalf - x;
+            else if (x > width - bubbleHalf) bubbleShift = (width - bubbleHalf) - x;
+            node.style.setProperty('--bubble-shift', `${bubbleShift.toFixed(0)}px`);
+
+            node.style.opacity = '1';
+            node.dataset.moving = 'false';
+            node.dataset.view = 'front';
+            node.dataset.facing = 'center';
+            node.dataset.turning = 'false';
+            return;
+        }
 
         const visible = hasEntered && !isInRoom && !isTeleporting;
         const introBusy = isIntroCameraBusy();
