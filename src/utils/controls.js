@@ -33,6 +33,22 @@ export const setMovementState = (moving, strafe = 0) => {
 
 export const getMovementState = () => movement;
 
+// Cinematic intro: look back at the main entrance door first.
+let introLookBack = false;
+let introCameraBusy = false;
+
+export const setIntroLookBack = (value) => {
+    introLookBack = !!value;
+};
+
+export const isIntroLookBack = () => introLookBack;
+
+export const setIntroCameraBusy = (value) => {
+    introCameraBusy = !!value;
+};
+
+export const isIntroCameraBusy = () => introCameraBusy;
+
 // First-person / eye-level preference
 let povEnabled = false;
 try {

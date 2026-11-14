@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScene } from '../../context/SceneContext';
 import { useGuidance, useNearestDoor } from '../../context/GuidanceContext';
 import { getDoorInfo } from '../../data/doorContent';
-import { hasSeenTutorial, getMovementState } from '../../utils/controls';
+import { hasSeenTutorial, getMovementState, setIntroLookBack } from '../../utils/controls';
 import { Typewriter } from './Typewriter';
 import { playWelcome } from '../../utils/sfx';
 import '../../styles/AvatarGuide.scss';
@@ -67,7 +67,7 @@ const MiniDoor = () => (
  * visitor, turns, waves and speaks in short vintage speech bubbles.
  */
 const AvatarGuide = () => {
-    const { hasEntered, isInRoom } = useScene();
+    const { hasEntered, isInRoom, isTeleporting } = useScene();
     const {
         avatarRef,
         avatarTalkingRef,
@@ -107,6 +107,7 @@ const AvatarGuide = () => {
         if (hasEntered && !welcomedRef.current) {
             welcomedRef.current = true;
             playWelcome();
+            if (!hasSeenTutorial()) setIntroLookBack(true);
         }
     }, [hasEntered]);
 
@@ -122,8 +123,14 @@ const AvatarGuide = () => {
         if (tutorialOpen) {
             setStep(0);
             wave();
+        } else if (welcomedRef.current) {
+            setIntroLookBack(false);
         }
     }, [tutorialOpen, wave]);
+
+    useEffect(() => {
+        if (isInRoom || isTeleporting) setIntroLookBack(false);
+    }, [isInRoom, isTeleporting]);
 
     useEffect(() => {
         if (guideLine) wave();

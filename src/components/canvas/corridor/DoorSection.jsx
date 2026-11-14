@@ -1312,30 +1312,7 @@ const DoorSection = ({
                                 PROJECTS
                             </Text>
                         )}
-                        {label === 'PROJECTS' && segmentIndex === 0 && (
-                            <group position={[0, 0.46, 0.02]}>
-                                <Text
-                                    font="fonts/CabinSketch-Bold.ttf"
-                                    fontSize={0.07}
-                                    color="#4a2c22"
-                                    anchorX="center"
-                                    anchorY="middle"
-                                    position={[0, 0.05, 0]}
-                                >
-                                    while (true) {'{'}
-                                </Text>
-                                <Text
-                                    font="fonts/CabinSketch-Bold.ttf"
-                                    fontSize={0.07}
-                                    color="#4a2c22"
-                                    anchorX="center"
-                                    anchorY="middle"
-                                    position={[0, -0.05, 0]}
-                                >
-                                    explore(); {'}'}
-                                </Text>
-                            </group>
-                        )}
+
                         {label === 'THE ABOUT' && (
                             <Text
                                 font="fonts/CabinSketch-Bold.ttf"

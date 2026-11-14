@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useScene } from '../../../context/SceneContext';
 import { useGuidance } from '../../../context/GuidanceContext';
-import { getMovementState } from '../../../utils/controls';
+import { getMovementState, isIntroCameraBusy, isIntroLookBack } from '../../../utils/controls';
 import { playFootstep } from '../../../utils/sfx';
 
 const FEET_Y = -1.74;
@@ -49,6 +49,13 @@ const AvatarAnchor = () => {
         if (!node) return;
 
         const visible = hasEntered && !isInRoom && !isTeleporting;
+        const introBusy = isIntroCameraBusy();
+        const introLook = isIntroLookBack();
+        if (visible && introBusy && !introLook) {
+            node.style.opacity = '0';
+            node.dataset.moving = 'false';
+            return;
+        }
         if (!visible) {
             node.style.opacity = '0';
             node.dataset.moving = 'false';
@@ -79,18 +86,19 @@ const AvatarAnchor = () => {
         const nearFactor = nearest ? Math.max(0, 1 - nearest.distance / 13) : 0;
         const side = nearest?.side;
 
-        // During the first introduction she stands near the first interior door,
+        // During the introduction she stands in front of the main inside door,
         // then walks closer once the tour is dismissed.
-        const introWindow = now - firstEntryAt.current < 3.2;
-        const holdIntro = (tutorialOpen || introWindow) && now - firstEntryAt.current < 40;
+        const holdIntro = (tutorialOpen || isIntroLookBack()) && now - firstEntryAt.current < 40;
         const mobileOffset = window.innerWidth < 640 ? 1.2 : 0;
         const targetDistance = (holdIntro ? 5.4 : REST_DISTANCE) + mobileOffset;
         currentDistance.current = THREE.MathUtils.lerp(currentDistance.current, targetDistance, 0.035);
         const distance = currentDistance.current;
         const approaching = Math.abs(currentDistance.current - targetDistance) > 0.05;
 
-        // Softly follow the camera and lean toward the door being approached.
-        const targetX = camera.position.x * 0.55
+        // Follow the camera forward direction, so the same code works when the
+        // intro camera turns around to look at the main door.
+        const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+        const targetX = camera.position.x + forward.x * distance
             + (side === 'left' ? -0.38 : side === 'right' ? 0.38 : 0) * nearFactor;
         smoothX.current = THREE.MathUtils.lerp(smoothX.current, targetX, 0.07);
 
@@ -107,7 +115,7 @@ const AvatarAnchor = () => {
         else if (movement.strafe < -0.15) facing = 'left';
         else if (side && nearFactor > 0.3) facing = side;
 
-        const z = camera.position.z - distance;
+        const z = camera.position.z + forward.z * distance;
         feet.current.set(smoothX.current, FEET_Y, z);
         head.current.set(smoothX.current, FEET_Y + FIGURE_HEIGHT, z);
 

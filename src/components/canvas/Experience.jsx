@@ -9,6 +9,8 @@ import RoomWarmup from './corridor/RoomWarmup';
 import DoorProximityManager from './corridor/DoorProximityManager';
 import FloorGuide from './corridor/FloorGuide';
 import AvatarAnchor from './corridor/AvatarAnchor';
+import IntroCamera from './corridor/IntroCamera';
+import MainDoorInterior from './corridor/MainDoorInterior';
 import useInfiniteCamera from '../../hooks/useInfiniteCamera';
 import SignSystem from './entrance/SignSystem';
 import { useScene } from '../../context/SceneContext';
@@ -118,6 +120,8 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
             <DoorProximityManager />
             <FloorGuide />
             <AvatarAnchor />
+            <IntroCamera setCameraOverride={setCameraOverride} />
+            {hasEntered && <MainDoorInterior />}
         </>
     );
 };
