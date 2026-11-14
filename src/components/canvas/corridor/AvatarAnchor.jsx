@@ -33,6 +33,7 @@ const AvatarAnchor = () => {
     const stepAccum = useRef(0);
     const prevView = useRef('back');
     const turnUntil = useRef(0);
+    const entranceHideAt = useRef(0);
     const feet = useRef(new THREE.Vector3());
     const head = useRef(new THREE.Vector3());
 
@@ -49,10 +50,17 @@ const AvatarAnchor = () => {
         if (!node) return;
 
         if (!hasEntered) {
+            const landingNow = state.clock.elapsedTime;
             if (isEntranceOpening()) {
-                node.style.opacity = '0';
-                node.dataset.moving = 'false';
-                return;
+                // Let her finish the welcoming wave for a moment as the door opens.
+                if (entranceHideAt.current === 0) entranceHideAt.current = landingNow + 0.9;
+                if (landingNow >= entranceHideAt.current) {
+                    node.style.opacity = '0';
+                    node.dataset.moving = 'false';
+                    return;
+                }
+            } else if (entranceHideAt.current !== 0) {
+                entranceHideAt.current = 0;
             }
 
             // Landing pose: standing on the path beside the main door.
@@ -121,9 +129,6 @@ const AvatarAnchor = () => {
         } else {
             stepAccum.current = 0;
         }
-        const nearest = nearestDoorRef.current;
-        const nearFactor = nearest ? Math.max(0, 1 - nearest.distance / 13) : 0;
-        const side = nearest?.side;
 
         // During the introduction she stands in front of the main inside door,
         // then walks closer once the tour is dismissed.
@@ -134,12 +139,9 @@ const AvatarAnchor = () => {
         const distance = currentDistance.current;
         const approaching = Math.abs(currentDistance.current - targetDistance) > 0.05;
 
-        // Follow the camera forward direction, so the same code works when the
-        // intro camera turns around to look at the main door.
+        // Stay on the central path, regardless of camera parallax.
         const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
-        const targetX = camera.position.x + forward.x * distance
-            + (side === 'left' ? -0.38 : side === 'right' ? 0.38 : 0) * nearFactor;
-        smoothX.current = THREE.MathUtils.lerp(smoothX.current, targetX, 0.07);
+        smoothX.current = THREE.MathUtils.lerp(smoothX.current, 0, 0.07);
 
         const talking = avatarTalkingRef.current;
         if (movement.moving || approaching) {
@@ -149,10 +151,7 @@ const AvatarAnchor = () => {
             view.current = 'front';
         }
 
-        let facing = 'center';
-        if (movement.strafe > 0.15) facing = 'right';
-        else if (movement.strafe < -0.15) facing = 'left';
-        else if (side && nearFactor > 0.3) facing = side;
+        const facing = 'center';
 
         const z = camera.position.z + forward.z * distance;
         feet.current.set(smoothX.current, FEET_Y, z);

@@ -940,7 +940,7 @@ $rust: #b4552d;
         gap: 3px;
         grid-template-areas:
             ". up ."
-            "left . right"
+            ". . ."
             ". down .";
     }
 

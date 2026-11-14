@@ -9,7 +9,41 @@ import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 import { playDoorOpen } from '../../../utils/sfx';
 import { setEntranceOpening } from '../../../utils/controls';
+import { getGardenTexture } from '../../../utils/gardenTexture';
 
+
+
+let facadeShadeTexture = null;
+const getFacadeShadeTexture = () => {
+    if (facadeShadeTexture || typeof document === 'undefined') return facadeShadeTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 8;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 128);
+    gradient.addColorStop(0, 'rgba(43, 26, 20, 0)');
+    gradient.addColorStop(1, 'rgba(43, 26, 20, 0.75)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 8, 128);
+    facadeShadeTexture = new THREE.CanvasTexture(canvas);
+    return facadeShadeTexture;
+};
+
+let sideShadeTexture = null;
+const getSideShadeTexture = () => {
+    if (sideShadeTexture || typeof document === 'undefined') return sideShadeTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 8;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 128, 0);
+    gradient.addColorStop(0, 'rgba(43, 26, 20, 0.55)');
+    gradient.addColorStop(1, 'rgba(43, 26, 20, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 8);
+    sideShadeTexture = new THREE.CanvasTexture(canvas);
+    return sideShadeTexture;
+};
 
 // Warm halo used around the main door.
 let entranceGlowTexture = null;
@@ -680,6 +714,24 @@ const EntranceDoors = ({
                 />
             </mesh>
 
+            {/* Soft architectural shading */}
+            <mesh position={[0, floorY + 0.7, 0.16]}>
+                <planeGeometry args={[16, 1.6]} />
+                <meshBasicMaterial map={getFacadeShadeTexture()} transparent opacity={0.32} depthWrite={false} />
+            </mesh>
+            <mesh position={[-7.2, wallCenterY + facadeYOffset + 1.65, 0.16]}>
+                <planeGeometry args={[2.2, 8]} />
+                <meshBasicMaterial map={getSideShadeTexture()} transparent opacity={0.35} depthWrite={false} />
+            </mesh>
+            <mesh position={[7.2, wallCenterY + facadeYOffset + 1.65, 0.16]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[2.2, 8]} />
+                <meshBasicMaterial map={getSideShadeTexture()} transparent opacity={0.35} depthWrite={false} />
+            </mesh>
+            <mesh position={[0, frameCenterY - 0.1, 0.11]}>
+                <planeGeometry args={[2.5, 3.1]} />
+                <meshBasicMaterial color="#2b1a14" transparent opacity={0.22} depthWrite={false} />
+            </mesh>
+
             {/* === TEXTURED FRAME === */}
             <mesh position={[0, frameCenterY, 0.12]}>
                 <planeGeometry args={[frameWidth, frameHeight]} />
@@ -915,14 +967,23 @@ const EntranceDoors = ({
                 onPointerEnter={handleWindowEnter}
                 onPointerLeave={handleWindowLeave}
             >
-                {/* Window Frame Sketch - in front of bricks */}
-                <mesh position={[0, 0, 0.2]}>
-                    <planeGeometry args={[1.5, 1.5]} />
-                    <meshBasicMaterial color="#B08B7F"
-                        map={windowSketchTexture}
-                        transparent={true}
-                    />
+                {/* Garden seen through the glass */}
+                <mesh position={[0, 0, 0.16]}>
+                    <planeGeometry args={[1.45, 1.45]} />
+                    <meshBasicMaterial map={getGardenTexture()} />
                 </mesh>
+                {/* Burgundy glass */}
+                <mesh position={[0, 0, 0.19]}>
+                    <planeGeometry args={[1.45, 1.45]} />
+                    <meshBasicMaterial color="#6e2b35" transparent opacity={0.22} depthWrite={false} side={2} />
+                </mesh>
+                {/* Burgundy window frame */}
+                <mesh position={[0, 0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[0, -0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[-0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[0, 0, 0.2]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[0, 0, 0.2]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#6e2b35" /></mesh>
             </group>
 
             {/* ANIMATED BUG (Right Side - Above Window) */}
@@ -1010,40 +1071,6 @@ const EntranceDoors = ({
                         />
                     </mesh>
                 </group>
-            </group>
-
-            {/* CAT SKETCH (Front Facing) */}
-            <group position={[-1.5, floorY + 0.6, 0.8]} ref={catGroupRef}>
-                {/* Body */}
-                <mesh>
-                    <planeGeometry args={[1.5, 1.5]} />
-                    <meshBasicMaterial color="#9E9E9E"
-                        map={catFrontBodyTexture}
-                        transparent={true}
-                        alphaTest={0.01}
-                        depthWrite={false}
-                    />
-                </mesh>
-
-                {/* Left Pupil */}
-                <mesh
-                    ref={leftPupilRef}
-                    position={[-0.063, 0.27, -0.02]} // Behind cat
-                >
-                    <circleGeometry args={[0.020, 32]} />
-                    <meshBasicMaterial color="black" />
-                    {/* Oval Scale */}
-                    <group scale={[0.8, 1.2, 1]} />
-                </mesh>
-
-                {/* Right Pupil */}
-                <mesh
-                    ref={rightPupilRef}
-                    position={[0.0615, 0.27, -0.02]} // Behind cat
-                >
-                    <circleGeometry args={[0.020, 32]} />
-                    <meshBasicMaterial color="black" />
-                </mesh>
             </group>
 
         </group>

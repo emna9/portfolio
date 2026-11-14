@@ -84,11 +84,11 @@ const HelpPanel = ({ isOpen, onClose }) => {
                 <section className="help-section">
                     <h4>How to explore</h4>
                     <ul className="help-list">
-                        <li><span className="keycap keycap--tiny">↑</span><span className="keycap keycap--tiny">↓</span> walk forward and back</li>
-                        <li><span className="keycap keycap--tiny">←</span><span className="keycap keycap--tiny">→</span> step left and right</li>
-                        <li><span className="keycap keycap--tiny">W</span><span className="keycap keycap--tiny">A</span><span className="keycap keycap--tiny">S</span><span className="keycap keycap--tiny">D</span> also work</li>
+                        <li><span className="keycap keycap--tiny">↑</span><span className="keycap keycap--tiny">W</span> walk forward</li>
+                        <li><span className="keycap keycap--tiny">↓</span><span className="keycap keycap--tiny">S</span> walk backward</li>
                         <li><span className="keycap keycap--tiny">ENTER</span> opens the door you are facing</li>
                         <li><span className="keycap keycap--tiny">ESC</span> leaves a room or closes a panel</li>
+                        <li>The path is one straight line down the middle of the house.</li>
                     </ul>
                 </section>
 

@@ -87,15 +87,6 @@ const GuidanceUI = () => {
 
     return (
         <div className="guidance-ui">
-            {/* Landing title - only outside the house */}
-            {!hasEntered && (
-                <div className="landing-title">
-                    <span className="landing-title__name">Emna Smaali</span>
-                    <span className="landing-title__ornament" aria-hidden="true" />
-                    <span className="landing-title__role">Software Engineering Student</span>
-                </div>
-            )}
-
             {/* Floating door bubble */}
             {bubble && (
                 <div

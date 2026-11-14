@@ -10,6 +10,24 @@ const WALL_X_OUTER = 3.5;
 const WALL_X_INNER = 1.7;
 // Note: DOOR_Z_SPAN = 4 (from CorridorSegment)
 
+
+let warmGlowTexture = null;
+const getWarmGlowTexture = () => {
+    if (warmGlowTexture || typeof document === 'undefined') return warmGlowTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 8;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 128);
+    gradient.addColorStop(0, 'rgba(255, 219, 160, 0)');
+    gradient.addColorStop(0.5, 'rgba(255, 219, 160, 0.55)');
+    gradient.addColorStop(1, 'rgba(255, 219, 160, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 8, 128);
+    warmGlowTexture = new THREE.CanvasTexture(canvas);
+    return warmGlowTexture;
+};
+
 // Soft corner shading used to add depth to the walls.
 let wallShadeTexture = null;
 const getWallShadeTexture = () => {
@@ -504,6 +522,19 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                     transparent
                                     opacity={0.38}
                                     depthWrite={false}
+                                />
+                            </mesh>
+
+                            {/* Warm ambient light along the ceiling edge */}
+                            <mesh position={[0, corridorHeight / 2 - 0.34, 0.007]}>
+                                <planeGeometry args={[seg.width, 0.62]} />
+                                <meshBasicMaterial
+                                    map={getWarmGlowTexture()}
+                                    color="#ffd9a0"
+                                    transparent
+                                    opacity={0.4}
+                                    depthWrite={false}
+                                    blending={THREE.AdditiveBlending}
                                 />
                             </mesh>
 

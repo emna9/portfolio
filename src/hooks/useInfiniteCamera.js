@@ -12,11 +12,8 @@ import { useGuidance } from '../context/GuidanceContext';
 // Comfortable walking model
 const WALK_SPEED = 5.2;           // faster cruising speed
 const NEAR_DOOR_WALK_SPEED = 2.4; // gentle approach near a door
-const STRAFE_SPEED = 3.2;         // units per second
-const NEAR_DOOR_STRAFE_SPEED = 1.7;
 const ACCELERATION = 12;          // units per second²
 const DECELERATION = 12;       // units per second²
-const MAX_STRAFE = 1.15;       // stay clear of the walls
 const MAX_BACK_Z = 9.4;        // do not walk back out of the house
 
 const approach = (current, target, maxDelta) => {
@@ -164,8 +161,6 @@ const useInfiniteCamera = ({
         const moveMap = {
             ArrowUp: 'forward', w: 'forward', W: 'forward',
             ArrowDown: 'back', s: 'back', S: 'back',
-            ArrowLeft: 'left', a: 'left', A: 'left',
-            ArrowRight: 'right', d: 'right', D: 'right',
         };
 
         const action = moveMap[e.key];
@@ -197,8 +192,6 @@ const useInfiniteCamera = ({
         const moveMap = {
             ArrowUp: 'forward', w: 'forward', W: 'forward',
             ArrowDown: 'back', s: 'back', S: 'back',
-            ArrowLeft: 'left', a: 'left', A: 'left',
-            ArrowRight: 'right', d: 'right', D: 'right',
         };
         const action = moveMap[e.key];
         if (action) moveKeys.current[action] = false;
@@ -389,49 +382,33 @@ const useInfiniteCamera = ({
             const locked = isLocked();
 
             let forwardInput = 0;
-            let strafeInput = 0;
             if (!locked) {
                 forwardInput = (moveKeys.current.forward ? 1 : 0)
                     - (moveKeys.current.back ? 1 : 0)
                     + virtualAxis.forward;
-                strafeInput = (moveKeys.current.right ? 1 : 0)
-                    - (moveKeys.current.left ? 1 : 0)
-                    + virtualAxis.strafe;
             }
             forwardInput = THREE.MathUtils.clamp(forwardInput, -1, 1);
-            strafeInput = THREE.MathUtils.clamp(strafeInput, -1, 1);
 
             const nearDoor = (nearestDoorRef.current?.distance ?? Infinity) < 11;
             const walkSpeed = nearDoor ? NEAR_DOOR_WALK_SPEED : WALK_SPEED;
-            const strafeSpeed = nearDoor ? NEAR_DOOR_STRAFE_SPEED : STRAFE_SPEED;
             const targetVelocityZ = -forwardInput * walkSpeed;
-            const targetVelocityX = strafeInput * strafeSpeed;
+            const targetVelocityX = 0;
 
             const zRate = Math.abs(targetVelocityZ) > Math.abs(walkVelocity.current.z)
                 ? ACCELERATION
                 : DECELERATION;
-            const xRate = Math.abs(targetVelocityX) > Math.abs(walkVelocity.current.x)
-                ? ACCELERATION
-                : DECELERATION;
 
             walkVelocity.current.z = approach(walkVelocity.current.z, targetVelocityZ, zRate * dt);
-            walkVelocity.current.x = approach(walkVelocity.current.x, targetVelocityX, xRate * dt);
+            walkVelocity.current.x = approach(walkVelocity.current.x, targetVelocityX, DECELERATION * dt);
 
             if (Math.abs(walkVelocity.current.z) > 0.0005) {
                 targetZ.current += walkVelocity.current.z * dt;
             }
             if (targetZ.current > MAX_BACK_Z) targetZ.current = MAX_BACK_Z;
 
-            strafeX.current = THREE.MathUtils.clamp(
-                strafeX.current + walkVelocity.current.x * dt,
-                -MAX_STRAFE,
-                MAX_STRAFE
-            );
+            strafeX.current = 0;
 
-            setMovementState(
-                Math.abs(walkVelocity.current.z) > 0.05 || Math.abs(walkVelocity.current.x) > 0.05,
-                walkVelocity.current.x
-            );
+            setMovementState(Math.abs(walkVelocity.current.z) > 0.05, 0);
 
             // Smooth Z movement
             currentZ.current = THREE.MathUtils.lerp(currentZ.current, targetZ.current, smoothing);
@@ -452,7 +429,7 @@ const useInfiniteCamera = ({
 
             // Apply Z position to camera (only when scroll enabled)
             camera.position.z = currentZ.current;
-            camera.position.x = parallax.current.x + strafeX.current;
+            camera.position.x = parallax.current.x;
             camera.position.y = eyeHeight.current + parallax.current.y;
 
             // Look direction with glance + swipe glance

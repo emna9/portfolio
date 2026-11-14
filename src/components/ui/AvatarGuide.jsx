@@ -17,7 +17,7 @@ const INTRO_STEPS = [
     {
         id: 'walk',
         kicker: 'MOVING AROUND',
-        text: 'Walk with the arrow keys, or W A S D if you prefer. Movement is slow and gentle, so take your time. Step left and right to line up with a door.',
+        text: 'Walk forward and back with the arrow keys, or W and S if you prefer. Movement is gentle, and the arrows on the floor follow the central path.',
         next: 'Got it',
     },
     {
@@ -112,19 +112,12 @@ const AvatarGuide = () => {
         }
     }, [hasEntered]);
 
-    // Landing: she waves and greets before the visitor opens the door.
-    useEffect(() => {
-        if (hasEntered || landingWavedRef.current) return undefined;
-        landingWavedRef.current = true;
-        const timer = setTimeout(wave, 700);
-        return () => clearTimeout(timer);
-    }, [hasEntered, wave]);
-
     useEffect(() => {
         if (hasEntered) return undefined;
         const onFirstGesture = () => {
             if (landingWelcomeRef.current) return;
             landingWelcomeRef.current = true;
+            wave();
             playWelcome();
         };
         window.addEventListener('pointerdown', onFirstGesture, { once: true });
@@ -418,7 +411,7 @@ const AvatarGuide = () => {
                             </div>
                             <Typewriter
                                 key="landing"
-                                text="Want to take a look at my portfolio? Click the door or press Enter."
+                                text="Hi, I'm Emna — a Software Engineering student passionate about AI and building creative things. Want to take a look at my portfolio? Click the door or press Enter."
                                 speed={20}
                                 className="avatar-speech__text"
                             />

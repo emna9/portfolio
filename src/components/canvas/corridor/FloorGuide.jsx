@@ -2,8 +2,6 @@ import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useScene } from '../../../context/SceneContext';
-import { useGuidance } from '../../../context/GuidanceContext';
-import { getMovementState } from '../../../utils/controls';
 
 const ARROW_COUNT = 7;
 const SPACING = 2.1;
@@ -19,12 +17,10 @@ const BASE_OPACITY = 0.55;
 const FloorGuide = () => {
     const { camera } = useThree();
     const { hasEntered, isInRoom, isTeleporting } = useScene();
-    const { nearestDoorRef } = useGuidance();
 
     const groupRef = useRef();
     const meshRefs = useRef([]);
     const timeRef = useRef(0);
-    const angleRef = useRef(0);
 
     const arrowGeometry = useMemo(() => {
         const shape = new THREE.Shape();
@@ -50,28 +46,8 @@ const FloorGuide = () => {
         timeRef.current += delta;
         group.position.z = camera.position.z;
 
-        const nearestDoor = nearestDoorRef.current;
-        const distance = nearestDoor?.distance ?? Infinity;
-        const nearFactor = Number.isFinite(distance) ? Math.max(0, 1 - distance / 13) : 0;
-        const movement = getMovementState();
-
-        // The trail lives under the avatar, not at the camera centre.
-        const avatarX = camera.position.x * 0.55;
-        const sideLean = nearestDoor?.side === 'left' ? -0.28 : nearestDoor?.side === 'right' ? 0.28 : 0;
-        const targetX = avatarX + 0.62 + sideLean * nearFactor;
-        group.position.x = THREE.MathUtils.lerp(group.position.x, targetX, 0.08);
-
-        // Point the chevrons toward the door she is approaching, otherwise
-        // lean slightly in the direction she is strafing.
-        let targetAngle = movement.strafe * 0.14;
-        if (nearestDoor && nearFactor > 0.15 && Number.isFinite(nearestDoor.worldX)) {
-            const dx = nearestDoor.worldX - avatarX;
-            const dz = nearestDoor.worldZ - camera.position.z;
-            if (Math.abs(dz) > 0.001) {
-                targetAngle = THREE.MathUtils.clamp(Math.atan2(-dx, -dz), -0.55, 0.55);
-            }
-        }
-        angleRef.current = THREE.MathUtils.lerp(angleRef.current, targetAngle, 0.09);
+        group.position.x = THREE.MathUtils.lerp(group.position.x, 0, 0.1);
+        group.rotation.y = 0;
 
         const t = timeRef.current;
         for (let i = 0; i < ARROW_COUNT; i += 1) {
@@ -84,7 +60,6 @@ const FloorGuide = () => {
             mesh.material.opacity = BASE_OPACITY * (0.35 + 0.65 * pulse) * fade;
             const scale = 0.92 + 0.1 * pulse;
             mesh.scale.setScalar(scale);
-            if (mesh.parent) mesh.parent.rotation.y = angleRef.current;
         }
     });
 

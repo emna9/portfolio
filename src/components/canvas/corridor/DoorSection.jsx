@@ -145,7 +145,6 @@ const DoorSection = ({
     // Proximity glow
     const glowRef = useRef();
     const innerGlowRef = useRef();
-    const underLightRef = useRef();
     const glowStrength = useRef(0);
     const cinematicGlow = useRef(0);
     const glowTexture = useMemo(() => getDoorGlowTexture(), []);
@@ -413,9 +412,6 @@ const DoorSection = ({
         if (innerGlowRef.current) {
             innerGlowRef.current.material.opacity = lightLevel * 0.2;
             innerGlowRef.current.visible = lightLevel > 0.02;
-        }
-        if (underLightRef.current) {
-            underLightRef.current.material.opacity = 0.16 + lightLevel * 0.75;
         }
 
         // Reveal the painted door as it lights up (hover still takes priority).
@@ -1211,21 +1207,6 @@ const DoorSection = ({
                         color="#f3b8ad"
                         transparent
                         opacity={0}
-                        depthWrite={false}
-                        blending={THREE.AdditiveBlending}
-                    />
-                </mesh>
-
-                {/* Warm light spilling from under the door */}
-                <mesh
-                    ref={underLightRef}
-                    position={[wallOffsetX, -1.36, 0.09]}
-                >
-                    <planeGeometry args={[1.05, 0.055]} />
-                    <meshBasicMaterial
-                        color="#ffe2ae"
-                        transparent
-                        opacity={0.16}
                         depthWrite={false}
                         blending={THREE.AdditiveBlending}
                     />

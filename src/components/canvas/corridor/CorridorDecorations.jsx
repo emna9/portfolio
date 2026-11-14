@@ -5,6 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import '../shaders/RevealMaterial';
 import { isTouchDevice } from '../../../utils/deviceDetect';
+import { getGardenTexture } from '../../../utils/gardenTexture';
 /**
  * CorridorDecorations - Dekoracje korytarza.
  * 
@@ -318,7 +319,7 @@ const InspectableFrame = ({ frame, wallX, frameTexture, framePaintedTexture, CAB
     );
 };
 
-const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corridorHeight = 3.5, zClip = 100000, setCameraOverride }) => {
+const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corridorHeight = 3.5, zClip = 100000, setCameraOverride, segmentIndex = 0 }) => {
 
     const wallX = corridorWidth / 2 - 0.01;
     const floorY = -corridorHeight / 2;
@@ -512,7 +513,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             })}
 
             {/* === TABLES (3) === */}
-            {tableConfigs.map((tableConfig, tableIndex) => (
+            {segmentIndex !== -1 && tableConfigs.map((tableConfig, tableIndex) => (
                 <group key={`table-${tableIndex}`} position={[tableConfig.x, floorY, tableConfig.z]} rotation={[0, Math.PI / 2, 0]}>
                     {/* Nogi stolika */}
                     {[
@@ -629,20 +630,20 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         position={[isLeft ? -wallX + 0.01 : wallX - 0.01, 0.5, zOffset + win.z]}
                         rotation={[0, isLeft ? Math.PI / 2 : -Math.PI / 2, 0]}
                     >
-                        <mesh position={[0, 0, -0.01]}>
+                        <mesh position={[0, 0, -0.008]}>
                             <planeGeometry args={[1.4, 1.4]} />
-                            <meshBasicMaterial color="#FFE8D6" side={THREE.DoubleSide} />
+                            <meshBasicMaterial map={getGardenTexture()} side={THREE.DoubleSide} />
                         </mesh>
-                        <mesh>
-                            <planeGeometry args={[1.5, 1.5]} />
-                            <meshBasicMaterial
-                                color="#B08B7F"
-                                map={windowTexture}
-                                transparent={true}
-                                alphaTest={0.1}
-                                side={THREE.DoubleSide}
-                            />
+                        <mesh position={[0, 0, -0.004]}>
+                            <planeGeometry args={[1.4, 1.4]} />
+                            <meshBasicMaterial color="#6e2b35" transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} />
                         </mesh>
+                        <mesh position={[0, 0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, -0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[-0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
                     </group>
                 );
             })}

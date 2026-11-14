@@ -162,6 +162,7 @@ const CorridorSegment = ({
                 corridorHeight={3.5}
                 zClip={zClip}
                 setCameraOverride={setCameraOverride}
+                segmentIndex={segmentIndex}
             />
 
             {/* === SEGMENT END DOORS (hidden during entrance) === */}

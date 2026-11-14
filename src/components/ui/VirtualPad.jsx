@@ -65,30 +65,6 @@ const VirtualPad = ({ visible, canEnter, onEnter }) => {
                 </button>
                 <button
                     type="button"
-                    className="virtual-pad__key virtual-pad__key--left"
-                    aria-label="Step left"
-                    onPointerDown={press(0, -1)}
-                    onPointerUp={release}
-                    onPointerLeave={release}
-                    onPointerCancel={release}
-                    onContextMenu={(e) => e.preventDefault()}
-                >
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                </button>
-                <button
-                    type="button"
-                    className="virtual-pad__key virtual-pad__key--right"
-                    aria-label="Step right"
-                    onPointerDown={press(0, 1)}
-                    onPointerUp={release}
-                    onPointerLeave={release}
-                    onPointerCancel={release}
-                    onContextMenu={(e) => e.preventDefault()}
-                >
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                </button>
-                <button
-                    type="button"
                     className="virtual-pad__key virtual-pad__key--down"
                     aria-label="Walk backward"
                     onPointerDown={press(-1, 0)}
