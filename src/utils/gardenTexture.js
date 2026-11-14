@@ -23,6 +23,14 @@ export const getGardenTexture = () => {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, size, size);
 
+    // Warm sunlight in the garden
+    const sun = ctx.createRadialGradient(105, 95, 8, 105, 95, 210);
+    sun.addColorStop(0, 'rgba(255, 246, 214, 0.95)');
+    sun.addColorStop(0.45, 'rgba(255, 238, 190, 0.45)');
+    sun.addColorStop(1, 'rgba(255, 238, 190, 0)');
+    ctx.fillStyle = sun;
+    ctx.fillRect(0, 0, size, size);
+
     // Distant hedge
     ctx.fillStyle = '#9aa982';
     ctx.beginPath();
@@ -99,6 +107,26 @@ export const getGardenTexture = () => {
     gardenTexture = new THREE.CanvasTexture(canvas);
     gardenTexture.colorSpace = THREE.SRGBColorSpace;
     return gardenTexture;
+};
+
+let sunGlowTexture = null;
+
+export const getSunGlowTexture = () => {
+    if (sunGlowTexture || typeof document === 'undefined') return sunGlowTexture;
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const glow = ctx.createRadialGradient(size / 2, size / 2, 4, size / 2, size / 2, size / 2);
+    glow.addColorStop(0, 'rgba(255, 249, 226, 1)');
+    glow.addColorStop(0.35, 'rgba(255, 238, 190, 0.72)');
+    glow.addColorStop(1, 'rgba(255, 238, 190, 0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, size, size);
+    sunGlowTexture = new THREE.CanvasTexture(canvas);
+    sunGlowTexture.colorSpace = THREE.SRGBColorSpace;
+    return sunGlowTexture;
 };
 
 export default getGardenTexture;

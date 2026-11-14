@@ -9,7 +9,7 @@ import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 import { playDoorOpen } from '../../../utils/sfx';
 import { setEntranceOpening } from '../../../utils/controls';
-import { getGardenTexture } from '../../../utils/gardenTexture';
+import { getGardenTexture, getSunGlowTexture } from '../../../utils/gardenTexture';
 
 
 
@@ -972,6 +972,20 @@ const EntranceDoors = ({
                     <planeGeometry args={[1.45, 1.45]} />
                     <meshBasicMaterial map={getGardenTexture()} />
                 </mesh>
+                {/* Strong warm sunlight through the window */}
+                <mesh position={[0, 0, 0.17]}>
+                    <planeGeometry args={[1.4, 1.4]} />
+                    <meshBasicMaterial map={getSunGlowTexture()} color="#fff2c8" transparent opacity={0.65} depthWrite={false} blending={THREE.AdditiveBlending} />
+                </mesh>
+                <mesh position={[0, 0, 0.18]}>
+                    <planeGeometry args={[2.3, 2.3]} />
+                    <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.34} depthWrite={false} blending={THREE.AdditiveBlending} />
+                </mesh>
+                <mesh position={[0, floorY + 0.02, 0.9]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <planeGeometry args={[2.4, 1.5]} />
+                    <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.26} depthWrite={false} blending={THREE.AdditiveBlending} />
+                </mesh>
+
                 {/* Burgundy glass */}
                 <mesh position={[0, 0, 0.19]}>
                     <planeGeometry args={[1.45, 1.45]} />
