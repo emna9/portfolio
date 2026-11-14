@@ -75,6 +75,10 @@ $rust: #a34a4a;
         animation: avatarWaveHand 2.6s ease-in-out;
     }
 
+    &[data-turning="true"] .avatar-guide__pose {
+        animation: avatarTurn 0.32s ease-in-out;
+    }
+
     &.is-talking .avatar-front {
         animation: avatarHeadTalk 3.4s ease-in-out infinite;
     }
@@ -160,6 +164,12 @@ $rust: #a34a4a;
 @keyframes avatarIdle {
     0%, 100% { transform: translateY(0) rotate(-0.35deg); }
     50% { transform: translateY(-2px) rotate(0.45deg); }
+}
+
+@keyframes avatarTurn {
+    0% { transform: scaleX(1); }
+    50% { transform: scaleX(0.12); }
+    100% { transform: scaleX(1); }
 }
 
 @keyframes avatarWalkBob {

@@ -9,6 +9,7 @@ import { useScene } from '../../../context/SceneContext';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { useAudio } from '../../../context/AudioManager';
 import { useGuidance } from '../../../context/GuidanceContext';
+import { playDoorOpen, playDoorClose } from '../../../utils/sfx';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 
 // Constants from CorridorSegment
@@ -479,6 +480,7 @@ const DoorSection = ({
         document.body.style.cursor = "auto";
 
         setIsAnimating(true);
+        playDoorOpen();
 
         // Cinematic warm illumination before the transition.
         gsap.to(cinematicGlow, {
@@ -871,6 +873,7 @@ const DoorSection = ({
 
     const closeDoor = useCallback((onDoorClosed) => {
         if (!doorRef.current || !isOpen) return;
+        playDoorClose();
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
 
@@ -1298,17 +1301,43 @@ const DoorSection = ({
                             </group>
                         )}
                         {label === 'PROJECTS' && (
-                            <Text
-                                font="fonts/CabinSketch-Bold.ttf"
-                                fontSize={0.22}
-                                color="#111111"
-                                anchorX="center"
-                                anchorY="middle"
-                                position={[0, 0, 0.01]}
-                            >
-                                PROJECTS
-                            </Text>
+                            segmentIndex === 0 ? (
+                                <group position={[0, 0, 0.01]}>
+                                    <Text
+                                        font="fonts/CabinSketch-Bold.ttf"
+                                        fontSize={0.115}
+                                        color="#4a2c22"
+                                        anchorX="center"
+                                        anchorY="middle"
+                                        position={[0, 0.1, 0]}
+                                    >
+                                        while (true) {'{'}
+                                    </Text>
+                                    <Text
+                                        font="fonts/CabinSketch-Bold.ttf"
+                                        fontSize={0.115}
+                                        color="#4a2c22"
+                                        anchorX="center"
+                                        anchorY="middle"
+                                        position={[0, -0.1, 0]}
+                                    >
+                                        explore(); {'}'}
+                                    </Text>
+                                </group>
+                            ) : (
+                                <Text
+                                    font="fonts/CabinSketch-Bold.ttf"
+                                    fontSize={0.22}
+                                    color="#111111"
+                                    anchorX="center"
+                                    anchorY="middle"
+                                    position={[0, 0, 0.01]}
+                                >
+                                    PROJECTS
+                                </Text>
+                            )
                         )}
+
                         {label === 'THE ABOUT' && (
                             <Text
                                 font="fonts/CabinSketch-Bold.ttf"

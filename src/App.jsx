@@ -16,6 +16,7 @@ import GuidanceUI from './components/ui/GuidanceUI';
 import AvatarGuide from './components/ui/AvatarGuide';
 import { GuidanceProvider } from './context/GuidanceContext';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
+import { initSfx } from './utils/sfx';
 
 // Lazy load the heavy 3D experience
 const Experience = lazy(() => import('./components/canvas/Experience'));
@@ -183,6 +184,17 @@ export default function App() {
   useEffect(() => {
     const filteredImages = filterTexturesByDevice([...IMAGE_ASSETS, ...filteredAll], supportsHover);
     filteredImages.forEach(path => preloadBrowserImage(path));
+  }, []);
+
+  // Browsers require a gesture before audio can start.
+  useEffect(() => {
+    const unlock = () => initSfx();
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
   }, []);
 
   return (

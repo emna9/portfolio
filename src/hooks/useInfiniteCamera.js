@@ -7,11 +7,14 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useAchievements } from '../context/AchievementsContext';
 import { isLocked, getVirtualAxis, getPov, setMovementState } from '../utils/controls';
+import { useGuidance } from '../context/GuidanceContext';
 
 // Comfortable walking model
-const WALK_SPEED = 2.3;        // units per second (slow, natural)
-const STRAFE_SPEED = 1.35;     // units per second
-const ACCELERATION = 5.5;      // units per second²
+const WALK_SPEED = 3.6;           // comfortable cruising speed
+const NEAR_DOOR_WALK_SPEED = 1.7; // gentle approach near a door
+const STRAFE_SPEED = 2.4;         // units per second
+const NEAR_DOOR_STRAFE_SPEED = 1.3;
+const ACCELERATION = 8;           // units per second²
 const DECELERATION = 8;        // units per second²
 const MAX_STRAFE = 1.15;       // stay clear of the walls
 const MAX_BACK_Z = 9.4;        // do not walk back out of the house
@@ -60,6 +63,7 @@ const useInfiniteCamera = ({
     const parallaxEnabledRef = useRef(parallaxEnabled);
     const justEnabled = useRef(false);
     const { unlockAchievement } = useAchievements();
+    const { nearestDoorRef } = useGuidance();
 
     // Keyboard / virtual-pad walking state
     const moveKeys = useRef({ forward: false, back: false, left: false, right: false });
@@ -397,8 +401,11 @@ const useInfiniteCamera = ({
             forwardInput = THREE.MathUtils.clamp(forwardInput, -1, 1);
             strafeInput = THREE.MathUtils.clamp(strafeInput, -1, 1);
 
-            const targetVelocityZ = -forwardInput * WALK_SPEED;
-            const targetVelocityX = strafeInput * STRAFE_SPEED;
+            const nearDoor = (nearestDoorRef.current?.distance ?? Infinity) < 11;
+            const walkSpeed = nearDoor ? NEAR_DOOR_WALK_SPEED : WALK_SPEED;
+            const strafeSpeed = nearDoor ? NEAR_DOOR_STRAFE_SPEED : STRAFE_SPEED;
+            const targetVelocityZ = -forwardInput * walkSpeed;
+            const targetVelocityX = strafeInput * strafeSpeed;
 
             const zRate = Math.abs(targetVelocityZ) > Math.abs(walkVelocity.current.z)
                 ? ACCELERATION

@@ -7,6 +7,7 @@ import '../shaders/RevealMaterial'; // Registers alpha-discard reveal shader
 import { playBackgroundMusic } from '../../../utils/audioManager';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
+import { playDoorOpen } from '../../../utils/sfx';
 
 
 // Warm halo used around the main door.
@@ -284,6 +285,7 @@ const EntranceDoors = ({
 
         setIsOpen(true);
         setIsAnimating(true);
+        playDoorOpen();
         playBackgroundMusic();
 
         const tl = gsap.timeline({

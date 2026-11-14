@@ -486,27 +486,6 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 />
                             </mesh>
 
-                            {/* Dusty-rose wainscot panel */}
-                            <mesh position={[0, -corridorHeight / 2 + 0.49, 0.003]}>
-                                <planeGeometry args={[seg.width, 0.82]} />
-                                <meshBasicMaterial color="#E0C1B3"
-                                    map={segTexture}
-                                    roughness={1}
-                                />
-                            </mesh>
-
-                            {/* Chair rail in deep chocolate */}
-                            <mesh position={[0, -corridorHeight / 2 + 0.93, 0.006]}>
-                                <planeGeometry args={[seg.width, 0.055]} />
-                                <meshBasicMaterial color="#6b3f30" roughness={0.8} />
-                            </mesh>
-
-                            {/* Antique-gold crown molding */}
-                            <mesh position={[0, corridorHeight / 2 - 0.055, 0.006]}>
-                                <planeGeometry args={[seg.width, 0.07]} />
-                                <meshBasicMaterial color="#b08d57" roughness={0.7} />
-                            </mesh>
-
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
                             <mesh position={[bbOffsetX, -corridorHeight / 2 + 0.075, 0.01]}>
                                 <planeGeometry args={[bbWidth, 0.15]} />

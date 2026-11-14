@@ -4,6 +4,7 @@ import { useGuidance, useNearestDoor } from '../../context/GuidanceContext';
 import { getDoorInfo } from '../../data/doorContent';
 import { hasSeenTutorial, getMovementState } from '../../utils/controls';
 import { Typewriter } from './Typewriter';
+import { playWelcome } from '../../utils/sfx';
 import '../../styles/AvatarGuide.scss';
 
 const INTRO_STEPS = [
@@ -88,6 +89,7 @@ const AvatarGuide = () => {
     const spokeRooms = useRef(new Set());
     const wasInRoom = useRef(false);
     const helpedRef = useRef(false);
+    const welcomedRef = useRef(false);
     const nearestRef = useRef(nearestDoor);
 
     const wave = useCallback(() => {
@@ -99,6 +101,14 @@ const AvatarGuide = () => {
     useEffect(() => () => {
         if (waveTimer.current) clearTimeout(waveTimer.current);
     }, []);
+
+    // A soft welcome chime the first time she appears.
+    useEffect(() => {
+        if (hasEntered && !welcomedRef.current) {
+            welcomedRef.current = true;
+            playWelcome();
+        }
+    }, [hasEntered]);
 
     // First visit: she walks in, stops, turns, waves, then introduces herself.
     useEffect(() => {
@@ -274,7 +284,7 @@ const AvatarGuide = () => {
                         </g>
 
                         {/* long flowing hair behind the head and shoulders */}
-                        <g className="avatar-hair-base">
+                        <g className="avatar-hair-base" transform="translate(0,54) scale(1,0.8) translate(0,-54)">
                             <path d="M110 54 C84 54 70 74 70 98 C70 124 66 150 60 176 C54 202 54 232 58 258 C62 284 70 306 80 322 C90 334 100 326 104 316 L106 168 L114 168 L116 316 C120 326 130 334 140 322 C150 306 158 284 162 258 C166 232 166 202 160 176 C154 150 150 124 150 98 C150 74 136 54 110 54 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
                             <path d="M88 120 C82 170 80 220 76 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M132 120 C138 170 140 220 144 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
@@ -283,7 +293,7 @@ const AvatarGuide = () => {
                         </g>
 
                         {/* back view: solid flowing hair */}
-                        <g className="avatar-back">
+                        <g className="avatar-back" transform="translate(0,54) scale(1,0.8) translate(0,-54)">
                             <path d="M110 54 C84 54 70 74 70 98 C70 124 66 150 60 176 C54 202 54 232 58 258 C62 284 70 306 80 322 C88 330 96 326 104 318 L116 318 C124 326 132 330 140 322 C150 306 158 284 162 258 C166 232 166 202 160 176 C154 150 150 124 150 98 C150 74 136 54 110 54 Z" fill="url(#avatar-hair)" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
                             <path d="M88 120 C82 170 80 220 76 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                             <path d="M132 120 C138 170 140 220 144 270" stroke="#5a3a30" strokeWidth="2.5" fill="none" strokeLinecap="round" />
@@ -297,8 +307,6 @@ const AvatarGuide = () => {
                             <path d="M101 130 L119 130 L121 164 C121 170 117 174 110 174 C103 174 99 170 99 164 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
                             <path d="M102 137 Q110 143 118 137" stroke="#e0b9a2" strokeWidth="3" fill="none" opacity="0.45" strokeLinecap="round" />
 
-                            {/* cream collar */}
-                            <path d="M101 158 L110 176 L119 158 L113 152 L110 162 L107 152 Z" fill="#f3e3c8" stroke="#241610" strokeWidth="3" strokeLinejoin="round" />
 
                             {/* ears and face */}
                             <circle cx="83" cy="104" r="5" fill="#f6ddcb" stroke="#241610" strokeWidth="3" />
@@ -306,13 +314,13 @@ const AvatarGuide = () => {
                             <path d="M84 100 C84 78 95 68 110 68 C125 68 136 78 136 100 C136 116 128 130 110 136 C92 130 84 116 84 100 Z" fill="#f6ddcb" stroke="#241610" strokeWidth="4" strokeLinejoin="round" />
 
                             {/* curtain bangs and long hair - one seamless mass */}
-                            <path d="M110 56 C98 56 86 64 81 80 C78 94 82 108 76 126 C70 146 76 170 68 192 C62 212 66 234 74 248 C82 240 90 250 98 242 C92 222 96 202 90 182 C84 162 90 144 88 128 C86 112 90 100 96 88 C100 82 104 76 110 72 C116 76 120 82 124 88 C130 100 134 112 132 128 C130 144 136 162 130 182 C124 202 128 222 122 242 C130 250 138 240 146 248 C154 234 158 212 152 192 C144 170 150 146 144 126 C138 108 142 94 139 80 C134 64 122 56 110 56 Z" fill="url(#avatar-hair)" />
+                            <path d="M110 56 C98 56 86 64 81 80 C78 94 82 108 76 126 C70 146 76 166 68 186 C63 202 66 218 72 230 C80 222 88 232 96 224 C91 208 95 192 90 176 C85 160 90 144 88 128 C86 112 90 100 96 88 C100 82 104 76 110 72 C116 76 120 82 124 88 C130 100 134 112 132 128 C130 144 135 160 130 176 C125 192 129 208 124 224 C132 232 140 222 148 230 C154 218 157 202 152 186 C144 166 150 146 144 126 C138 108 142 94 139 80 C134 64 122 56 110 56 Z" fill="url(#avatar-hair)" />
                             <path d="M100 70 C94 90 96 110 90 130 C84 150 90 170 84 190" stroke="#6b4a3a" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
                             <path d="M120 70 C126 90 124 110 130 130 C136 150 130 170 136 190" stroke="#6b4a3a" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
-                            <path d="M86 100 C80 130 86 160 78 190 C72 212 78 232 72 244" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
-                            <path d="M134 100 C140 130 134 160 142 190 C148 212 142 232 148 244" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
-                            <path d="M94 122 C88 150 94 180 88 208" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
-                            <path d="M126 122 C132 150 126 180 132 208" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
+                            <path d="M86 100 C80 128 86 154 78 182 C73 200 78 214 72 222" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
+                            <path d="M134 100 C140 128 134 154 142 182 C147 200 142 214 148 222" stroke="#7a5544" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
+                            <path d="M94 122 C88 148 94 176 88 200" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
+                            <path d="M126 122 C132 148 126 176 132 200" stroke="#7a5544" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.7" />
 
                             {/* brows */}
                             <path d="M94 92 Q100 89 106 92" stroke="#6b4a3a" strokeWidth="1.8" fill="none" strokeLinecap="round" />

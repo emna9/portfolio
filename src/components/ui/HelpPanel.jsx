@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useScene } from '../../context/SceneContext';
 import { useGuidance } from '../../context/GuidanceContext';
 import { useAchievements, ACHIEVEMENTS } from '../../context/AchievementsContext';
 import { DOOR_INFO, ROOM_ORDER } from '../../data/doorContent';
+import { isSfxEnabled, setSfxEnabled } from '../../utils/sfx';
 import '../../styles/Guidance.scss';
 
 const HELP_ROOMS = ROOM_ORDER.map(id => ({ id, ...DOOR_INFO[id] }));
@@ -15,6 +16,7 @@ const HelpPanel = ({ isOpen, onClose }) => {
     const { teleportTo, currentRoom, isTeleporting, requestExit, isInRoom } = useScene();
     const { replayTutorial, pov, togglePov, setHelpOpen } = useGuidance();
     const { completed } = useAchievements();
+    const [sfxOn, setSfxOn] = useState(isSfxEnabled);
     const closeRef = useRef(null);
     const panelRef = useRef(null);
 
@@ -102,8 +104,22 @@ const HelpPanel = ({ isOpen, onClose }) => {
                         <span>First-person eye level</span>
                         <span className="help-toggle__state">{pov ? 'On' : 'Off'}</span>
                     </button>
+                    <button
+                        type="button"
+                        className={`help-toggle ${sfxOn ? 'is-on' : ''}`}
+                        onClick={() => {
+                            const next = !sfxOn;
+                            setSfxOn(next);
+                            setSfxEnabled(next);
+                        }}
+                        aria-pressed={sfxOn}
+                    >
+                        <span className="help-toggle__dot" aria-hidden="true" />
+                        <span>Sound effects</span>
+                        <span className="help-toggle__state">{sfxOn ? 'On' : 'Off'}</span>
+                    </button>
                     <p className="help-note">
-                        Sound stays off. Animations follow your reduced-motion preference.
+                        Music stays off. Footsteps, doors and the welcome chime can be muted here.
                     </p>
                 </section>
 

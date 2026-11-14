@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useScene } from '../../../context/SceneContext';
 import { useGuidance } from '../../../context/GuidanceContext';
 import { getMovementState } from '../../../utils/controls';
+import { playFootstep } from '../../../utils/sfx';
 
 const FEET_Y = -1.74;
 const FIGURE_HEIGHT = 1.75;
@@ -20,13 +21,18 @@ const FIGURE_VIEWBOX_HEIGHT = 460;
 const AvatarAnchor = () => {
     const { camera } = useThree();
     const { hasEntered, isInRoom, isTeleporting } = useScene();
-    const { avatarRef, avatarTalkingRef, nearestDoorRef } = useGuidance();
+    const { avatarRef, avatarTalkingRef, nearestDoorRef, tutorialOpen } = useGuidance();
 
     const smoothX = useRef(0);
     const idleSince = useRef(0);
     const view = useRef('back');
     const spawnAt = useRef(0);
+    const firstEntryAt = useRef(0);
+    const currentDistance = useRef(6.2);
     const wasVisible = useRef(false);
+    const stepAccum = useRef(0);
+    const prevView = useRef('back');
+    const turnUntil = useRef(0);
     const feet = useRef(new THREE.Vector3());
     const head = useRef(new THREE.Vector3());
 
@@ -38,7 +44,7 @@ const AvatarAnchor = () => {
         }
     }, [hasEntered]);
 
-    useFrame((state) => {
+    useFrame((state, delta) => {
         const node = avatarRef.current;
         if (!node) return;
 
@@ -55,19 +61,33 @@ const AvatarAnchor = () => {
         if (!wasVisible.current) {
             wasVisible.current = true;
             spawnAt.current = now;
+            firstEntryAt.current = now;
+            currentDistance.current = 6.2;
         }
 
         const movement = getMovementState();
+        if (movement.moving && !isInRoom) {
+            stepAccum.current += delta || 0.016;
+            if (stepAccum.current > 0.42) {
+                playFootstep();
+                stepAccum.current = 0;
+            }
+        } else {
+            stepAccum.current = 0;
+        }
         const nearest = nearestDoorRef.current;
         const nearFactor = nearest ? Math.max(0, 1 - nearest.distance / 13) : 0;
         const side = nearest?.side;
 
-        // Walk in from a little further away after entering / leaving a room.
-        const spawnT = Math.min(1, Math.max(0, (now - spawnAt.current) / 1.5));
-        const easedSpawn = spawnT * (2 - spawnT);
+        // During the first introduction she stands near the first interior door,
+        // then walks closer once the tour is dismissed.
+        const introWindow = now - firstEntryAt.current < 3.2;
+        const holdIntro = (tutorialOpen || introWindow) && now - firstEntryAt.current < 40;
         const mobileOffset = window.innerWidth < 640 ? 1.2 : 0;
-        const distance = 5.6 + (REST_DISTANCE - 5.6) * easedSpawn + mobileOffset;
-        const approaching = spawnT < 1;
+        const targetDistance = (holdIntro ? 5.4 : REST_DISTANCE) + mobileOffset;
+        currentDistance.current = THREE.MathUtils.lerp(currentDistance.current, targetDistance, 0.035);
+        const distance = currentDistance.current;
+        const approaching = Math.abs(currentDistance.current - targetDistance) > 0.05;
 
         // Softly follow the camera and lean toward the door being approached.
         const targetX = camera.position.x * 0.55
@@ -78,7 +98,7 @@ const AvatarAnchor = () => {
         if (movement.moving || approaching) {
             idleSince.current = now;
             view.current = 'back';
-        } else if (talking || now - idleSince.current > 0.65) {
+        } else if (talking || now - idleSince.current > 0.45) {
             view.current = 'front';
         }
 
@@ -115,8 +135,13 @@ const AvatarAnchor = () => {
 
         node.style.opacity = '1';
         node.dataset.moving = movement.moving || approaching ? 'true' : 'false';
+        if (view.current !== prevView.current) {
+            prevView.current = view.current;
+            turnUntil.current = now + 0.32;
+        }
         node.dataset.view = view.current;
         node.dataset.facing = facing;
+        node.dataset.turning = now < turnUntil.current ? 'true' : 'false';
     });
 
     return null;
