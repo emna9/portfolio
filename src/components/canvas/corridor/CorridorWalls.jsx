@@ -530,9 +530,9 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 <planeGeometry args={[seg.width, 0.62]} />
                                 <meshBasicMaterial
                                     map={getWarmGlowTexture()}
-                                    color="#ffd9a0"
+                                    color="#e8c08a"
                                     transparent
-                                    opacity={0.4}
+                                    opacity={0.16}
                                     depthWrite={false}
                                     blending={THREE.AdditiveBlending}
                                 />

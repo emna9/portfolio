@@ -640,15 +640,15 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         </mesh>
                         <mesh position={[0, 0, -0.006]}>
                             <planeGeometry args={[1.4, 1.4]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#fff2c8" transparent opacity={0.55} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#fff2c8" transparent opacity={0.28} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
                         </mesh>
                         <mesh position={[0, 0, -0.002]}>
                             <planeGeometry args={[2.2, 2.2]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.14} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
                         </mesh>
                         <mesh position={[0, -2.25, 0.55]} rotation={[-Math.PI / 2, 0, 0]}>
                             <planeGeometry args={[1.8, 1.2]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.24} depthWrite={false} blending={THREE.AdditiveBlending} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.1} depthWrite={false} blending={THREE.AdditiveBlending} />
                         </mesh>
                         <mesh position={[0, 0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
                         <mesh position={[0, -0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>

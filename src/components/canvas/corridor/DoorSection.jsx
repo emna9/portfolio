@@ -406,11 +406,11 @@ const DoorSection = ({
         const lightLevel = Math.max(glowStrength.current, cinematic);
 
         if (glowRef.current) {
-            glowRef.current.material.opacity = lightLevel * 0.6;
+            glowRef.current.material.opacity = lightLevel * 0.45;
             glowRef.current.visible = lightLevel > 0.02;
         }
         if (innerGlowRef.current) {
-            innerGlowRef.current.material.opacity = lightLevel * 0.2;
+            innerGlowRef.current.material.opacity = lightLevel * 0.14;
             innerGlowRef.current.visible = lightLevel > 0.02;
         }
 
