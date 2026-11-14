@@ -3,7 +3,7 @@ import { useScene } from '../../context/SceneContext';
 import { useGuidance } from '../../context/GuidanceContext';
 import { useAchievements, ACHIEVEMENTS } from '../../context/AchievementsContext';
 import { DOOR_INFO, ROOM_ORDER } from '../../data/doorContent';
-import { isSfxEnabled, setSfxEnabled } from '../../utils/sfx';
+import { isSfxEnabled, setSfxEnabled, playWelcome } from '../../utils/sfx';
 import '../../styles/Guidance.scss';
 
 const HELP_ROOMS = ROOM_ORDER.map(id => ({ id, ...DOOR_INFO[id] }));
@@ -111,6 +111,7 @@ const HelpPanel = ({ isOpen, onClose }) => {
                             const next = !sfxOn;
                             setSfxOn(next);
                             setSfxEnabled(next);
+                            if (next) playWelcome();
                         }}
                         aria-pressed={sfxOn}
                     >

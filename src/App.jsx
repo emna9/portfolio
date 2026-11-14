@@ -189,11 +189,13 @@ export default function App() {
   // Browsers require a gesture before audio can start.
   useEffect(() => {
     const unlock = () => initSfx();
-    window.addEventListener('pointerdown', unlock, { once: true });
-    window.addEventListener('keydown', unlock, { once: true });
+    window.addEventListener('pointerdown', unlock, { capture: true });
+    window.addEventListener('touchstart', unlock, { capture: true });
+    window.addEventListener('keydown', unlock, { capture: true });
     return () => {
-      window.removeEventListener('pointerdown', unlock);
-      window.removeEventListener('keydown', unlock);
+      window.removeEventListener('pointerdown', unlock, { capture: true });
+      window.removeEventListener('touchstart', unlock, { capture: true });
+      window.removeEventListener('keydown', unlock, { capture: true });
     };
   }, []);
 

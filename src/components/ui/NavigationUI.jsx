@@ -7,6 +7,7 @@ import AchievementPopup from './AchievementPopup';
 import HelpPanel from './HelpPanel';
 import { lockControls, unlockControls } from '../../utils/controls';
 import { useGuidance } from '../../context/GuidanceContext';
+import { isSfxEnabled, setSfxEnabled, playWelcome } from '../../utils/sfx';
 import '../../styles/NavigationUI.scss';
 
 // Room data for the map - positions are percentages on the map image
@@ -36,6 +37,7 @@ const NavigationUI = () => {
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [bgmVol, setBgmVol] = useState(0.3);
     const [isUIHidden, setIsUIHidden] = useState(false);
+    const [sfxOn, setSfxOn] = useState(isSfxEnabled);
 
     // Refs for focus management
     const mapPanelRef = useRef();
@@ -241,6 +243,33 @@ const NavigationUI = () => {
             {/* Right side controls - Only visible after entering */}
             {hasEntered && (
                 <div className={`nav-controls ${isMenuOpen || isAudioMenuOpen ? 'menu-open' : ''} ${isUIHidden ? 'ui-hidden' : ''}`}>
+                    {/* Sound effects toggle */}
+                    <button
+                        className={`nav-btn sound-btn ${sfxOn ? '' : 'muted'}`}
+                        onClick={() => {
+                            const next = !sfxOn;
+                            setSfxOn(next);
+                            setSfxEnabled(next);
+                            if (next) playWelcome();
+                        }}
+                        aria-label={sfxOn ? 'Mute sound effects' : 'Enable sound effects'}
+                        title={sfxOn ? 'Sound effects on' : 'Sound effects off'}
+                        aria-pressed={sfxOn}
+                    >
+                        {sfxOn ? (
+                            <svg viewBox="0 0 24 24" className="icon-sound">
+                                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                                <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                                <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+                            </svg>
+                        ) : (
+                            <svg viewBox="0 0 24 24" className="icon-sound">
+                                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                                <line x1="16" y1="9" x2="22" y2="15" />
+                                <line x1="22" y1="9" x2="16" y2="15" />
+                            </svg>
+                        )}
+                    </button>
                     {/* Exit Portfolio Button */}
                     <button
                         className="nav-btn exit-btn"

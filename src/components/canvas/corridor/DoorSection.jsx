@@ -1301,43 +1301,41 @@ const DoorSection = ({
                             </group>
                         )}
                         {label === 'PROJECTS' && (
-                            segmentIndex === 0 ? (
-                                <group position={[0, 0, 0.01]}>
-                                    <Text
-                                        font="fonts/CabinSketch-Bold.ttf"
-                                        fontSize={0.115}
-                                        color="#4a2c22"
-                                        anchorX="center"
-                                        anchorY="middle"
-                                        position={[0, 0.1, 0]}
-                                    >
-                                        while (true) {'{'}
-                                    </Text>
-                                    <Text
-                                        font="fonts/CabinSketch-Bold.ttf"
-                                        fontSize={0.115}
-                                        color="#4a2c22"
-                                        anchorX="center"
-                                        anchorY="middle"
-                                        position={[0, -0.1, 0]}
-                                    >
-                                        explore(); {'}'}
-                                    </Text>
-                                </group>
-                            ) : (
+                            <Text
+                                font="fonts/CabinSketch-Bold.ttf"
+                                fontSize={0.22}
+                                color="#111111"
+                                anchorX="center"
+                                anchorY="middle"
+                                position={[0, 0, 0.01]}
+                            >
+                                PROJECTS
+                            </Text>
+                        )}
+                        {label === 'PROJECTS' && segmentIndex === 0 && (
+                            <group position={[0, 0.46, 0.02]}>
                                 <Text
                                     font="fonts/CabinSketch-Bold.ttf"
-                                    fontSize={0.22}
-                                    color="#111111"
+                                    fontSize={0.07}
+                                    color="#4a2c22"
                                     anchorX="center"
                                     anchorY="middle"
-                                    position={[0, 0, 0.01]}
+                                    position={[0, 0.05, 0]}
                                 >
-                                    PROJECTS
+                                    while (true) {'{'}
                                 </Text>
-                            )
+                                <Text
+                                    font="fonts/CabinSketch-Bold.ttf"
+                                    fontSize={0.07}
+                                    color="#4a2c22"
+                                    anchorX="center"
+                                    anchorY="middle"
+                                    position={[0, -0.05, 0]}
+                                >
+                                    explore(); {'}'}
+                                </Text>
+                            </group>
                         )}
-
                         {label === 'THE ABOUT' && (
                             <Text
                                 font="fonts/CabinSketch-Bold.ttf"

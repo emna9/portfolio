@@ -7,7 +7,7 @@ let footstepBuffer = null;
 
 let enabled = true;
 try {
-    enabled = localStorage.getItem('sketch_sfx') !== '0';
+    enabled = localStorage.getItem('sketch_sfx_v2') !== '0';
 } catch {
     enabled = true;
 }
@@ -17,7 +17,7 @@ export const isSfxEnabled = () => enabled;
 export const setSfxEnabled = (value) => {
     enabled = !!value;
     try {
-        localStorage.setItem('sketch_sfx', enabled ? '1' : '0');
+        localStorage.setItem('sketch_sfx_v2', enabled ? '1' : '0');
     } catch {
         // Ignore storage failures.
     }
@@ -59,7 +59,8 @@ const getFootstepBuffer = (audioContext) => {
 export const playFootstep = () => {
     if (!enabled) return;
     const audioContext = initSfx();
-    if (!audioContext || audioContext.state !== 'running') return;
+    if (!audioContext) return;
+    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
 
     try {
         const source = audioContext.createBufferSource();
@@ -70,7 +71,7 @@ export const playFootstep = () => {
         filter.frequency.value = 480;
 
         const gain = audioContext.createGain();
-        gain.gain.setValueAtTime(0.09, audioContext.currentTime);
+        gain.gain.setValueAtTime(0.22, audioContext.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
 
         source.connect(filter);
@@ -85,7 +86,8 @@ export const playFootstep = () => {
 export const playWelcome = () => {
     if (!enabled) return;
     const audioContext = initSfx();
-    if (!audioContext || audioContext.state !== 'running') return;
+    if (!audioContext) return;
+    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
 
     try {
         const now = audioContext.currentTime;
@@ -103,7 +105,7 @@ export const playWelcome = () => {
 
             const start = now + at;
             gain.gain.setValueAtTime(0, start);
-            gain.gain.linearRampToValueAtTime(0.09, start + 0.03);
+            gain.gain.linearRampToValueAtTime(0.18, start + 0.03);
             gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
 
             osc.connect(gain);
@@ -132,7 +134,7 @@ export const playDoorOpen = () => {
     if (!enabled) return;
     initSfx();
     try {
-        const audio = getDoorAudio('sounds/otwarciedrzwi.mp3', 0.32, openAudioRef);
+        const audio = getDoorAudio('sounds/otwarciedrzwi.mp3', 0.55, openAudioRef);
         audio.currentTime = 0;
         audio.play().catch(() => {});
     } catch {
@@ -144,10 +146,11 @@ export const playDoorClose = () => {
     if (!enabled) return;
     initSfx();
     try {
-        const audio = getDoorAudio('sounds/zamknieciedrzwi.mp3', 0.25, closeAudioRef);
+        const audio = getDoorAudio('sounds/zamknieciedrzwi.mp3', 0.4, closeAudioRef);
         audio.currentTime = 0;
         audio.play().catch(() => {});
     } catch {
         // Ignore audio failures.
     }
 };
+
