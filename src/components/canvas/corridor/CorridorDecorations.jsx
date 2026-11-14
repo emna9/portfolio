@@ -636,14 +636,14 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         </mesh>
                         <mesh position={[0, 0, -0.004]}>
                             <planeGeometry args={[1.4, 1.4]} />
-                            <meshBasicMaterial color="#6e2b35" transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} />
+                            <meshBasicMaterial color="#4a2c22" transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} />
                         </mesh>
-                        <mesh position={[0, 0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
-                        <mesh position={[0, -0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
-                        <mesh position={[-0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
-                        <mesh position={[0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
-                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
-                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#6e2b35" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, 0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, -0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[-0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0.72, 0, 0.01]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
+                        <mesh position={[0, 0, 0.01]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
                     </group>
                 );
             })}

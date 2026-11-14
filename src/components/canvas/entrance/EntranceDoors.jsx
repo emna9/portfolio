@@ -975,15 +975,15 @@ const EntranceDoors = ({
                 {/* Burgundy glass */}
                 <mesh position={[0, 0, 0.19]}>
                     <planeGeometry args={[1.45, 1.45]} />
-                    <meshBasicMaterial color="#6e2b35" transparent opacity={0.22} depthWrite={false} side={2} />
+                    <meshBasicMaterial color="#4a2c22" transparent opacity={0.22} depthWrite={false} side={2} />
                 </mesh>
                 {/* Burgundy window frame */}
-                <mesh position={[0, 0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" /></mesh>
-                <mesh position={[0, -0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#6e2b35" /></mesh>
-                <mesh position={[-0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" /></mesh>
-                <mesh position={[0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#6e2b35" /></mesh>
-                <mesh position={[0, 0, 0.2]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#6e2b35" /></mesh>
-                <mesh position={[0, 0, 0.2]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#6e2b35" /></mesh>
+                <mesh position={[0, 0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" /></mesh>
+                <mesh position={[0, -0.72, 0.2]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" /></mesh>
+                <mesh position={[-0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#4a2c22" /></mesh>
+                <mesh position={[0.72, 0, 0.2]}><planeGeometry args={[0.08, 1.5]} /><meshBasicMaterial color="#4a2c22" /></mesh>
+                <mesh position={[0, 0, 0.2]}><planeGeometry args={[0.055, 1.42]} /><meshBasicMaterial color="#4a2c22" /></mesh>
+                <mesh position={[0, 0, 0.2]}><planeGeometry args={[1.42, 0.055]} /><meshBasicMaterial color="#4a2c22" /></mesh>
             </group>
 
             {/* ANIMATED BUG (Right Side - Above Window) */}
