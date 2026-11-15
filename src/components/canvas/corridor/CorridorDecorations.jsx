@@ -591,11 +591,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             </mesh>
 
             {/* === POTTED PLANTS (3) — sage green === */}
-            {[
-                { z: -13, side: 'left' },
-                { z: -40, side: 'right' },
-                { z: -60, side: 'left' },
-            ].map((plant, i) => {
+            {[].map((plant, i) => {
                 const isLeft = plant.side === 'left';
                 return (
                     <mesh
@@ -616,11 +612,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             })}
 
             {/* === WINDOWS INSIDE THE CORRIDOR === */}
-            {[
-                { z: -28, side: 'right' },
-                { z: -48, side: 'left' },
-                { z: -57, side: 'right' },
-            ].map((win, i) => {
+            {[].map((win, i) => {
                 const isLeft = win.side === 'left';
                 return (
                     <group

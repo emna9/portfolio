@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import RoomInterior from './RoomInterior';
 import WallSconce from './WallSconce';
+import { getWainscotTexture } from './CorridorWalls';
 import '../shaders/RevealMaterial'; // Registers alpha-discard reveal shader
 import { useScene } from '../../../context/SceneContext';
 import { useAchievements } from '../../../context/AchievementsContext';
@@ -298,6 +299,13 @@ const DoorSection = ({
         tex.repeat.set(doorBoardWidth / NATURAL_TILE_W, 1);
         return tex;
     }, [baseboardTexture]);
+
+    const doorWainscotTexture = useMemo(() => {
+        const tex = getWainscotTexture().clone();
+        tex.needsUpdate = true;
+        tex.repeat.set(1.3, 1);
+        return tex;
+    }, []);
 
     // Door dimensions - based on legacy texture aspect ratio (approx 0.376)
     const doorRatio = 0.376;
@@ -1065,8 +1073,16 @@ const DoorSection = ({
             <group ref={groupRef}>
                 {/* Wall segment with door hole */}
                 <mesh position={[wallOffsetX, 0, 0]} geometry={wallWithHoleGeometry}>
-                    <meshBasicMaterial color="#4A322B" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
+                    <meshBasicMaterial color="#E6D8C2" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
                 </mesh>
+
+                {/* Wainscoting continuing beside the door */}
+                {[-1, 1].map(dir => (
+                    <mesh key={`wainscot-${dir}`} position={[wallOffsetX + dir * 1.41, -CORRIDOR_HEIGHT / 2 + 0.56, 0.006]}>
+                        <planeGeometry args={[1.57, 1.12]} />
+                        <meshBasicMaterial map={doorWainscotTexture} roughness={1} metalness={0} />
+                    </mesh>
+                ))}
 
                 {/* Warm sconce beside the door */}
                 <WallSconce position={[wallOffsetX + 1.5, 0.38, 0.06]} />
@@ -1086,7 +1102,7 @@ const DoorSection = ({
                     scale={[0.5, 0.5, 1]}
                 >
                     <planeGeometry args={[1, 0.5]} />
-                    <meshBasicMaterial color="#D8C9B2"
+                    <meshBasicMaterial color="#6B4A3A"
                         map={arrowTexture}
                         transparent={true}
                         alphaTest={0.1}
@@ -1109,7 +1125,7 @@ const DoorSection = ({
                     scale={[-0.5, 0.5, 1]}
                 >
                     <planeGeometry args={[1, 0.5]} />
-                    <meshBasicMaterial color="#D8C9B2"
+                    <meshBasicMaterial color="#6B4A3A"
                         map={arrowTexture}
                         transparent={true}
                         alphaTest={0.1}
@@ -1122,7 +1138,7 @@ const DoorSection = ({
                 <Text
                     position={[wallOffsetX - 1.1, 0.34, 0.03]}
                     fontSize={wallTitle.length > 11 ? 0.13 : 0.17}
-                    color="#F3EBDD"
+                    color="#422A28"
                     anchorX="center"
                     anchorY="middle"
                     font="fonts/CabinSketch-Bold.ttf"
@@ -1228,7 +1244,7 @@ const DoorSection = ({
                         <mesh>
                             {/* Adjusted size for the signs - assuming rectangular aspect ratio */}
                             <planeGeometry args={[1.3, 0.65]} />
-                            <meshBasicMaterial color="#F3EBDD"
+                            <meshBasicMaterial color="#E8D9BF"
                                 map={signTexture}
                                 transparent={true}
                                 alphaTest={0.1}
@@ -1390,7 +1406,7 @@ const DoorSection = ({
                             scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <meshBasicMaterial color="#632B3B"
+                            <meshBasicMaterial color="#3E2A24"
                                 map={doorPaintedTexture}
                                 transparent={true}
                                 alphaTest={0.5}
@@ -1404,7 +1420,7 @@ const DoorSection = ({
                             scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <revealMaterial color="#632B3B"
+                            <revealMaterial color="#3E2A24"
                                 ref={doorMaterialRef}
                                 map={doorTexture}
                                 transparent={true}
@@ -1421,7 +1437,7 @@ const DoorSection = ({
                             scale={[side === 'right' ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
-                            <meshBasicMaterial color="#632B3B"
+                            <meshBasicMaterial color="#3E2A24"
                                 map={doorBackTexture}
                                 transparent={true}
                                 alphaTest={0.1}

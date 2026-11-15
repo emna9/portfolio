@@ -912,4 +912,5 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
     );
 };
 
+export { getWainscotTexture };
 export default CorridorWalls;
