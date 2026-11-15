@@ -33,31 +33,103 @@ let wallPanelTexture = null;
 const getWallPanelTexture = () => {
     if (wallPanelTexture || typeof document === 'undefined') return wallPanelTexture;
     const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 384;
+    canvas.width = 512;
+    canvas.height = 348;
     const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 256, 384);
+    ctx.clearRect(0, 0, 512, 348);
 
-    // One boiserie panel per tile: soft inset shadow + fine molding line.
-    ctx.shadowColor = 'rgba(66, 42, 40, 0.16)';
-    ctx.shadowBlur = 10;
-    ctx.strokeStyle = 'rgba(216, 201, 178, 0.38)';
+    const x = 44;
+    const y = 38;
+    const w = 424;
+    const h = 272;
+
+    // 1. Cast shadow: a dark band around the frame perimeter, soft outside edge.
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 8;
+    ctx.strokeStyle = 'rgba(10, 5, 4, 0.5)';
+    ctx.lineWidth = 20;
+    ctx.strokeRect(x, y, w, h);
+    ctx.restore();
+
+    // 2. Recess: subtle, so it reads as a carved panel and not a black hole.
+    const recess = ctx.createLinearGradient(0, y, 0, y + h);
+    recess.addColorStop(0, 'rgba(10, 5, 4, 0.26)');
+    recess.addColorStop(0.2, 'rgba(10, 5, 4, 0.06)');
+    recess.addColorStop(0.85, 'rgba(10, 5, 4, 0.02)');
+    recess.addColorStop(1, 'rgba(243, 235, 221, 0.07)');
+    ctx.fillStyle = recess;
+    ctx.fillRect(x, y, w, h);
+
+    // 3. Soft inner shadow along the top and left.
+    const innerTop = ctx.createLinearGradient(0, y, 0, y + 40);
+    innerTop.addColorStop(0, 'rgba(0, 0, 0, 0.38)');
+    innerTop.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = innerTop;
+    ctx.fillRect(x, y, w, 40);
+
+    const innerLeft = ctx.createLinearGradient(x, 0, x + 40, 0);
+    innerLeft.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
+    innerLeft.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = innerLeft;
+    ctx.fillRect(x, y, 40, h);
+
+    // 4. Molding: dark outer shadow line, champagne face, lit top-left bevel.
+    ctx.strokeStyle = 'rgba(10, 5, 4, 0.8)';
+    ctx.lineWidth = 9;
+    ctx.strokeRect(x - 4, y - 4, w + 8, h + 8);
+
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.58)';
+    ctx.lineWidth = 9;
+    ctx.strokeRect(x + 3, y + 3, w - 6, h - 6);
+
+    ctx.strokeStyle = 'rgba(243, 235, 221, 0.65)';
     ctx.lineWidth = 3;
-    ctx.strokeRect(18, 22, 220, 340);
+    ctx.beginPath();
+    ctx.moveTo(x - 2, y + h);
+    ctx.lineTo(x - 2, y - 2);
+    ctx.lineTo(x + w, y - 2);
+    ctx.stroke();
 
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = 'rgba(243, 235, 221, 0.85)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(27, 31, 202, 322);
+    ctx.strokeStyle = 'rgba(10, 5, 4, 0.7)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(x + w + 2, y);
+    ctx.lineTo(x + w + 2, y + h + 2);
+    ctx.lineTo(x, y + h + 2);
+    ctx.stroke();
 
-    ctx.strokeStyle = 'rgba(216, 201, 178, 0.22)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(33, 37, 190, 310);
+    // 5. Inner lip shadow just inside the molding.
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.32)';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(x + 12, y + 12, w - 24, h - 24);
 
     wallPanelTexture = new THREE.CanvasTexture(canvas);
     wallPanelTexture.wrapS = THREE.RepeatWrapping;
     wallPanelTexture.wrapT = THREE.ClampToEdgeWrapping;
     return wallPanelTexture;
+};
+
+// Vertical corner shading: dark at both ends of a wall panel, clear in the middle.
+let wallEdgeShadeTexture = null;
+const getWallEdgeShadeTexture = () => {
+    if (wallEdgeShadeTexture || typeof document === 'undefined') return wallEdgeShadeTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 8;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 128, 0);
+    gradient.addColorStop(0, 'rgba(16, 8, 6, 0.6)');
+    gradient.addColorStop(0.12, 'rgba(16, 8, 6, 0)');
+    gradient.addColorStop(0.88, 'rgba(16, 8, 6, 0)');
+    gradient.addColorStop(1, 'rgba(16, 8, 6, 0.6)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 8);
+    wallEdgeShadeTexture = new THREE.CanvasTexture(canvas);
+    wallEdgeShadeTexture.wrapS = THREE.ClampToEdgeWrapping;
+    wallEdgeShadeTexture.wrapT = THREE.ClampToEdgeWrapping;
+    return wallEdgeShadeTexture;
 };
 
 // Walnut basket-weave parquet, generated once and shared.
@@ -243,7 +315,7 @@ const DoorWallSegment = ({ position, baseRotationY, width, corridorHeight, wallT
     return (
         <mesh ref={meshRef} position={position}>
             <planeGeometry args={[width, corridorHeight]} />
-            <meshBasicMaterial color="#422A28" map={segTexture} roughness={1} metalness={0} />
+            <meshBasicMaterial color="#7A5644" map={segTexture} roughness={1} metalness={0} />
         </mesh>
     );
 };
@@ -645,7 +717,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#422A28"
+                                <meshBasicMaterial color="#7A5644"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
@@ -655,7 +727,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
                             <mesh position={[bbOffsetX, -corridorHeight / 2 + 0.075, 0.01]}>
                                 <planeGeometry args={[bbWidth, 0.15]} />
-                                <meshBasicMaterial color="#B8A995"
+                                <meshBasicMaterial color="#3E2A24"
                                     map={bbTexture}
                                     roughness={0.8}
                                     side={THREE.DoubleSide}
@@ -679,7 +751,18 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 <meshBasicMaterial
                                     map={panelTexture}
                                     transparent
-                                    opacity={0.7}
+                                    opacity={0.96}
+                                    depthWrite={false}
+                                />
+                            </mesh>
+
+                            {/* Corner shadows where this panel meets the next wall */}
+                            <mesh position={[0, 0, 0.004]}>
+                                <planeGeometry args={[seg.width, corridorHeight]} />
+                                <meshBasicMaterial
+                                    map={getWallEdgeShadeTexture()}
+                                    transparent
+                                    opacity={0.5}
                                     depthWrite={false}
                                 />
                             </mesh>

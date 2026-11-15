@@ -1064,7 +1064,7 @@ const DoorSection = ({
             <group ref={groupRef}>
                 {/* Wall segment with door hole */}
                 <mesh position={[wallOffsetX, 0, 0]} geometry={wallWithHoleGeometry}>
-                    <meshBasicMaterial color="#422A28" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
+                    <meshBasicMaterial color="#7A5644" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
                 </mesh>
 
                 {/* === ARROW DECORATION === */}
@@ -1348,7 +1348,7 @@ const DoorSection = ({
                     {/* Moved to Z = 0.04 to sit in front of baseboards (Z=0.02), hiding the hole edges */}
                     <mesh position={[0, -0.1, 0.04]} scale={[side === 'right' ? -1 : 1, 1, 1]}>
                         <planeGeometry args={[frameWidth, frameHeight]} />
-                        <meshBasicMaterial color="#805B46"
+                        <meshBasicMaterial color="#422A28"
                             map={frameTexture}
                             transparent={true}
                             alphaTest={0.1}
