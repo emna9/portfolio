@@ -6,11 +6,11 @@ import { useScene } from '../../../context/SceneContext';
 // Calculation: 10 (Start Z) + Relative Z + 2 (Door Offset)
 const DOOR_POSITIONS_Z = {
     'gallery': 4,          // 10 - 8 + 2
-    'experience': -4,      // 10 - 16 + 2
-    'rewards': -12,        // 10 - 24 + 2
-    'about': -20,          // 10 - 32 + 2
-    'contact': -28,        // 10 - 40 + 2
-    'extracurricular': -36 // 10 - 48 + 2
+    'experience': -1,      // 10 - 13 + 2
+    'rewards': -6,         // 10 - 18 + 2
+    'about': -11,          // 10 - 23 + 2
+    'contact': -16,        // 10 - 28 + 2
+    'extracurricular': -21 // 10 - 33 + 2
 };
 
 /**

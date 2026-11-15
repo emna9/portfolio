@@ -383,7 +383,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     // - y: pozycja Y (wysokość na ścianie, 0 = środek)
     const frames = useMemo(() => [
         {
-            z: zOffset - 25,         // Between Gallery and Rewards
+            z: zOffset - 23,         // Between Projects and Rewards
             side: 'left',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -592,7 +592,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
 
             {/* === POTTED PLANTS (3) — sage green === */}
             {[
-                { z: -20, side: 'left' },
+                { z: -13, side: 'left' },
                 { z: -40, side: 'right' },
                 { z: -60, side: 'left' },
             ].map((plant, i) => {
@@ -617,7 +617,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
 
             {/* === WINDOWS INSIDE THE CORRIDOR === */}
             {[
-                { z: -35, side: 'right' },
+                { z: -28, side: 'right' },
                 { z: -48, side: 'left' },
                 { z: -57, side: 'right' },
             ].map((win, i) => {

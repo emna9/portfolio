@@ -12,9 +12,9 @@ const bestVector = new THREE.Vector3();
 const cameraForward = new THREE.Vector3();
 
 // How close (in corridor units) the visitor must be to interact.
-const ENTER_DISTANCE = 9;
+const ENTER_DISTANCE = 6;
 // Doors further than this are ignored entirely.
-const AWARE_DISTANCE = 17;
+const AWARE_DISTANCE = 12;
 
 /**
  * DoorProximityManager
@@ -85,10 +85,10 @@ const DoorProximityManager = () => {
             return;
         }
 
-        if (bestDistance <= 9 && chimedKey.current !== best.key) {
+        if (bestDistance <= 5 && chimedKey.current !== best.key) {
             chimedKey.current = best.key;
             playDoorChime();
-        } else if (bestDistance > 12) {
+        } else if (bestDistance > 7) {
             chimedKey.current = null;
         }
 

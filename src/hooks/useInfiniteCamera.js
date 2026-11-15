@@ -25,11 +25,11 @@ const approach = (current, target, maxDelta) => {
 // Door positions for auto-glance
 const DOOR_POSITIONS = [
     { z: -6, side: 'left' },
-    { z: -14, side: 'right' },
-    { z: -22, side: 'left' },
-    { z: -30, side: 'right' },
-    { z: -38, side: 'left' },
-    { z: -46, side: 'right' },
+    { z: -11, side: 'right' },
+    { z: -16, side: 'left' },
+    { z: -21, side: 'right' },
+    { z: -26, side: 'left' },
+    { z: -31, side: 'right' },
 ];
 
 /**
@@ -391,7 +391,7 @@ const useInfiniteCamera = ({
             }
             forwardInput = THREE.MathUtils.clamp(forwardInput, -1, 1);
 
-            const nearDoor = (nearestDoorRef.current?.distance ?? Infinity) < 11;
+            const nearDoor = (nearestDoorRef.current?.distance ?? Infinity) < 3.5;
             const walkSpeed = nearDoor ? NEAR_DOOR_WALK_SPEED : WALK_SPEED;
             const targetVelocityZ = -forwardInput * walkSpeed;
             const targetVelocityX = 0;
