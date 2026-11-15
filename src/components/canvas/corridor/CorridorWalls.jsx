@@ -228,13 +228,13 @@ const getCeilingTexture = () => {
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#F1E7D7';
+    ctx.fillStyle = '#4A322B';
     ctx.fillRect(0, 0, 256, 256);
 
-    ctx.strokeStyle = 'rgba(128, 91, 70, 0.10)';
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.14)';
     ctx.lineWidth = 2;
     ctx.strokeRect(12, 12, 232, 232);
-    ctx.strokeStyle = 'rgba(243, 235, 221, 0.9)';
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.07)';
     ctx.lineWidth = 1;
     ctx.strokeRect(20, 20, 216, 216);
 
@@ -648,7 +648,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[tileWidth, tileLength]} />
-                            <meshBasicMaterial color="#F3EBDD"
+                            <meshBasicMaterial color="#FFFFFF"
                                 map={ceilingTex}
                                 side={THREE.DoubleSide}
                                 roughness={1}
