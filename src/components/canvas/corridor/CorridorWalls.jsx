@@ -43,67 +43,30 @@ const getWallPanelTexture = () => {
     const w = 424;
     const h = 272;
 
-    // 1. Cast shadow: a dark band around the frame perimeter, soft outside edge.
-    ctx.save();
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-    ctx.shadowBlur = 24;
-    ctx.shadowOffsetY = 8;
-    ctx.strokeStyle = 'rgba(10, 5, 4, 0.5)';
-    ctx.lineWidth = 20;
-    ctx.strokeRect(x, y, w, h);
-    ctx.restore();
-
-    // 2. Recess: subtle, so it reads as a carved panel and not a black hole.
+    // Faint recess so the panel still has depth without a white frame.
     const recess = ctx.createLinearGradient(0, y, 0, y + h);
-    recess.addColorStop(0, 'rgba(10, 5, 4, 0.26)');
-    recess.addColorStop(0.2, 'rgba(10, 5, 4, 0.06)');
-    recess.addColorStop(0.85, 'rgba(10, 5, 4, 0.02)');
-    recess.addColorStop(1, 'rgba(243, 235, 221, 0.07)');
+    recess.addColorStop(0, 'rgba(0, 0, 0, 0.2)');
+    recess.addColorStop(0.25, 'rgba(0, 0, 0, 0.03)');
+    recess.addColorStop(1, 'rgba(243, 235, 221, 0.03)');
     ctx.fillStyle = recess;
     ctx.fillRect(x, y, w, h);
 
-    // 3. Soft inner shadow along the top and left.
-    const innerTop = ctx.createLinearGradient(0, y, 0, y + 40);
-    innerTop.addColorStop(0, 'rgba(0, 0, 0, 0.38)');
-    innerTop.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = innerTop;
-    ctx.fillRect(x, y, w, 40);
+    // Thin lines that read like light, matching the ceiling coffers.
+    ctx.save();
+    ctx.shadowColor = 'rgba(243, 235, 221, 0.85)';
+    ctx.shadowBlur = 18;
+    ctx.strokeStyle = 'rgba(243, 235, 221, 0.5)';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(x, y, w, h);
+    ctx.restore();
 
-    const innerLeft = ctx.createLinearGradient(x, 0, x + 40, 0);
-    innerLeft.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
-    innerLeft.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = innerLeft;
-    ctx.fillRect(x, y, 40, h);
-
-    // 4. Molding: dark outer shadow line, champagne face, lit top-left bevel.
-    ctx.strokeStyle = 'rgba(10, 5, 4, 0.8)';
-    ctx.lineWidth = 9;
-    ctx.strokeRect(x - 4, y - 4, w + 8, h + 8);
-
-    ctx.strokeStyle = 'rgba(216, 201, 178, 0.58)';
-    ctx.lineWidth = 9;
-    ctx.strokeRect(x + 3, y + 3, w - 6, h - 6);
-
-    ctx.strokeStyle = 'rgba(243, 235, 221, 0.65)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(x - 2, y + h);
-    ctx.lineTo(x - 2, y - 2);
-    ctx.lineTo(x + w, y - 2);
-    ctx.stroke();
-
-    ctx.strokeStyle = 'rgba(10, 5, 4, 0.7)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(x + w + 2, y);
-    ctx.lineTo(x + w + 2, y + h + 2);
-    ctx.lineTo(x, y + h + 2);
-    ctx.stroke();
-
-    // 5. Inner lip shadow just inside the molding.
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.32)';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(x + 12, y + 12, w - 24, h - 24);
+    ctx.save();
+    ctx.shadowColor = 'rgba(243, 235, 221, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.26)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + 9, y + 9, w - 18, h - 18);
+    ctx.restore();
 
     wallPanelTexture = new THREE.CanvasTexture(canvas);
     wallPanelTexture.wrapS = THREE.RepeatWrapping;
@@ -315,7 +278,7 @@ const DoorWallSegment = ({ position, baseRotationY, width, corridorHeight, wallT
     return (
         <mesh ref={meshRef} position={position}>
             <planeGeometry args={[width, corridorHeight]} />
-            <meshBasicMaterial color="#7A5644" map={segTexture} roughness={1} metalness={0} />
+            <meshBasicMaterial color="#4A322B" map={segTexture} roughness={1} metalness={0} />
         </mesh>
     );
 };
@@ -717,7 +680,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#7A5644"
+                                <meshBasicMaterial color="#4A322B"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
