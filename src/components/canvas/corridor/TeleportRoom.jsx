@@ -5,12 +5,12 @@ import { useScene } from '../../../context/SceneContext';
 // Door positions (Global Z for Segment 0)
 // Calculation: 10 (Start Z) + Relative Z + 2 (Door Offset)
 const DOOR_POSITIONS_Z = {
-    'gallery': 0,          // 10 - 12 + 2
-    'experience': -11,     // 10 - 23 + 2
-    'rewards': -22,        // 10 - 34 + 2
-    'about': -33,          // 10 - 45 + 2
-    'contact': -44,        // 10 - 56 + 2
-    'extracurricular': -55 // 10 - 67 + 2
+    'gallery': 4,          // 10 - 8 + 2
+    'experience': -4,      // 10 - 16 + 2
+    'rewards': -12,        // 10 - 24 + 2
+    'about': -20,          // 10 - 32 + 2
+    'contact': -28,        // 10 - 40 + 2
+    'extracurricular': -36 // 10 - 48 + 2
 };
 
 /**
@@ -44,7 +44,7 @@ const TeleportRoom = memo(() => {
                 // Place camera 8 units "before" the door (towards positive Z)
                 // Center of corridor (X=0)
                 // Height standard (Y=0.2)
-                const targetZ = doorZ + 8;
+                const targetZ = doorZ + 4;
 
                 // Instantly teleport camera
                 camera.position.set(0, 0.2, targetZ);

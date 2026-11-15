@@ -3,12 +3,13 @@
 // Matches the paper / ink / rust charter of the house.
 // =============================================================================
 
-$ink: #1a1a1a;
-$brown: #664e44;
-$paper: #fffdf4;
-$paper-deep: #fdf8e2;
-$cream: #fcf3c6;
-$rust: #b4552d;
+$ink: #422A28;
+$brown: #632B3B;
+$paper: #F3EBDD;
+$paper-deep: #F3EBDD;
+$cream: #D8C9B2;
+$rust: #B77F7D;
+$wine: #632B3B;
 
 .guidance-ui {
     position: fixed;
@@ -62,7 +63,7 @@ $rust: #b4552d;
     border-radius: 7px;
     background: $paper;
     box-shadow: 0 2px 0 $ink;
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    font-family: var(--font-sans, Inter, sans-serif);
     font-size: 0.85rem;
     font-weight: 700;
     line-height: 1;
@@ -156,7 +157,7 @@ $rust: #b4552d;
     }
 
     &__role {
-        font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+        font-family: var(--font-sans, Inter, sans-serif);
         font-size: clamp(0.66rem, 1.1vw, 0.84rem);
         letter-spacing: 0.32em;
         text-transform: uppercase;
@@ -186,10 +187,10 @@ $rust: #b4552d;
     transform: translate(-50%, -100%);
     padding: 12px 14px 13px;
     background: $paper;
-    border: 2px solid $ink;
-    border-radius: 16px 18px 14px 17px;
-    box-shadow: 4px 4px 0 rgba(26, 26, 26, 0.85);
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    border: 1px solid rgba(66, 42, 40, 0.22);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card, 0 12px 32px rgba(66, 42, 40, 0.12));
+    font-family: var(--font-sans, Inter, sans-serif);
     color: $brown;
     animation: bubbleIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -236,7 +237,8 @@ $rust: #b4552d;
     }
 
     &__title {
-        font-size: 0.82rem;
+        font-family: var(--font-serif, Georgia, serif);
+        font-size: 0.86rem;
         font-weight: 700;
         letter-spacing: 0.16em;
         text-transform: uppercase;
@@ -276,10 +278,11 @@ $rust: #b4552d;
         gap: 8px;
         margin-top: 9px;
         padding: 5px 12px 6px 6px;
-        border: 1.5px solid $ink;
-        border-radius: 10px;
-        background: $cream;
-        box-shadow: 2px 2px 0 $ink;
+        border: 1px solid $wine;
+        border-radius: 9px;
+        background: $wine;
+        color: $paper;
+        box-shadow: 0 4px 12px rgba(66, 42, 40, 0.16);
         font-family: inherit;
         font-size: 0.8rem;
         color: $ink;
@@ -323,7 +326,7 @@ $rust: #b4552d;
     border: 2px solid $ink;
     border-radius: 999px;
     box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.8);
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    font-family: var(--font-sans, Inter, sans-serif);
     font-size: 0.95rem;
     color: $brown;
     text-align: center;
@@ -358,7 +361,7 @@ $rust: #b4552d;
     border-radius: 12px 14px 11px 13px;
     box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.85);
     transform: rotate(-1.2deg);
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    font-family: var(--font-sans, Inter, sans-serif);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -415,7 +418,7 @@ $rust: #b4552d;
     border: 2.5px solid $ink;
     border-radius: 20px 24px 18px 22px;
     box-shadow: 6px 7px 0 rgba(26, 26, 26, 0.9);
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    font-family: var(--font-sans, Inter, sans-serif);
     color: $brown;
     animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -666,9 +669,9 @@ $rust: #b4552d;
     overflow-y: auto;
     padding: 18px 18px 20px;
     background: $paper;
-    border: 2px solid $ink;
-    border-radius: 0 0 16px 18px;
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    border: 1px solid rgba(66, 42, 40, 0.22);
+    border-radius: 0 0 12px 12px;
+    font-family: var(--font-sans, Inter, sans-serif);
     color: $brown;
 
     &::before {
@@ -699,7 +702,8 @@ $rust: #b4552d;
 
     h3 {
         margin: 0;
-        font-size: 0.95rem;
+        font-family: var(--font-serif, Georgia, serif);
+        font-size: 1rem;
         font-weight: 700;
         letter-spacing: 0.14em;
         color: $ink;
@@ -870,9 +874,9 @@ $rust: #b4552d;
     }
 
     &--cv {
-        background: $ink;
+        background: $brown;
         color: $paper-deep;
-        border-color: $ink;
+        border-color: $brown;
 
         &:hover {
             background: #2c2c2c;
@@ -986,7 +990,7 @@ $rust: #b4552d;
         border-radius: 999px;
         background: $cream;
         box-shadow: 2px 2px 0 $ink;
-        font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+        font-family: var(--font-sans, Inter, sans-serif);
         font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.12em;
@@ -1041,10 +1045,8 @@ $rust: #b4552d;
     }
 
     .cv-shortcut {
-        right: 14px;
-        bottom: 14px;
-        padding: 7px 11px 8px;
-        font-size: 0.7rem;
+        // The top navigation already offers the CV on small screens.
+        display: none;
     }
 
     .virtual-pad__grid {
@@ -1068,5 +1070,29 @@ $rust: #b4552d;
 
     .typewriter-cursor {
         animation: none !important;
+    }
+}
+
+
+// === MODERN CV SHORTCUT ===
+.cv-shortcut {
+    padding: 9px 16px 10px;
+    background: rgba(243, 235, 221, 0.94);
+    border: 1px solid rgba(66, 42, 40, 0.22);
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(66, 42, 40, 0.1);
+    transform: none;
+    font-family: var(--font-sans, Inter, sans-serif);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--color-burgundy, #632B3B);
+
+    svg {
+        stroke: var(--color-burgundy, #632B3B);
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(66, 42, 40, 0.14);
     }
 }

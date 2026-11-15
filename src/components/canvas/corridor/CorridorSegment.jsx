@@ -43,7 +43,7 @@ const CorridorSegment = ({
             {
                 id: `gallery-${segmentIndex}`,
                 roomId: 'gallery',
-                relativeZ: -12,
+                relativeZ: -8,
                 side: 'left',
                 label: 'PROJECTS',
                 icon: '◈',
@@ -52,7 +52,7 @@ const CorridorSegment = ({
             {
                 id: `experience-${segmentIndex}`,
                 roomId: 'experience',
-                relativeZ: -23,
+                relativeZ: -16,
                 side: 'right',
                 label: 'THE EXPERIENCE',
                 icon: '▤',
@@ -61,7 +61,7 @@ const CorridorSegment = ({
             {
                 id: `rewards-${segmentIndex}`,
                 roomId: 'rewards',
-                relativeZ: -34,
+                relativeZ: -24,
                 side: 'left',
                 label: 'REWARDS',
                 icon: '★',
@@ -70,7 +70,7 @@ const CorridorSegment = ({
             {
                 id: `about-${segmentIndex}`,
                 roomId: 'about',
-                relativeZ: -45,
+                relativeZ: -32,
                 side: 'right',
                 label: 'THE ABOUT',
                 icon: '★',
@@ -80,7 +80,7 @@ const CorridorSegment = ({
             {
                 id: `connect-${segmentIndex}`,
                 roomId: 'contact',
-                relativeZ: -56,
+                relativeZ: -40,
                 side: 'left',
                 label: "LET'S CONNECT",
                 icon: '✉',
@@ -89,7 +89,7 @@ const CorridorSegment = ({
             {
                 id: `extracurricular-${segmentIndex}`,
                 roomId: 'extracurricular',
-                relativeZ: -67,
+                relativeZ: -48,
                 side: 'right',
                 label: 'EXTRACURRICULAR',
                 icon: '✦',

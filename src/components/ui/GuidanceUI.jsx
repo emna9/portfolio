@@ -77,9 +77,11 @@ const GuidanceUI = () => {
         if (!hasEntered || isInRoom || isTeleporting || tutorialOpen || helpOpen || avatarSpeaking || !nearestDoor) return null;
         const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
         const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
-        const margin = viewportWidth < 640 ? 120 : 170;
+        const margin = viewportWidth < 640 ? 135 : 170;
+        // Keep the bubble clear of the permanent top navigation bar.
+        const minY = viewportWidth < 640 ? 220 : 245;
         const x = Math.min(Math.max(nearestDoor.screen.x, margin), viewportWidth - margin);
-        const y = Math.min(Math.max(nearestDoor.screen.y - 30, 150), viewportHeight - 40);
+        const y = Math.min(Math.max(nearestDoor.screen.y - 30, minY), viewportHeight - 40);
         return { ...nearestDoor, x, y };
     }, [hasEntered, isInRoom, isTeleporting, tutorialOpen, helpOpen, avatarSpeaking, nearestDoor]);
 

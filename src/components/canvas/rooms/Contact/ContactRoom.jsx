@@ -453,7 +453,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 <planeGeometry args={[2.5, 7]} />
                 <meshBasicMaterial
                     map={moloTexture}
-                    color="#fcf3c6"
+                    color="#F3EBDD"
                     roughness={0.8}
                     side={THREE.DoubleSide}
                     transparent
@@ -467,7 +467,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={LATARNIA_SETTINGS.rotation}
             >
                 <planeGeometry args={LATARNIA_SETTINGS.scale} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#F3EBDD"
                     map={latarniaTexture}
                     transparent
                     alphaTest={0.5}
@@ -483,7 +483,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={STATEK_SETTINGS.rotation}
             >
                 <planeGeometry args={STATEK_SETTINGS.scale} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#F3EBDD"
                     map={statekTexture}
                     transparent
                     alphaTest={0.5}

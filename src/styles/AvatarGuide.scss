@@ -2,13 +2,13 @@
 // AVATAR GUIDE - minimal illustrated host with long wavy hair
 // =============================================================================
 
-$ink: #241610;
-$brown: #5a3a2e;
-$paper: #fffaf0;
-$cream: #f3e3c8;
-$gold: #b08d57;
-$wine: #6a2731;
-$rust: #a34a4a;
+$ink: #422A28;
+$brown: #632B3B;
+$paper: #F3EBDD;
+$cream: #D8C9B2;
+$gold: #B8A995;
+$wine: #632B3B;
+$rust: #B77F7D;
 
 .avatar-guide {
     position: fixed;
@@ -242,10 +242,10 @@ $rust: #a34a4a;
     max-width: 88vw;
     padding: 14px 16px 13px;
     background: $paper;
-    border: 2px solid $ink;
-    border-radius: 18px 20px 16px 19px;
-    box-shadow: 4px 4px 0 rgba(36, 22, 16, 0.85);
-    font-family: 'Cabin Sketch', 'Patrick Hand', cursive, sans-serif;
+    border: 1px solid rgba(66, 42, 40, 0.22);
+    border-radius: 14px;
+    box-shadow: var(--shadow-card, 0 12px 32px rgba(66, 42, 40, 0.12));
+    font-family: var(--font-sans, Inter, sans-serif);
     color: $brown;
     pointer-events: auto;
     z-index: 6;
@@ -270,8 +270,8 @@ $rust: #a34a4a;
         width: 16px;
         height: 16px;
         background: $paper;
-        border-right: 2px solid $ink;
-        border-bottom: 2px solid $ink;
+        border-right: 1px solid rgba(66, 42, 40, 0.22);
+        border-bottom: 1px solid rgba(66, 42, 40, 0.22);
         transform: translateX(-50%) rotate(45deg);
         border-radius: 0 0 4px 0;
     }
@@ -293,7 +293,8 @@ $rust: #a34a4a;
     }
 
     &__kicker {
-        font-size: 0.66rem;
+        font-family: var(--font-serif, Georgia, serif);
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.2em;
         text-transform: uppercase;
@@ -332,8 +333,9 @@ $rust: #a34a4a;
         display: block;
         font-weight: 700;
         font-size: 0.94rem;
+        font-weight: 600;
         line-height: 1.5;
-        color: #46322a;
+        color: #422A28;
         white-space: pre-line;
     }
 
@@ -383,19 +385,27 @@ $rust: #a34a4a;
         gap: 8px;
         margin-top: 10px;
         padding: 5px 12px 6px 6px;
-        border: 1.5px solid $ink;
-        border-radius: 10px;
-        background: $cream;
-        box-shadow: 2px 2px 0 $ink;
+        border: 1px solid $wine;
+        border-radius: 9px;
+        background: $wine;
+        color: $paper;
+        box-shadow: 0 4px 12px rgba(66, 42, 40, 0.16);
         font-family: inherit;
         font-size: 0.78rem;
-        color: $ink;
         cursor: pointer;
         transition: transform 0.12s ease, box-shadow 0.12s ease;
 
+        span {
+            color: inherit;
+        }
+
+        .avatar-key {
+            color: $ink;
+        }
+
         &:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 3px 3px 0 $ink;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(66, 42, 40, 0.22);
         }
 
         &:active {
@@ -409,8 +419,8 @@ $rust: #a34a4a;
     padding: 7px 16px 8px;
     border: 2px solid $ink;
     border-radius: 11px 13px 10px 12px;
-    background: $ink;
-    box-shadow: 2px 2px 0 rgba(90, 58, 46, 0.5);
+    background: $wine;
+    box-shadow: 0 4px 12px rgba(66, 42, 40, 0.18);
     font-family: inherit;
     font-size: 0.8rem;
     font-weight: 700;
@@ -521,7 +531,8 @@ $rust: #a34a4a;
 // === RESPONSIVE ===
 @media (max-width: 640px) {
     .avatar-speech {
-        width: 310px;
+        // Keep the bubble on screen even when the avatar sits to one side.
+        width: min(310px, calc(100vw - 28px));
         padding: 11px 13px 11px;
         bottom: calc(var(--avatar-scale, 0.8) * 460px + 8px);
 

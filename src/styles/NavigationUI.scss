@@ -91,7 +91,7 @@
 // === BACK BUTTON ===
 .back-btn {
     position: fixed;
-    top: 0; // Starts from top edge
+    top: calc(var(--nav-height, 58px) + 10px); // Starts below the top navigation
     left: 24px;
     animation: fadeSlideDown 0.3s ease-out;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -119,7 +119,7 @@
 // === RIGHT SIDE CONTROLS ===
 .nav-controls {
     position: fixed;
-    top: 0; // Starts from top edge
+    top: calc(var(--nav-height, 58px) + 10px); // Starts below the top navigation
     right: 24px;
     display: flex;
     gap: 12px;
@@ -870,5 +870,43 @@
         padding: 6px 12px;
         white-space: normal;
         max-width: 90vw;
+    }
+}
+
+
+// === MODERN CONTROL BUTTONS (overrides the old paper style) ===
+.nav-controls {
+    gap: 10px;
+}
+
+.nav-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(66, 42, 40, 0.22);
+    border-radius: 10px;
+    background: rgba(243, 235, 221, 0.94);
+    box-shadow: 0 6px 18px rgba(66, 42, 40, 0.1);
+
+    &::before,
+    &::after {
+        display: none;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--color-burgundy, #632B3B);
+        stroke-width: 1.8;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        background: #EFE5D5;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-burgundy, #632B3B);
+        outline-offset: 3px;
     }
 }

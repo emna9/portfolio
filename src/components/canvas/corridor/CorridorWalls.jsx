@@ -19,13 +19,158 @@ const getWarmGlowTexture = () => {
     canvas.height = 128;
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 128);
-    gradient.addColorStop(0, 'rgba(255, 219, 160, 0)');
-    gradient.addColorStop(0.5, 'rgba(255, 219, 160, 0.55)');
-    gradient.addColorStop(1, 'rgba(255, 219, 160, 0)');
+    gradient.addColorStop(0, 'rgba(243, 235, 221, 0)');
+    gradient.addColorStop(0.5, 'rgba(243, 235, 221, 0.5)');
+    gradient.addColorStop(1, 'rgba(243, 235, 221, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 8, 128);
     warmGlowTexture = new THREE.CanvasTexture(canvas);
     return warmGlowTexture;
+};
+
+
+let wallPanelTexture = null;
+const getWallPanelTexture = () => {
+    if (wallPanelTexture || typeof document === 'undefined') return wallPanelTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 384;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 256, 384);
+
+    // One boiserie panel per tile: soft inset shadow + fine molding line.
+    ctx.shadowColor = 'rgba(66, 42, 40, 0.16)';
+    ctx.shadowBlur = 10;
+    ctx.strokeStyle = 'rgba(128, 91, 70, 0.32)';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(18, 22, 220, 340);
+
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = 'rgba(243, 235, 221, 0.85)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(27, 31, 202, 322);
+
+    ctx.strokeStyle = 'rgba(128, 91, 70, 0.16)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(33, 37, 190, 310);
+
+    wallPanelTexture = new THREE.CanvasTexture(canvas);
+    wallPanelTexture.wrapS = THREE.RepeatWrapping;
+    wallPanelTexture.wrapT = THREE.ClampToEdgeWrapping;
+    return wallPanelTexture;
+};
+
+// Walnut basket-weave parquet, generated once and shared.
+let parquetTexture = null;
+const getParquetTexture = () => {
+    if (parquetTexture || typeof document === 'undefined') return parquetTexture;
+    const size = 512;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const squares = 4;
+    const square = size / squares;
+    const tones = ['#7E5A43', '#87614A', '#75513C', '#8C6650'];
+
+    const drawPlank = (x, y, w, h, color, horizontal) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, w, h);
+
+        const grad = horizontal
+            ? ctx.createLinearGradient(0, y, 0, y + h)
+            : ctx.createLinearGradient(x, 0, x + w, 0);
+        grad.addColorStop(0, 'rgba(243, 235, 221, 0.14)');
+        grad.addColorStop(0.55, 'rgba(243, 235, 221, 0.02)');
+        grad.addColorStop(1, 'rgba(66, 42, 40, 0.16)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w, h);
+
+        ctx.strokeStyle = 'rgba(66, 42, 40, 0.10)';
+        ctx.lineWidth = 1;
+        for (let g = 0; g < 3; g += 1) {
+            ctx.beginPath();
+            if (horizontal) {
+                const gy = y + 4 + Math.random() * Math.max(1, h - 8);
+                ctx.moveTo(x + 2, gy);
+                ctx.bezierCurveTo(x + w * 0.3, gy + 2, x + w * 0.6, gy - 2, x + w - 2, gy);
+            } else {
+                const gx = x + 4 + Math.random() * Math.max(1, w - 8);
+                ctx.moveTo(gx, y + 2);
+                ctx.bezierCurveTo(gx + 2, y + h * 0.3, gx - 2, y + h * 0.6, gx, y + h - 2);
+            }
+            ctx.stroke();
+        }
+    };
+
+    const planks = 4;
+    const gap = 1.5;
+    for (let i = 0; i < squares; i += 1) {
+        for (let j = 0; j < squares; j += 1) {
+            const x = i * square;
+            const y = j * square;
+            const horizontal = (i + j) % 2 === 0;
+
+            if (horizontal) {
+                for (let p = 0; p < planks; p += 1) {
+                    drawPlank(
+                        x,
+                        y + p * (square / planks) + gap / 2,
+                        square,
+                        square / planks - gap,
+                        tones[(i * 3 + j + p) % tones.length],
+                        true
+                    );
+                }
+            } else {
+                for (let p = 0; p < planks; p += 1) {
+                    drawPlank(
+                        x + p * (square / planks) + gap / 2,
+                        y,
+                        square / planks - gap,
+                        square,
+                        tones[(i + j * 2 + p) % tones.length],
+                        false
+                    );
+                }
+            }
+
+            ctx.strokeStyle = 'rgba(66, 42, 40, 0.2)';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(x + 0.75, y + 0.75, square - 1.5, square - 1.5);
+        }
+    }
+
+    parquetTexture = new THREE.CanvasTexture(canvas);
+    parquetTexture.wrapS = THREE.RepeatWrapping;
+    parquetTexture.wrapT = THREE.RepeatWrapping;
+    parquetTexture.colorSpace = THREE.SRGBColorSpace;
+    return parquetTexture;
+};
+
+// Quiet ivory ceiling with faint plaster panels (no light fixtures baked in).
+let ceilingPanelTexture = null;
+const getCeilingTexture = () => {
+    if (ceilingPanelTexture || typeof document === 'undefined') return ceilingPanelTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#F1E7D7';
+    ctx.fillRect(0, 0, 256, 256);
+
+    ctx.strokeStyle = 'rgba(128, 91, 70, 0.10)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(12, 12, 232, 232);
+    ctx.strokeStyle = 'rgba(243, 235, 221, 0.9)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(20, 20, 216, 216);
+
+    ceilingPanelTexture = new THREE.CanvasTexture(canvas);
+    ceilingPanelTexture.wrapS = THREE.RepeatWrapping;
+    ceilingPanelTexture.wrapT = THREE.RepeatWrapping;
+    ceilingPanelTexture.colorSpace = THREE.SRGBColorSpace;
+    return ceilingPanelTexture;
 };
 
 // Soft corner shading used to add depth to the walls.
@@ -98,7 +243,7 @@ const DoorWallSegment = ({ position, baseRotationY, width, corridorHeight, wallT
     return (
         <mesh ref={meshRef} position={position}>
             <planeGeometry args={[width, corridorHeight]} />
-            <meshBasicMaterial color="#F2DECC" map={segTexture} roughness={1} metalness={0} />
+            <meshBasicMaterial color="#EFE4D2" map={segTexture} roughness={1} metalness={0} />
         </mesh>
     );
 };
@@ -118,8 +263,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
     // USTAWIENIA PODŁOGI (FLOOR SETTINGS)
     // =============================================
     // Tekstura kawałka podłogi - ręcznie rysowane deski
-    const floorTexture = useTexture('textures/corridor/kawalekpodlogi.webp');
-    floorTexture.wrapS = floorTexture.wrapT = THREE.ClampToEdgeWrapping;
+    const floorTexture = getParquetTexture();
 
     // Tekstura listwy przypodłogowej (baseboards)
     // Wymiary obrazka: 1582 x 94 px → aspect ratio 16.83:1
@@ -132,8 +276,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
     wallTexture.wrapS = wallTexture.wrapT = THREE.RepeatWrapping;
 
     // Load ceiling texture
-    const ceilingTexture = useTexture('textures/corridor/ceiling_texture.webp');
-    ceilingTexture.wrapS = ceilingTexture.wrapT = THREE.RepeatWrapping;
+    const ceilingTexture = getCeilingTexture();
 
     // Calculate effective geometry based on clipping
     // We only render from Math.min(zStart, zClip) down to (zStart - length)
@@ -319,19 +462,17 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                 const SIDE_WIDTH = 1;            // Szerokość bocznych pasów po lewej i prawej
                 const FLOOR_START_OFFSET = 2;    // Offset startu (+ = dalej, - = bliżej kamery)
 
-                // Przycięte tekstury do bocznych pasów (ta sama skala co środek, nie rozciągnięte!)
-                // UV repeat = jaki ułamek tekstury pokazać (SIDE_WIDTH / CENTER_WIDTH)
-                const uvFraction = SIDE_WIDTH / CENTER_WIDTH; // np. 1/5 = 0.2 → 20% tekstury
+                // Parquet UVs: one texture tile covers 2 x 2 units of floor.
+                const centerTexture = floorTexture.clone();
+                centerTexture.needsUpdate = true;
+                centerTexture.repeat.set(TILE_LENGTH / 2, CENTER_WIDTH / 2);
 
                 const leftSideTexture = floorTexture.clone();
                 leftSideTexture.needsUpdate = true;
-                leftSideTexture.repeat.set(1, uvFraction);    // Pełna długość, przycięta szerokość
-                leftSideTexture.offset.set(0, 0);             // Lewa krawędź tekstury
+                leftSideTexture.repeat.set(TILE_LENGTH / 2, SIDE_WIDTH / 2);
 
-                const rightSideTexture = floorTexture.clone();
+                const rightSideTexture = leftSideTexture.clone();
                 rightSideTexture.needsUpdate = true;
-                rightSideTexture.repeat.set(1, uvFraction);
-                rightSideTexture.offset.set(0, 1 - uvFraction); // Prawa krawędź tekstury
 
                 const tiles = [];
                 const floorY = -corridorHeight / 2;
@@ -353,8 +494,8 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, CENTER_WIDTH]} />
-                            <meshBasicMaterial color="#664E44"
-                                map={floorTexture}
+                            <meshBasicMaterial color="#FFFFFF"
+                                map={centerTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
                                 metalness={0}
@@ -371,7 +512,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#4e3328"
+                            <meshBasicMaterial color="#B8A995"
                                 map={leftSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -389,7 +530,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[TILE_LENGTH, SIDE_WIDTH]} />
-                            <meshBasicMaterial color="#4e3328"
+                            <meshBasicMaterial color="#B8A995"
                                 map={rightSideTexture}
                                 side={THREE.DoubleSide}
                                 roughness={1}
@@ -410,6 +551,9 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                 const tileWidth = 7;   // Ceiling width (matching corridor)
                 const tiles = [];
                 const ceilingY = corridorHeight / 2;
+                const ceilingTex = ceilingTexture.clone();
+                ceilingTex.needsUpdate = true;
+                ceilingTex.repeat.set(tileWidth / 3.4, tileLength / 3.4);
 
                 // Use same global Z alignment as floor
                 const segmentEndZ = effectiveStart - effectiveLength;
@@ -432,9 +576,8 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             scale={[isMirrored ? -1 : 1, 1, 1]}
                         >
                             <planeGeometry args={[tileWidth, tileLength]} />
-                            <meshBasicMaterial color="#FBF3E4"
-                                map={ceilingTexture}
-                                map-repeat={[tileWidth / 2, tileLength / 2]}
+                            <meshBasicMaterial color="#F3EBDD"
+                                map={ceilingTex}
                                 side={THREE.DoubleSide}
                                 roughness={1}
                                 metalness={0}
@@ -455,6 +598,11 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                     const segTexture = wallTexture.clone();
                     segTexture.needsUpdate = true;
                     segTexture.repeat.set(seg.width / 2, corridorHeight / 2);
+
+                    // Boiserie paneling tiled along this wall segment
+                    const panelTexture = getWallPanelTexture().clone();
+                    panelTexture.needsUpdate = true;
+                    panelTexture.repeat.set(Math.max(1, seg.width / 2.2), 1);
 
                     // Baseboard texture clone
                     // Texture: 1582x94 px. Natural tile = (1582/94)*0.15 = 2.524 units wide
@@ -497,7 +645,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#F3DFCD"
+                                <meshBasicMaterial color="#EFE4D2"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
@@ -507,7 +655,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
                             <mesh position={[bbOffsetX, -corridorHeight / 2 + 0.075, 0.01]}>
                                 <planeGeometry args={[bbWidth, 0.15]} />
-                                <meshBasicMaterial color="#8a5a44"
+                                <meshBasicMaterial color="#422A28"
                                     map={bbTexture}
                                     roughness={0.8}
                                     side={THREE.DoubleSide}
@@ -525,12 +673,29 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 />
                             </mesh>
 
+                            {/* Boiserie paneling: evenly spaced frames along the wall */}
+                            <mesh position={[0, -0.22, 0.003]}>
+                                <planeGeometry args={[seg.width, 1.5]} />
+                                <meshBasicMaterial
+                                    map={panelTexture}
+                                    transparent
+                                    opacity={0.7}
+                                    depthWrite={false}
+                                />
+                            </mesh>
+
+                            {/* Chair rail molding above the paneling */}
+                            <mesh position={[0, 0.56, 0.006]}>
+                                <planeGeometry args={[seg.width, 0.035]} />
+                                <meshBasicMaterial color="#B8A995" transparent opacity={0.75} depthWrite={false} />
+                            </mesh>
+
                             {/* Warm ambient light along the ceiling edge */}
                             <mesh position={[0, corridorHeight / 2 - 0.34, 0.007]}>
                                 <planeGeometry args={[seg.width, 0.62]} />
                                 <meshBasicMaterial
                                     map={getWarmGlowTexture()}
-                                    color="#e8c08a"
+                                    color="#F3EBDD"
                                     transparent
                                     opacity={0.16}
                                     depthWrite={false}

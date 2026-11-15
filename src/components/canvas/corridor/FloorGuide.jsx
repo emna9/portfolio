@@ -73,7 +73,7 @@ const FloorGuide = () => {
                         rotation={[-Math.PI / 2, 0, 0]}
                     >
                         <meshBasicMaterial
-                            color="#ffe9bd"
+                            color="#D8C9B2"
                             transparent
                             opacity={BASE_OPACITY}
                             depthWrite={false}

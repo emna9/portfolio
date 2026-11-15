@@ -156,22 +156,22 @@ const SegmentDoors = ({
             {/* === LEFT WALL PANEL (Brainstorming) === */}
             <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* === RIGHT WALL PANEL (Coffee & Bug) === */}
             <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* === TOP WALL PANEL (While True) === */}
             <mesh position={[0, topWallCenterY, 0]}>
                 <boxGeometry args={[doorOpeningWidth, topWallHeight, wallThickness]} />
-                <meshBasicMaterial color="#FFE8D6" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* Decoration Top (While True) */}
             <mesh position={[0, topWallCenterY, 0.07]}>
                 <planeGeometry args={[1.4, 1.4 / 1.833]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#F3EBDD"
                     map={whileTrueTexture}
                     transparent={true}
                     roughness={0.9}
@@ -227,7 +227,7 @@ const SegmentDoors = ({
                 <group ref={leftHandleRef} position={[doorWidth / 2 + 0.357, -0.099, 0.10]}>
                     <mesh position={[-0.357, 0.099, 0]}>
                         <planeGeometry args={[doorWidth, doorHeight]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#F3EBDD"
                             map={handleLeftTexture}
                             transparent={true}
                             alphaTest={0.5}
@@ -271,7 +271,7 @@ const SegmentDoors = ({
                 <group ref={rightHandleRef} position={[-doorWidth / 2 - 0.357, -0.099, 0.10]}>
                     <mesh position={[0.357, 0.099, 0]}>
                         <planeGeometry args={[doorWidth, doorHeight]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#F3EBDD"
                             map={handleRightTexture}
                             transparent={true}
                             alphaTest={0.5}
@@ -314,7 +314,7 @@ const SegmentDoors = ({
                         rotation={[-Math.PI / 2, 0, 0]}
                     >
                         <planeGeometry args={[THRESHOLD_WIDTH, THRESHOLD_DEPTH]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#F3EBDD"
                             map={threshTex}
                             roughness={0.9}
                             metalness={0}
@@ -334,7 +334,7 @@ const SegmentDoors = ({
                 return (
                     <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), floorY + 0.075, wallThickness / 2 + 0.01]}>
                         <planeGeometry args={[sideWallWidth, 0.15]} />
-                        <meshBasicMaterial color="#fcf3c6" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
+                        <meshBasicMaterial color="#F3EBDD" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
                     </mesh>
                 );
             })()}
@@ -350,7 +350,7 @@ const SegmentDoors = ({
                 return (
                     <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), floorY + 0.075, wallThickness / 2 + 0.01]}>
                         <planeGeometry args={[sideWallWidth, 0.15]} />
-                        <meshBasicMaterial color="#fcf3c6" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
+                        <meshBasicMaterial color="#F3EBDD" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
                     </mesh>
                 );
             })()}

@@ -13,6 +13,7 @@ import NavigationUI from './components/ui/NavigationUI';
 import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import GuidanceUI from './components/ui/GuidanceUI';
+import TopNav from './components/ui/TopNav';
 import AvatarGuide from './components/ui/AvatarGuide';
 import { GuidanceProvider } from './context/GuidanceContext';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
@@ -157,6 +158,7 @@ function AppContent() {
           {/* Navigation UI - Hamburger, Map, Back, Audio */}
           {isLoaded && (
             <>
+              <TopNav />
               <NavigationUI />
               <GlobalOverlay />
               <PaperTransition />

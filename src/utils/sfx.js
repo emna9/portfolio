@@ -83,6 +83,35 @@ export const playFootstep = () => {
     }
 };
 
+export const playDoorChime = () => {
+    if (!enabled) return;
+    const audioContext = initSfx();
+    if (!audioContext) return;
+    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+
+    try {
+        const now = audioContext.currentTime;
+        [659.25, 880].forEach((freq, index) => {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+
+            const start = now + index * 0.08;
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.055, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.3);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start(start);
+            osc.stop(start + 0.35);
+        });
+    } catch {
+        // Ignore audio failures.
+    }
+};
+
 export const playWelcome = () => {
     if (!enabled) return;
     const audioContext = initSfx();

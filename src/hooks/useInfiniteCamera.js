@@ -24,10 +24,12 @@ const approach = (current, target, maxDelta) => {
 
 // Door positions for auto-glance
 const DOOR_POSITIONS = [
-    { z: -18, side: 'left' },
-    { z: -32, side: 'right' },
-    { z: -48, side: 'left' },
-    { z: -62, side: 'right' },
+    { z: -6, side: 'left' },
+    { z: -14, side: 'right' },
+    { z: -22, side: 'left' },
+    { z: -30, side: 'right' },
+    { z: -38, side: 'left' },
+    { z: -46, side: 'right' },
 ];
 
 /**

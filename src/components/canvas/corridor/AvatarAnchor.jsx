@@ -71,7 +71,11 @@ const AvatarAnchor = () => {
 
             const width = window.innerWidth;
             const height = window.innerHeight;
-            const x = (feet.current.x * 0.5 + 0.5) * width;
+            const projectedX = (feet.current.x * 0.5 + 0.5) * width;
+            // On narrow screens, keep her inside the frame beside the door.
+            const x = width < 640
+                ? Math.min(Math.max(projectedX, 72), width - 72)
+                : projectedX;
             const feetY = (-feet.current.y * 0.5 + 0.5) * height;
             const headY = (-head.current.y * 0.5 + 0.5) * height;
             const pixelHeight = Math.max(30, feetY - headY);

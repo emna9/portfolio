@@ -33,6 +33,15 @@ export const setMovementState = (moving, strafe = 0) => {
 
 export const getMovementState = () => movement;
 
+// When a recruiter chooses a section from the landing nav, skip the cinematic intro.
+let skipIntro = false;
+
+export const setSkipIntro = (value) => {
+    skipIntro = !!value;
+};
+
+export const shouldSkipIntro = () => skipIntro;
+
 // Entrance door opening: hide the landing avatar while the camera flies in.
 let entranceOpening = false;
 

@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useGuidance } from '../../../context/GuidanceContext';
 import { useScene } from '../../../context/SceneContext';
 import { getDoorInfo, RECOMMENDED_ROOM } from '../../../data/doorContent';
+import { playDoorChime } from '../../../utils/sfx';
 
 const tmpVector = new THREE.Vector3();
 const doorVector = new THREE.Vector3();
@@ -26,6 +27,7 @@ const DoorProximityManager = () => {
     const { doorsRef, setNearestDoor } = useGuidance();
     const { hasEntered, isInRoom, isTeleporting } = useScene();
     const lastPublish = useRef(0);
+    const chimedKey = useRef(null);
     const lastPayload = useRef(null);
 
     useFrame(() => {
@@ -78,8 +80,16 @@ const DoorProximityManager = () => {
         }
 
         if (!best) {
+            chimedKey.current = null;
             clearPublished();
             return;
+        }
+
+        if (bestDistance <= 9 && chimedKey.current !== best.key) {
+            chimedKey.current = best.key;
+            playDoorChime();
+        } else if (bestDistance > 12) {
+            chimedKey.current = null;
         }
 
         // Anchor the bubble a little above the door.

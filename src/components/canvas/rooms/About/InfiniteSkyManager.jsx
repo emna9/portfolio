@@ -100,7 +100,7 @@ const AwardButton = ({ onClick, texture, paintedTexture, width, height, position
             {/* Painted button (behind) - hidden until hover */}
             <mesh ref={paintedRef} position={[0, 0, -0.001]} visible={true}>
                 <planeGeometry args={[width, height]} />
-                <meshBasicMaterial color="#fcf3c6"
+                <meshBasicMaterial color="#F3EBDD"
                     map={paintedTexture}
                     transparent
                     opacity={0}
@@ -621,7 +621,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 {/* Painted card (behind) - hidden until button hover */}
                 <mesh ref={sotdCardPaintedRef} position={[0, 0, -0.001]} visible={true}>
                     <planeGeometry args={[cardHeight * cardLegacyAspect, cardHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={sotdPaintedTexture}
                         transparent
                         opacity={0}
@@ -682,7 +682,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 {/* Painted card (behind) - hidden until button hover */}
                 <mesh ref={sotmCardPaintedRef} position={[0, 0, -0.001]} visible={true}>
                     <planeGeometry args={[cardHeight * cardLegacyAspect, cardHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={sotmPaintedTexture}
                         transparent
                         opacity={0}
@@ -743,7 +743,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 {/* Painted card (behind) - hidden until button hover */}
                 <mesh ref={sotyCardPaintedRef} position={[0, 0, -0.001]} visible={true}>
                     <planeGeometry args={[cardHeight * cardLegacyAspect, cardHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={sotyPaintedTexture}
                         transparent
                         opacity={0}
@@ -926,7 +926,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                     </mesh>
                     <mesh position={[0, 0, -0.001]}>
                         <planeGeometry args={[3.2, 1.3]} />
-                        <meshBasicMaterial color="#fcf3c6" />
+                        <meshBasicMaterial color="#F3EBDD" />
                     </mesh>
                     <Text
                         position={[0, 0, 0.002]}
@@ -972,7 +972,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                     </mesh>
                     <mesh position={[0, 0, -0.001]}>
                         <planeGeometry args={[7.55, 1.2]} />
-                        <meshBasicMaterial color="#fcf3c6" />
+                        <meshBasicMaterial color="#F3EBDD" />
                     </mesh>
                     <Text
                         position={[0, 0, 0.002]}
@@ -1281,7 +1281,7 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
                 {/* Painted balloon (behind) - hidden until hover */}
                 <mesh ref={paintedMeshRef} visible={true}>
                     <planeGeometry args={[baseHeight * aspect, baseHeight]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         ref={paintedMatRef}
                         map={paintedTexture}
                         transparent

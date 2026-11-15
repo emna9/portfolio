@@ -29,6 +29,25 @@ const tempQuat = new THREE.Quaternion();
 
 const CABIN_SKETCH_URL = 'fonts/CabinSketch-Regular.ttf';
 
+// Soft ivory halo used by the ceiling pendants.
+let lampGlowTexture = null;
+const getLampGlowTexture = () => {
+    if (lampGlowTexture || typeof document === 'undefined') return lampGlowTexture;
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(size / 2, size / 2, 2, size / 2, size / 2, size / 2);
+    gradient.addColorStop(0, 'rgba(243, 235, 221, 0.85)');
+    gradient.addColorStop(0.45, 'rgba(216, 201, 178, 0.35)');
+    gradient.addColorStop(1, 'rgba(216, 201, 178, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    lampGlowTexture = new THREE.CanvasTexture(canvas);
+    return lampGlowTexture;
+};
+
 const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted }) => {
     const texture = useTexture(imagePath);
     // Render nothing if no painted path, but we still call the hook unconditionally to respect hook rules
@@ -61,7 +80,7 @@ const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted 
             {imagePaintedPath && (
                 <mesh position={[0, 0, -0.001]}>
                     <planeGeometry args={[width, height]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={paintedTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -73,7 +92,7 @@ const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted 
             <mesh position={[0, 0, 0]}>
                 <planeGeometry args={[width, height]} />
                 {imagePaintedPath ? (
-                    <revealMaterial color="#fcf3c6"
+                    <revealMaterial color="#F3EBDD"
                         ref={materialRef}
                         map={texture}
                         transparent={true}
@@ -83,7 +102,7 @@ const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted 
                         uProgress={0.0}
                     />
                 ) : (
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={texture}
                         transparent={true}
                         alphaTest={0.1} // KLUCZOWE: Naprawia przezroczystość (wycina tło)
@@ -256,14 +275,14 @@ const InspectableFrame = ({ frame, wallX, frameTexture, framePaintedTexture, CAB
                 }}
             >
                 <planeGeometry args={[frame.width, frame.height]} />
-                <meshBasicMaterial color="#fcf3c6" transparent opacity={0} depthWrite={false} />
+                <meshBasicMaterial color="#F3EBDD" transparent opacity={0} depthWrite={false} />
             </mesh>
 
             {/* RAMKA PAINTED (behind sketch) */}
             {!isTouch && (
                 <mesh ref={framePaintedRef} position={[0, 0, -0.001]} scale={[0.98, 0.98, 1]}>
                     <planeGeometry args={[frame.width, frame.height]} />
-                    <meshBasicMaterial color="#fcf3c6"
+                    <meshBasicMaterial color="#F3EBDD"
                         map={framePaintedTexture}
                         transparent={true}
                         alphaTest={0.5}
@@ -276,7 +295,7 @@ const InspectableFrame = ({ frame, wallX, frameTexture, framePaintedTexture, CAB
             {/* RAMKA SKETCH OVERLAY (front) */}
             <mesh position={[0, 0, 0]}>
                 <planeGeometry args={[frame.width, frame.height]} />
-                <revealMaterial color="#fcf3c6"
+                <revealMaterial color="#F3EBDD"
                     ref={frameMaterialRef}
                     map={frameTexture}
                     transparent={true}
@@ -335,17 +354,6 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     const windowTexture = useTexture('textures/entrance/window_sketch.webp');
     const grateTexture = useTexture('textures/corridor/kratkawentylacyjna.webp');
     const flowerTexture = useTexture('textures/corridor/kwiatekwdoniczce.webp');
-
-    // --- Ceiling Lights (punkty światła) ---
-    // Tekstury lamp
-    const lampGrilleTexture = useTexture('textures/corridor/kratanalampy.webp');
-    // lampGrilleTexture.wrapS = lampGrilleTexture.wrapT = THREE.RepeatWrapping; 
-    // lampGrilleTexture.repeat.set(1, 1);
-
-    const lampSideTexture = useTexture('textures/corridor/bokilampy.webp');
-    lampSideTexture.wrapS = lampSideTexture.wrapT = THREE.RepeatWrapping;
-    // Dopasowanie UV dla długiego boku
-    lampSideTexture.repeat.set(1, 1);
 
     const lights = useMemo(() => {
         const items = [];
@@ -434,6 +442,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
 
     // Konfiguracja stolika
     // Obrócony 90° i przyciągnięty do lewej ściany
+    const showTables = false;
     const tableConfigs = useMemo(() => [-30, -42, -65].map((z) => ({
         z: zOffset + z,
         width: 2.0,
@@ -446,74 +455,63 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
 
     return (
         <group>
-            {/* === LAMPY SUFITOWE === */}
-            {lights.filter(light => light.z <= zClip).map((light, i) => {
-                // Konfiguracja tekstur wewnątrz pętli (lub poza, ale upewnijmy się co do wrappingu)
-                lampGrilleTexture.wrapS = lampGrilleTexture.wrapT = THREE.ClampToEdgeWrapping;
-                lampSideTexture.wrapS = lampSideTexture.wrapT = THREE.ClampToEdgeWrapping; // Boki też clamp, żeby nie było pasków
+            {/* === CEILING PENDANTS (ivory shades, soft warm-white light) === */}
+            {lights.filter(light => light.z <= zClip).map((light, i) => (
+                <group key={`light-${i}`} position={[0, ceilingY, light.z]}>
+                    {/* Ceiling rose */}
+                    <mesh position={[0, -0.02, 0]}>
+                        <cylinderGeometry args={[0.13, 0.16, 0.04, 24]} />
+                        <meshBasicMaterial color="#B8A995" />
+                    </mesh>
 
-                return (
-                    <group key={`light-${i}`} position={[0, ceilingY, light.z]}>
-                        {/* Obudowa lampy - podłużny prostokąt 3D */}
-                        {/* GŁÓWNA BRYŁA */}
-                        <mesh position={[0, -0.03, 0]}>
-                            <boxGeometry args={[2.0, 0.06, 0.5]} />
+                    {/* Suspension cord */}
+                    <mesh position={[0, -0.3, 0]}>
+                        <cylinderGeometry args={[0.012, 0.012, 0.56, 8]} />
+                        <meshBasicMaterial color="#422A28" />
+                    </mesh>
 
-                            {/* Short sides (Right/Left) */}
-                            <meshBasicMaterial attach="material-0" color="#e8e8e8" roughness={0.6} />
-                            <meshBasicMaterial attach="material-1" color="#e8e8e8" roughness={0.6} />
+                    {/* Ivory shade */}
+                    <mesh position={[0, -0.63, 0]}>
+                        <coneGeometry args={[0.26, 0.22, 28, 1, true]} />
+                        <meshBasicMaterial color="#F3EBDD" side={THREE.DoubleSide} />
+                    </mesh>
 
-                            {/* Top (Hidden) */}
-                            <meshBasicMaterial attach="material-2" color="#d0d0d0" roughness={0.8} />
+                    {/* Warm-white bulb glow under the shade */}
+                    <mesh position={[0, -0.735, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                        <circleGeometry args={[0.17, 24]} />
+                        <meshBasicMaterial color="#FBF4E8" toneMapped={false} side={THREE.DoubleSide} />
+                    </mesh>
 
-                            {/* Bottom - Grille Texture 
-                                Używamy przezroczystości, żeby odsłonić wewnętrzne światło.
-                                Sama krata jest ciemna/metaliczna.
-                            */}
-                            <meshBasicMaterial
-                                attach="material-3"
-                                map={lampGrilleTexture}
-                                transparent={true}
-                                alphaTest={0.1}
-                                side={THREE.DoubleSide}
-                                color="#fcf3c6"
-                                roughness={0.5}
-                            />
+                    {/* Soft halo cast downward */}
+                    <mesh position={[0, -0.75, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                        <planeGeometry args={[1.7, 1.7]} />
+                        <meshBasicMaterial
+                            map={getLampGlowTexture()}
+                            transparent
+                            opacity={0.3}
+                            depthWrite={false}
+                            blending={THREE.AdditiveBlending}
+                            side={THREE.DoubleSide}
+                        />
+                    </mesh>
 
-                            {/* Long sides (Front/Back) - Side Texture */}
-                            <meshBasicMaterial color="#fcf3c6" attach="material-4" map={lampSideTexture} roughness={0.6} />
-                            <meshBasicMaterial color="#fcf3c6" attach="material-5" map={lampSideTexture} roughness={0.6} />
-                        </mesh>
-
-                        {/* WEWNĘTRZNE ŚWIATŁO (LIGHT PANEL) 
-                            Siedzi WYŻEJ w obudowie, żeby kratka pod spodem była widoczna.
-                        */}
-                        <mesh
-                            position={[0, -0.059, 0]}
-                            rotation={[-Math.PI / 2, 0, 0]}
-                        >
-                            <planeGeometry args={[1.9, 0.4]} />
-                            <meshBasicMaterial
-                                color="#ffffff"
-                                toneMapped={false}
-                                side={THREE.DoubleSide}
-                            />
-                        </mesh>
-
-                        {/* RZECZYWISTE ŹRÓDŁO ŚWIATŁA (PointLight) - WYLACZONE */}
-                        {/* <pointLight
-                            position={[0, -1.5, 0]}
-                            distance={6}
-                            intensity={0.8}
-                            color="#ffffff"
-                            decay={2}
-                        /> */}
-                    </group>
-                );
-            })}
+                    {/* Gentle wash on the ceiling */}
+                    <mesh position={[0, -0.005, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                        <planeGeometry args={[1.9, 1.9]} />
+                        <meshBasicMaterial
+                            map={getLampGlowTexture()}
+                            transparent
+                            opacity={0.18}
+                            depthWrite={false}
+                            blending={THREE.AdditiveBlending}
+                            side={THREE.DoubleSide}
+                        />
+                    </mesh>
+                </group>
+            ))}
 
             {/* === TABLES (3) === */}
-            {segmentIndex !== -1 && tableConfigs.map((tableConfig, tableIndex) => (
+            {showTables && tableConfigs.map((tableConfig, tableIndex) => (
                 <group key={`table-${tableIndex}`} position={[tableConfig.x, floorY, tableConfig.z]} rotation={[0, Math.PI / 2, 0]}>
                     {/* Nogi stolika */}
                     {[
@@ -534,7 +532,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         <meshBasicMaterial color="#d9b08c" attach="material-0" map={woodTexture} />
                         <meshBasicMaterial color="#d9b08c" attach="material-1" map={woodTexture} />
                         <meshBasicMaterial color="#c89a6e" attach="material-2" map={tableTopTexture} roughness={0.5} />
-                        <meshBasicMaterial attach="material-3" color="#fcf3c6" />
+                        <meshBasicMaterial attach="material-3" color="#F3EBDD" />
                         <meshBasicMaterial color="#d9b08c" attach="material-4" map={woodTexture} />
                         <meshBasicMaterial color="#d9b08c" attach="material-5" map={woodTexture} />
                     </mesh>
@@ -545,7 +543,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         rotation={[0, -Math.PI / 4, 0]}
                     >
                         <planeGeometry args={[0.3, 0.3 / 0.758]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#F3EBDD"
                             map={flowerTexture}
                             transparent={true}
                             alphaTest={0.1}
@@ -640,15 +638,15 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         </mesh>
                         <mesh position={[0, 0, -0.006]}>
                             <planeGeometry args={[1.4, 1.4]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#fff2c8" transparent opacity={0.28} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#F3EBDD" transparent opacity={0.28} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
                         </mesh>
                         <mesh position={[0, 0, -0.002]}>
                             <planeGeometry args={[2.2, 2.2]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.14} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#D8C9B2" transparent opacity={0.14} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
                         </mesh>
                         <mesh position={[0, -2.25, 0.55]} rotation={[-Math.PI / 2, 0, 0]}>
                             <planeGeometry args={[1.8, 1.2]} />
-                            <meshBasicMaterial map={getSunGlowTexture()} color="#ffe6b0" transparent opacity={0.1} depthWrite={false} blending={THREE.AdditiveBlending} />
+                            <meshBasicMaterial map={getSunGlowTexture()} color="#D8C9B2" transparent opacity={0.1} depthWrite={false} blending={THREE.AdditiveBlending} />
                         </mesh>
                         <mesh position={[0, 0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
                         <mesh position={[0, -0.72, 0.01]}><planeGeometry args={[1.5, 0.08]} /><meshBasicMaterial color="#4a2c22" side={THREE.DoubleSide} /></mesh>
@@ -677,7 +675,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                         rotation={[0, grateSide === 'left' ? Math.PI / 2 : -Math.PI / 2, 0]}
                     >
                         <planeGeometry args={[0.8, 0.8 / 1.968]} />
-                        <meshBasicMaterial color="#fcf3c6"
+                        <meshBasicMaterial color="#F3EBDD"
                             map={grateTexture}
                             transparent={true}
                             alphaTest={0.1}
