@@ -156,17 +156,17 @@ const SegmentDoors = ({
             {/* === LEFT WALL PANEL (Brainstorming) === */}
             <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#D2BE9E" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* === RIGHT WALL PANEL (Coffee & Bug) === */}
             <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), wallCenterY, 0]}>
                 <boxGeometry args={[sideWallWidth, corridorHeight, wallThickness]} />
-                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#D2BE9E" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* === TOP WALL PANEL (While True) === */}
             <mesh position={[0, topWallCenterY, 0]}>
                 <boxGeometry args={[doorOpeningWidth, topWallHeight, wallThickness]} />
-                <meshBasicMaterial color="#F3EBDD" map={wallTexture} roughness={0.95} />
+                <meshBasicMaterial color="#D2BE9E" map={wallTexture} roughness={0.95} />
             </mesh>
             {/* Decoration Top (While True) */}
             <mesh position={[0, topWallCenterY, 0.07]}>
