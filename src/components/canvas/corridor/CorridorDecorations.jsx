@@ -395,7 +395,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             offsetFromWall: 0.1
         },
         {
-            z: zOffset - 57,         // Between About and Extracurricular
+            z: zOffset - 28,         // Between Experience and Rewards
             side: 'right',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -408,7 +408,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             signatureColor: '#333333'
         },
         {
-            z: zOffset - 46,         // Between Rewards and Contact
+            z: zOffset - 33,         // Between Rewards and Contact
             side: 'left',
             width: 2.5,
             height: 2.5 / 1.785,
@@ -566,10 +566,10 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             {/* === SZAFKA (CABINET) === */}
             {/* Prosty box jako placeholder, naprzeciwko drzwi About (Left -48) -> więc szafka na Right -51 */}
             <mesh
-                position={[wallX - 0.26, floorY + 0.5, zOffset - 51]}
+                position={[wallX - 0.26, floorY + 0.5, zOffset - 43]}
             // X: wallX - (depth/2) - mały margin
             // Y: floorY + (height/2)
-            // Z: zOffset - 51 (blisko drzwi About)
+            // Z: zOffset - 43 (blisko końca korytarza)
             >
                 {/* Wymiary: X=0.5 (głębokość od ściany), Y=1.0 (wysokość), Z=0.8 (szerokość wzdłuż ściany) */}
                 <boxGeometry args={[0.5, 1.0, 1.0 * 0.8]} />

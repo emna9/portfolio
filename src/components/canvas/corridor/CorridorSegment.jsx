@@ -12,10 +12,10 @@ import CorridorDecorations from './CorridorDecorations';
  * A single repeatable chunk of the infinite corridor.
  * Each segment contains: walls, avatar, ITOM text, doors, decorations.
  * 
- * Segment length: 80 units
+ * Segment length: 45 units
  * Positioned based on segmentIndex * segmentLength
  */
-const SEGMENT_LENGTH = 80;
+const SEGMENT_LENGTH = 45;
 
 // Sawtooth Geometry Constants (Shared with CorridorWalls logic conceptually)
 const WALL_X_OUTER = 3.5;
@@ -168,7 +168,7 @@ const CorridorSegment = ({
             {/* === SEGMENT END DOORS (hidden during entrance) === */}
             {!hideSegmentDoors && (
                 <SegmentDoors
-                    position={[0, 0, zOffset - SEGMENT_LENGTH + 5]}
+                    position={[0, 0, zOffset - SEGMENT_LENGTH + 6]}
                     corridorHeight={3.5}
                 />
             )}

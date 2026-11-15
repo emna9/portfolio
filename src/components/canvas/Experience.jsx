@@ -39,7 +39,7 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
     // Camera control - both scroll and parallax only work after entering
     // Disable during teleporting to prevent scroll interference
     const { setCameraOverride } = useInfiniteCamera({
-        segmentLength: 80,
+        segmentLength: 45,
         scrollSpeed: 0.014,
         parallaxIntensity: 0.4,
         smoothing: 0.06,

@@ -192,7 +192,7 @@ const getCeilingTexture = () => {
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#EFE5D3';
+    ctx.fillStyle = '#D2BE9E';
     ctx.fillRect(0, 0, 256, 256);
 
     ctx.strokeStyle = 'rgba(128, 91, 70, 0.12)';
@@ -797,7 +797,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment - warm ivory plaster */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#E6D8C2"
+                                <meshBasicMaterial color="#D2BE9E"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
