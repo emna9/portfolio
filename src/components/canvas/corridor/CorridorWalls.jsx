@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useTexture } from '@react-three/drei';
+import WallSconce from './WallSconce';
 
 // Import constants to match CorridorSegment logic
 // Note: In a real project these might be in a shared config file.
@@ -191,13 +192,13 @@ const getCeilingTexture = () => {
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#4A322B';
+    ctx.fillStyle = '#EFE5D3';
     ctx.fillRect(0, 0, 256, 256);
 
-    ctx.strokeStyle = 'rgba(216, 201, 178, 0.14)';
+    ctx.strokeStyle = 'rgba(128, 91, 70, 0.12)';
     ctx.lineWidth = 2;
     ctx.strokeRect(12, 12, 232, 232);
-    ctx.strokeStyle = 'rgba(216, 201, 178, 0.07)';
+    ctx.strokeStyle = 'rgba(243, 235, 221, 0.85)';
     ctx.lineWidth = 1;
     ctx.strokeRect(20, 20, 216, 216);
 
@@ -206,6 +207,106 @@ const getCeilingTexture = () => {
     ceilingPanelTexture.wrapT = THREE.RepeatWrapping;
     ceilingPanelTexture.colorSpace = THREE.SRGBColorSpace;
     return ceilingPanelTexture;
+};
+
+// Dark walnut wainscoting with vertical panel grooves.
+let wainscotTexture = null;
+const getWainscotTexture = () => {
+    if (wainscotTexture || typeof document === 'undefined') return wainscotTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#5A3B2E';
+    ctx.fillRect(0, 0, 256, 256);
+
+    for (let i = 0; i < 2; i += 1) {
+        const px = i * 128;
+        const panel = ctx.createLinearGradient(px, 0, px + 128, 0);
+        panel.addColorStop(0, '#4A3026');
+        panel.addColorStop(0.12, '#634234');
+        panel.addColorStop(0.88, '#5E3E31');
+        panel.addColorStop(1, '#432B22');
+        ctx.fillStyle = panel;
+        ctx.fillRect(px + 6, 10, 116, 236);
+
+        ctx.strokeStyle = 'rgba(16, 8, 6, 0.5)';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(px + 6, 10, 116, 236);
+
+        ctx.strokeStyle = 'rgba(216, 201, 178, 0.18)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(px + 11, 15, 106, 226);
+    }
+
+    wainscotTexture = new THREE.CanvasTexture(canvas);
+    wainscotTexture.wrapS = THREE.RepeatWrapping;
+    wainscotTexture.wrapT = THREE.ClampToEdgeWrapping;
+    wainscotTexture.colorSpace = THREE.SRGBColorSpace;
+    return wainscotTexture;
+};
+
+// Muted oriental runner for the corridor floor.
+let runnerTexture = null;
+const getRunnerTexture = () => {
+    if (runnerTexture || typeof document === 'undefined') return runnerTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#573436';
+    ctx.fillRect(0, 0, 256, 512);
+
+    // Borders
+    ctx.strokeStyle = '#9C8B74';
+    ctx.lineWidth = 18;
+    ctx.strokeRect(10, 10, 236, 492);
+    ctx.strokeStyle = 'rgba(119, 123, 91, 0.85)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(27, 27, 202, 458);
+
+    // Inner motif field
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.32)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(40, 40, 176, 432);
+
+    // Repeating diamonds down the runner
+    ctx.strokeStyle = 'rgba(183, 127, 125, 0.55)';
+    ctx.lineWidth = 2.5;
+    for (let y = 96; y < 460; y += 128) {
+        ctx.beginPath();
+        ctx.moveTo(128, y - 42);
+        ctx.lineTo(168, y);
+        ctx.lineTo(128, y + 42);
+        ctx.lineTo(88, y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(128, y - 22);
+        ctx.lineTo(146, y);
+        ctx.lineTo(128, y + 22);
+        ctx.lineTo(110, y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+    // Small corner motifs
+    ctx.fillStyle = 'rgba(216, 201, 178, 0.25)';
+    for (let y = 64; y < 480; y += 64) {
+        ctx.beginPath();
+        ctx.arc(54, y, 3, 0, Math.PI * 2);
+        ctx.arc(202, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    runnerTexture = new THREE.CanvasTexture(canvas);
+    runnerTexture.wrapS = THREE.ClampToEdgeWrapping;
+    runnerTexture.wrapT = THREE.RepeatWrapping;
+    runnerTexture.colorSpace = THREE.SRGBColorSpace;
+    return runnerTexture;
 };
 
 // Soft corner shading used to add depth to the walls.
@@ -318,6 +419,10 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
     const effectiveStart = Math.min(zStart, zClip);
     const effectiveLength = effectiveStart - (zStart - length);
     const zCenter = effectiveStart - effectiveLength / 2;
+
+    const runnerTex = getRunnerTexture().clone();
+    runnerTex.needsUpdate = true;
+    runnerTex.repeat.set(1, Math.max(1, effectiveLength / 4));
 
     // If fully clipped, render nothing
     if (effectiveLength <= 0) return null;
@@ -580,6 +685,18 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
             })()}
 
 
+            {/* Oriental runner down the centre of the hall */}
+            <mesh position={[0, -corridorHeight / 2 + 0.012, zCenter]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[1.75, effectiveLength]} />
+                <meshBasicMaterial
+                    map={runnerTex}
+                    transparent
+                    opacity={0.9}
+                    depthWrite={false}
+                    side={THREE.DoubleSide}
+                />
+            </mesh>
+
             {/* Ceiling with texture - alternating tiles for seamless pattern */}
             {(() => {
                 const tileLength = 10; // Match floor tile length
@@ -634,10 +751,10 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                     segTexture.needsUpdate = true;
                     segTexture.repeat.set(seg.width / 2, corridorHeight / 2);
 
-                    // Boiserie paneling tiled along this wall segment
-                    const panelTexture = getWallPanelTexture().clone();
-                    panelTexture.needsUpdate = true;
-                    panelTexture.repeat.set(Math.max(1, seg.width / 2.2), 1);
+                    // Wainscot panels tiled along this wall segment
+                    const wainscotTex = getWainscotTexture().clone();
+                    wainscotTex.needsUpdate = true;
+                    wainscotTex.repeat.set(Math.max(1, seg.width / 1.2), 1);
 
                     // Baseboard texture clone
                     // Texture: 1582x94 px. Natural tile = (1582/94)*0.15 = 2.524 units wide
@@ -677,14 +794,34 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
 
                     return (
                         <group key={i} position={seg.position} rotation={seg.rotation || [0, seg.rotationY, 0]}>
-                            {/* Main Wall Segment */}
+                            {/* Main Wall Segment - warm ivory plaster */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#4A322B"
+                                <meshBasicMaterial color="#E6D8C2"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
                                 />
+                            </mesh>
+
+                            {/* Walnut wainscoting along the lower wall */}
+                            <mesh position={[0, -corridorHeight / 2 + 0.56, 0.006]}>
+                                <planeGeometry args={[seg.width, 1.12]} />
+                                <meshBasicMaterial
+                                    map={wainscotTex}
+                                    roughness={1}
+                                    metalness={0}
+                                />
+                            </mesh>
+
+                            {/* Chair rail on top of the wainscoting */}
+                            <mesh position={[0, -corridorHeight / 2 + 1.14, 0.01]}>
+                                <planeGeometry args={[seg.width, 0.05]} />
+                                <meshBasicMaterial color="#D8C9B2" transparent opacity={0.85} depthWrite={false} />
+                            </mesh>
+                            <mesh position={[0, -corridorHeight / 2 + 1.1, 0.009]}>
+                                <planeGeometry args={[seg.width, 0.02]} />
+                                <meshBasicMaterial color="#3E2A24" transparent opacity={0.55} depthWrite={false} />
                             </mesh>
 
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
@@ -708,17 +845,6 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 />
                             </mesh>
 
-                            {/* Boiserie paneling: evenly spaced frames along the wall */}
-                            <mesh position={[0, -0.22, 0.003]}>
-                                <planeGeometry args={[seg.width, 1.5]} />
-                                <meshBasicMaterial
-                                    map={panelTexture}
-                                    transparent
-                                    opacity={0.96}
-                                    depthWrite={false}
-                                />
-                            </mesh>
-
                             {/* Corner shadows where this panel meets the next wall */}
                             <mesh position={[0, 0, 0.004]}>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
@@ -730,20 +856,35 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                 />
                             </mesh>
 
-                            {/* Chair rail molding above the paneling */}
-                            <mesh position={[0, 0.56, 0.006]}>
-                                <planeGeometry args={[seg.width, 0.035]} />
-                                <meshBasicMaterial color="#B8A995" transparent opacity={0.75} depthWrite={false} />
-                            </mesh>
+                            {/* Wall sconces spaced along the wall */}
+                            {Array.from({ length: Math.max(1, Math.floor(seg.width / 5)) }).map((_, si, arr) => {
+                                const spacing = seg.width / (arr.length + 1);
+                                return (
+                                    <WallSconce
+                                        key={si}
+                                        position={[-seg.width / 2 + spacing * (si + 1), 0.28, 0.05]}
+                                    />
+                                );
+                            })}
 
-                            {/* Warm ambient light along the ceiling edge */}
+                            {/* Warm cove light washing down from the ceiling edge */}
                             <mesh position={[0, corridorHeight / 2 - 0.34, 0.007]}>
-                                <planeGeometry args={[seg.width, 0.62]} />
+                                <planeGeometry args={[seg.width, 0.86]} />
                                 <meshBasicMaterial
                                     map={getWarmGlowTexture()}
                                     color="#F3EBDD"
                                     transparent
-                                    opacity={0.16}
+                                    opacity={0.3}
+                                    depthWrite={false}
+                                    blending={THREE.AdditiveBlending}
+                                />
+                            </mesh>
+                            <mesh position={[0, corridorHeight / 2 - 0.035, 0.009]}>
+                                <planeGeometry args={[seg.width, 0.07]} />
+                                <meshBasicMaterial
+                                    color="#F3EBDD"
+                                    transparent
+                                    opacity={0.12}
                                     depthWrite={false}
                                     blending={THREE.AdditiveBlending}
                                 />

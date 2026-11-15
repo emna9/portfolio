@@ -4,6 +4,7 @@ import { Text, useTexture, PositionalAudio } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import RoomInterior from './RoomInterior';
+import WallSconce from './WallSconce';
 import '../shaders/RevealMaterial'; // Registers alpha-discard reveal shader
 import { useScene } from '../../../context/SceneContext';
 import { useAchievements } from '../../../context/AchievementsContext';
@@ -1066,6 +1067,9 @@ const DoorSection = ({
                 <mesh position={[wallOffsetX, 0, 0]} geometry={wallWithHoleGeometry}>
                     <meshBasicMaterial color="#4A322B" map={wallTexture} roughness={1} metalness={0} side={THREE.DoubleSide} />
                 </mesh>
+
+                {/* Warm sconce beside the door */}
+                <WallSconce position={[wallOffsetX + 1.5, 0.38, 0.06]} />
 
                 {/* === ARROW DECORATION === */}
                 {/* Pointing to door. Left arrow. */}
