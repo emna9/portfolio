@@ -41,7 +41,7 @@ const getWallPanelTexture = () => {
     // One boiserie panel per tile: soft inset shadow + fine molding line.
     ctx.shadowColor = 'rgba(66, 42, 40, 0.16)';
     ctx.shadowBlur = 10;
-    ctx.strokeStyle = 'rgba(128, 91, 70, 0.32)';
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.38)';
     ctx.lineWidth = 3;
     ctx.strokeRect(18, 22, 220, 340);
 
@@ -50,7 +50,7 @@ const getWallPanelTexture = () => {
     ctx.lineWidth = 1.5;
     ctx.strokeRect(27, 31, 202, 322);
 
-    ctx.strokeStyle = 'rgba(128, 91, 70, 0.16)';
+    ctx.strokeStyle = 'rgba(216, 201, 178, 0.22)';
     ctx.lineWidth = 1;
     ctx.strokeRect(33, 37, 190, 310);
 
@@ -243,7 +243,7 @@ const DoorWallSegment = ({ position, baseRotationY, width, corridorHeight, wallT
     return (
         <mesh ref={meshRef} position={position}>
             <planeGeometry args={[width, corridorHeight]} />
-            <meshBasicMaterial color="#EFE4D2" map={segTexture} roughness={1} metalness={0} />
+            <meshBasicMaterial color="#422A28" map={segTexture} roughness={1} metalness={0} />
         </mesh>
     );
 };
@@ -645,7 +645,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Main Wall Segment */}
                             <mesh>
                                 <planeGeometry args={[seg.width, corridorHeight]} />
-                                <meshBasicMaterial color="#EFE4D2"
+                                <meshBasicMaterial color="#422A28"
                                     map={segTexture}
                                     roughness={1}
                                     metalness={0}
@@ -655,7 +655,7 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                             {/* Baseboard (Listwa przypodłogowa) - przycięta przy drzwiach */}
                             <mesh position={[bbOffsetX, -corridorHeight / 2 + 0.075, 0.01]}>
                                 <planeGeometry args={[bbWidth, 0.15]} />
-                                <meshBasicMaterial color="#422A28"
+                                <meshBasicMaterial color="#B8A995"
                                     map={bbTexture}
                                     roughness={0.8}
                                     side={THREE.DoubleSide}
