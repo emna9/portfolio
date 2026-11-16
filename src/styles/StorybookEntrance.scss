@@ -1,0 +1,443 @@
+// =============================================================================
+// STORYBOOK ENTRANCE — illustrated Dordogne courtyard
+// =============================================================================
+
+.storybook {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    overflow: hidden;
+    background: #F3EBDD;
+    color: #422A28;
+    font-family: var(--font-sans, Inter, system-ui, sans-serif);
+    animation: sb-fade-in 0.9s ease both;
+
+    &__scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: 58% 62%;
+        transition: transform 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
+
+    // Paper grain and warm wash over the whole illustration.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+        mix-blend-mode: multiply;
+        opacity: 0.3;
+    }
+
+    &__house {
+        filter: drop-shadow(0 18px 30px rgba(66, 42, 40, 0.12));
+    }
+
+    &__character {
+        transform-box: fill-box;
+        transform-origin: center bottom;
+        transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    // Door leaves open as the visitor enters
+    .door-leaf {
+        transform-box: fill-box;
+        transition: transform 1s cubic-bezier(0.5, 0, 0.2, 1);
+        will-change: transform;
+    }
+
+    .door-leaf--left {
+        transform-origin: left center;
+    }
+
+    .door-leaf--right {
+        transform-origin: right center;
+    }
+
+    // -------------------------------------------------------------------------
+    // Parchment welcome panel
+    // -------------------------------------------------------------------------
+    &__panel {
+        position: absolute;
+        left: 3.4vw;
+        top: 12vh;
+        width: min(41vw, 620px);
+        padding: clamp(24px, 3vw, 44px) clamp(28px, 3.4vw, 54px) clamp(22px, 2.6vw, 38px);
+        background:
+            radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.5), transparent 46%),
+            radial-gradient(circle at 82% 88%, rgba(184, 169, 149, 0.28), transparent 55%),
+            linear-gradient(158deg, #F3EBDD 0%, #EBDCC2 55%, #E2D1B2 100%);
+        clip-path: polygon(0.4% 3.2%, 2.4% 0.8%, 6.5% 2.4%, 11% 0.4%, 17% 2.6%, 24% 0.6%, 31% 2.8%,
+                39% 0.5%, 47% 2.4%, 55% 0.5%, 63% 2.9%, 71% 0.8%, 79% 2.5%, 87% 0.4%, 93% 2.1%, 99.5% 0.6%,
+                98.8% 6%, 100% 13%, 98.9% 20%, 99.8% 27%, 98.8% 35%, 99.7% 43%, 98.9% 51%, 99.8% 59%,
+                98.9% 67%, 99.7% 75%, 98.8% 83%, 99.6% 91%, 98.9% 96.5%, 98.3% 99.5%,
+                93% 98%, 86% 99.7%, 79% 98%, 71% 99.6%, 63% 98.1%, 55% 99.7%, 47% 98.2%,
+                39% 99.6%, 31% 98.1%, 23% 99.7%, 15% 98.2%, 8% 99.6%, 2.6% 99.2%, 0.4% 98.5%,
+                1.2% 93%, 0.3% 86%, 1.3% 78%, 0.4% 70%, 1.2% 62%, 0.3% 54%, 1.2% 46%, 0.4% 38%,
+                1.3% 30%, 0.3% 22%, 1.2% 14%, 0.4% 7%);
+        filter: drop-shadow(0 30px 50px rgba(66, 42, 40, 0.28));
+        transform: rotate(-0.7deg);
+        z-index: 3;
+        animation: sb-panel-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        h1 {
+            position: relative;
+            margin: 0 0 6px;
+            font-family: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+            font-size: clamp(2.2rem, 3.35vw, 3.55rem);
+            font-weight: 500;
+            line-height: 1.02;
+            letter-spacing: -0.015em;
+            color: #422A28;
+        }
+
+        h2 {
+            position: relative;
+            margin: 4px 0 2px;
+            font-family: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(1.55rem, 2.3vw, 2.3rem);
+            line-height: 1.1;
+            color: #632B3B;
+        }
+    }
+
+    &__ornament {
+        position: relative;
+        display: block;
+        width: clamp(90px, 8vw, 118px);
+        height: 16px;
+        margin: 2px 0 8px;
+        color: #777B5B;
+    }
+
+    &__role {
+        position: relative;
+        margin: 0 0 2px;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(1.02rem, 1.25vw, 1.22rem);
+        font-weight: 600;
+        color: #422A28;
+    }
+
+    &__focus {
+        position: relative;
+        margin: 0 0 clamp(12px, 1.6vh, 20px);
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(0.84rem, 0.98vw, 0.98rem);
+        letter-spacing: 0.01em;
+        color: #6B4A3A;
+    }
+
+    &__note {
+        position: relative;
+        margin: 0 0 clamp(14px, 2vh, 24px);
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(0.92rem, 1.08vw, 1.08rem);
+        color: #6B4A3A;
+    }
+
+    &__enter {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 26px 13px;
+        border: 1px solid rgba(66, 42, 40, 0.28);
+        border-radius: 999px;
+        background: #632B3B;
+        color: #F3EBDD;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(1rem, 1.15vw, 1.15rem);
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(66, 42, 40, 0.24);
+        transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+            background: #4E1F2C;
+            box-shadow: 0 14px 26px rgba(66, 42, 40, 0.3);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #632B3B;
+            outline-offset: 4px;
+        }
+
+        &:disabled {
+            opacity: 0.75;
+            cursor: default;
+        }
+    }
+
+    &__spark {
+        color: #D8C9B2;
+        font-size: 0.9em;
+    }
+
+    &__cv {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        margin: 14px 0 0 clamp(20px, 3vw, 46px);
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+        color: #632B3B;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(99, 43, 59, 0.3);
+        padding-bottom: 2px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+
+        span {
+            font-size: 0.9em;
+        }
+
+        &:hover {
+            color: #422A28;
+            border-color: rgba(66, 42, 40, 0.5);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #632B3B;
+            outline-offset: 4px;
+        }
+    }
+
+    &__mute {
+        position: absolute;
+        left: 24px;
+        bottom: 24px;
+        z-index: 4;
+        display: grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        border: 1px solid rgba(66, 42, 40, 0.22);
+        border-radius: 50%;
+        background: rgba(243, 235, 221, 0.9);
+        color: #632B3B;
+        cursor: pointer;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 8px 18px rgba(66, 42, 40, 0.16);
+        transition: transform 0.2s ease, background 0.2s ease;
+
+        svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        &:hover {
+            transform: translateY(-1px);
+            background: #F3EBDD;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #632B3B;
+            outline-offset: 3px;
+        }
+    }
+
+    &__hint {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 16px 10px;
+        border: 1px solid rgba(66, 42, 40, 0.18);
+        border-radius: 999px;
+        background: rgba(243, 235, 221, 0.9);
+        color: #422A28;
+        font-family: var(--font-sans, Inter, sans-serif);
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 8px 18px rgba(66, 42, 40, 0.14);
+    }
+
+    &__keys {
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
+        color: #632B3B;
+    }
+
+    // -------------------------------------------------------------------------
+    // Entering / leaving
+    // -------------------------------------------------------------------------
+    &.is-entering {
+        .storybook__scene {
+            transform: scale(1.055);
+        }
+
+        .storybook__character {
+            transform: translate(16px, -6px);
+        }
+
+        .door-leaf--left {
+            transform: scaleX(0.08);
+        }
+
+        .door-leaf--right {
+            transform: scaleX(0.08);
+        }
+
+        .storybook__panel {
+            opacity: 0;
+            transform: translateY(-12px) rotate(-0.7deg);
+            transition: opacity 0.5s ease, transform 0.6s ease;
+            pointer-events: none;
+        }
+
+        .storybook__hint,
+        .storybook__mute {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+    }
+
+    &.is-leaving {
+        opacity: 0;
+        transition: opacity 0.95s ease;
+
+        .storybook__scene {
+            transform: scale(1.1);
+        }
+    }
+}
+
+@keyframes sb-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes sb-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(18px) rotate(-0.7deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(-0.7deg);
+    }
+}
+
+// Hide the old landing avatar and control cluster while the storybook is open.
+.storybook-open {
+    .avatar-guide,
+    .navigation-ui {
+        display: none !important;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Responsive
+// -----------------------------------------------------------------------------
+@media (max-width: 900px) {
+    .storybook {
+        &__panel {
+            left: 50%;
+            top: auto;
+            bottom: 5.5vh;
+            width: min(92vw, 560px);
+            padding: 22px 26px 20px;
+            animation: none;
+            transform: translateX(-50%) rotate(-0.4deg);
+            clip-path: polygon(0.8% 2.6%, 4% 0.8%, 10% 2%, 18% 0.5%, 27% 2.1%, 37% 0.7%, 47% 2%,
+                    57% 0.6%, 67% 2.1%, 77% 0.7%, 87% 2%, 95% 0.6%, 99.4% 1.6%, 99% 8%, 99.7% 16%,
+                    99% 25%, 99.6% 34%, 99% 43%, 99.6% 52%, 99% 61%, 99.6% 70%, 99% 79%, 99.6% 88%,
+                    99% 95%, 98.4% 99.2%, 90% 98.3%, 80% 99.6%, 70% 98.3%, 60% 99.6%, 50% 98.4%,
+                    40% 99.5%, 30% 98.3%, 20% 99.6%, 10% 98.4%, 3% 99.4%, 0.6% 98.6%, 1% 92%,
+                    0.4% 84%, 1.1% 76%, 0.5% 68%, 1% 60%, 0.4% 52%, 1% 44%, 0.5% 36%, 1.1% 28%,
+                    0.4% 20%, 1% 12%, 0.5% 6%);
+
+            h1 {
+                font-size: clamp(1.9rem, 7.2vw, 2.6rem);
+            }
+
+            h2 {
+                font-size: clamp(1.4rem, 5vw, 1.8rem);
+            }
+        }
+
+        &__focus {
+            display: none;
+        }
+
+        &__note {
+            margin-bottom: 14px;
+        }
+
+        &__enter {
+            padding: 11px 20px 12px;
+        }
+
+        &__cv {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+
+        &__hint {
+            display: none;
+        }
+
+        &__mute {
+            left: 16px;
+            bottom: 16px;
+            width: 42px;
+            height: 42px;
+        }
+    }
+}
+
+@media (max-height: 700px) and (min-width: 901px) {
+    .storybook {
+        &__panel {
+            top: 9vh;
+            padding-top: 24px;
+            padding-bottom: 20px;
+        }
+
+        &__note {
+            margin-bottom: 14px;
+        }
+
+        &__focus {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .storybook,
+    .storybook__panel,
+    .storybook__scene,
+    .storybook__character,
+    .door-leaf {
+        animation: none !important;
+        transition: none !important;
+    }
+}
