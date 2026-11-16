@@ -314,7 +314,7 @@ const SegmentDoors = ({
                         rotation={[-Math.PI / 2, 0, 0]}
                     >
                         <planeGeometry args={[THRESHOLD_WIDTH, THRESHOLD_DEPTH]} />
-                        <meshBasicMaterial color="#F3EBDD"
+                        <meshBasicMaterial color="#632B3B"
                             map={threshTex}
                             roughness={0.9}
                             metalness={0}
@@ -334,7 +334,7 @@ const SegmentDoors = ({
                 return (
                     <mesh position={[-(doorOpeningWidth / 2 + sideWallWidth / 2), floorY + 0.075, wallThickness / 2 + 0.01]}>
                         <planeGeometry args={[sideWallWidth, 0.15]} />
-                        <meshBasicMaterial color="#F3EBDD" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
+                        <meshBasicMaterial color="#3E2A24" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
                     </mesh>
                 );
             })()}
@@ -350,7 +350,7 @@ const SegmentDoors = ({
                 return (
                     <mesh position={[(doorOpeningWidth / 2 + sideWallWidth / 2), floorY + 0.075, wallThickness / 2 + 0.01]}>
                         <planeGeometry args={[sideWallWidth, 0.15]} />
-                        <meshBasicMaterial color="#F3EBDD" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
+                        <meshBasicMaterial color="#3E2A24" map={bbTex} roughness={0.8} side={THREE.DoubleSide} />
                     </mesh>
                 );
             })()}
