@@ -32,7 +32,7 @@ const MainDoorInterior = () => {
             wall: new THREE.MeshBasicMaterial({ map: wall, color: '#f3dfcd', side: THREE.DoubleSide }),
             ceiling: new THREE.MeshBasicMaterial({ color: '#fbf3e4', side: THREE.DoubleSide }),
             frame: new THREE.MeshBasicMaterial({ map: frameTexture, color: '#422A28', transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }),
-            door: new THREE.MeshBasicMaterial({ map: doorTexture, color: '#632B3B', side: THREE.DoubleSide }),
+            door: new THREE.MeshBasicMaterial({ map: doorTexture, color: '#3E2A24', side: THREE.DoubleSide }),
             sign: new THREE.MeshBasicMaterial({ color: '#F3EBDD', side: THREE.DoubleSide }),
         };
     }, [floorTexture, wallTexture, frameTexture, doorTexture]);
