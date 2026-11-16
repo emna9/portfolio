@@ -14,7 +14,6 @@ import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import GuidanceUI from './components/ui/GuidanceUI';
 import TopNav from './components/ui/TopNav';
-import StorybookEntrance from './components/ui/StorybookEntrance';
 import AvatarGuide from './components/ui/AvatarGuide';
 import { GuidanceProvider } from './context/GuidanceContext';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
@@ -96,12 +95,6 @@ function DocumentMetaBridge() {
   return null;
 }
 
-// Rendered inside SceneProvider so it can read hasEntered.
-function StorybookGate() {
-  const { hasEntered } = useScene();
-  return hasEntered ? null : <StorybookEntrance />;
-}
-
 function AppContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
@@ -163,7 +156,6 @@ function AppContent() {
           </div>
 
           {/* Navigation UI - Hamburger, Map, Back, Audio */}
-          {isLoaded && <StorybookGate />}
           {isLoaded && (
             <>
               <TopNav />
