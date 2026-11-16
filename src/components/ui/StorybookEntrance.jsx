@@ -487,6 +487,7 @@ const StorybookEntrance = () => {
                 </g>
 
                 {/* Character and cat */}
+                <g transform="translate(-58 0)">
                 <g className="storybook__character">
                     <ellipse cx="1006" cy="838" rx="68" ry="12" fill="#422A28" opacity="0.15" filter="url(#sb-soft-small)" />
 
@@ -548,6 +549,7 @@ const StorybookEntrance = () => {
                         <circle cx="908" cy="794" r="2.2" fill="#422A28" />
                         <circle cx="930" cy="794" r="2.2" fill="#422A28" />
                     </g>
+                </g>
                 </g>
 
                 {/* Foreground foliage */}
