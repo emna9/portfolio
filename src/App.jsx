@@ -5,6 +5,8 @@ import * as THREE from 'three';
 
 import Preloader from './components/dom/Preloader';
 import PaperTransition from './components/dom/PaperTransition';
+import SceneFallback from './components/dom/SceneFallback';
+import ErrorBoundary from './components/ErrorBoundary';
 import { AudioProvider, useAudio } from './context/AudioManager';
 import { initAudio } from './utils/audioManager';
 import { PerformanceProvider, usePerformance } from './context/PerformanceContext';
@@ -50,6 +52,18 @@ const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 450;
 const isLowEnd = isMobileDevice || isWeakCPU || isLowRAM || isSmallScreen;
 
 const supportsHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
+// three.js r185 needs WebGL2. Detecting it up front avoids leaving visitors on
+// a preloader forever when WebGL is disabled or blocklisted (common in Firefox
+// with strict privacy settings or without hardware acceleration).
+const supportsWebGL2 = () => {
+  if (typeof document === 'undefined') return false;
+  try {
+    return !!document.createElement('canvas').getContext('webgl2');
+  } catch {
+    return false;
+  }
+};
 
 // Preload ALL textures across all scenes & rooms during initial preloader screen
 const ALL_TEXTURES = [...PRELOAD_ALL, ...PRELOAD_LOADER];
@@ -98,6 +112,7 @@ function DocumentMetaBridge() {
 function AppContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
+  const [sceneFailed, setSceneFailed] = useState(() => !supportsWebGL2());
   const { settings, downgradeTier, tier } = usePerformance();
 
   useEffect(() => {
@@ -119,40 +134,57 @@ function AppContent() {
         <div className="app">
           {/* Full screen 3D Canvas */}
           <div className="canvas-wrapper">
-            <Canvas
-              camera={{
-                position: [0, 0.2, 28],
-                fov: 60,
-                near: 0.1,
-                far: 150
-              }}
-              gl={{
-                antialias: true,
-                alpha: false,
-                powerPreference: "high-performance",
-                localClippingEnabled: true,
-                failIfMajorPerformanceCaveat: false
-              }}
-              onCreated={({ gl, scene }) => {
-                const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
-                gl.outputColorSpace = THREE.SRGBColorSpace;
-                gl.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-              }}
-              dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 2, 2)]}
-              shadows={settings.shadows}
-            >
-              <color attach="background" args={['#fdf8e2']} /> {/* TINTED TO DEEP PURPLE */}
-              <fog attach="fog" args={['#fdf8e2', 15, 50]} /> {/* FOG TINTED TO DEEP PURPLE */}
+            {sceneFailed ? (
+              <SceneFallback />
+            ) : (
+              <ErrorBoundary
+                onError={() => setSceneFailed(true)}
+                fallback={<SceneFallback />}
+              >
+                <Canvas
+                  camera={{
+                    position: [0, 0.2, 28],
+                    fov: 60,
+                    near: 0.1,
+                    far: 150
+                  }}
+                  gl={{
+                    antialias: true,
+                    alpha: false,
+                    powerPreference: "high-performance",
+                    localClippingEnabled: true,
+                    failIfMajorPerformanceCaveat: false
+                  }}
+                  onCreated={({ gl }) => {
+                    gl.outputColorSpace = THREE.SRGBColorSpace;
+                    gl.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
-              <Suspense fallback={null}>
-                <Experience
-                  isLoaded={isLoaded}
-                  onSceneReady={handleSceneReady}
-                  performanceTier={tier}
-                />
-                <Preload all />
-              </Suspense>
-            </Canvas>
+                    gl.domElement.addEventListener(
+                      'webglcontextlost',
+                      (event) => {
+                        event.preventDefault();
+                        setSceneFailed(true);
+                      },
+                      { once: true }
+                    );
+                  }}
+                  dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 2, 2)]}
+                  shadows={settings.shadows}
+                >
+                  <color attach="background" args={['#fdf8e2']} /> {/* TINTED TO DEEP PURPLE */}
+                  <fog attach="fog" args={['#fdf8e2', 15, 50]} /> {/* FOG TINTED TO DEEP PURPLE */}
+
+                  <Suspense fallback={null}>
+                    <Experience
+                      isLoaded={isLoaded}
+                      onSceneReady={handleSceneReady}
+                      performanceTier={tier}
+                    />
+                    <Preload all />
+                  </Suspense>
+                </Canvas>
+              </ErrorBoundary>
+            )}
           </div>
 
           {/* Navigation UI - Hamburger, Map, Back, Audio */}
@@ -170,7 +202,7 @@ function AppContent() {
 
           {/* 2D Preloader */}
           <Preloader
-            ready={sceneReady}
+            ready={sceneReady || sceneFailed}
             onComplete={() => setIsLoaded(true)}
           />
         </div>
@@ -204,7 +236,9 @@ export default function App() {
   return (
     <PerformanceProvider>
       <AchievementsProvider>
-        <AppContent />
+        <ErrorBoundary fallback={<SceneFallback />}>
+          <AppContent />
+        </ErrorBoundary>
       </AchievementsProvider>
     </PerformanceProvider>
   );

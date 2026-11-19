@@ -52,7 +52,10 @@ export const initAudio = () => {
         bgMusicAudio.load();
     }
 
-    preloadAllAudio();
+    // Do NOT eagerly preload the sound effects through <audio> elements here.
+    // Firefox caches the resulting 206 responses and then serves them to the
+    // fetch() three.js uses for the same files, which made the 3D scene crash
+    // and left the portfolio blank. Sounds load on demand instead.
 };
 
 export const playBackgroundMusic = () => {
