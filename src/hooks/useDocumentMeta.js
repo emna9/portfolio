@@ -71,7 +71,7 @@ export function getInitialRoomFromUrl() {
 }
 
 export function useDocumentMeta() {
-    const { currentRoom, teleportTo, hasEntered } = useScene();
+    const { currentRoom, teleportTo, hasEntered, initialRoom } = useScene();
     const isHandlingPopState = useRef(false);
     const lastPushedRoom = useRef(undefined); // Track what we last pushed to avoid duplicates
 
@@ -109,7 +109,10 @@ export function useDocumentMeta() {
         canonicalTag.setAttribute('href', `${window.location.origin}${withBase(meta.path)}`);
 
         // Push to browser history
-        if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {
+        if (lastPushedRoom.current === undefined && initialRoom && currentRoom === null) {
+            // Keep the deep-link URL intact until the section teleport runs.
+            lastPushedRoom.current = currentRoom;
+        } else if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {
             if (lastPushedRoom.current === undefined) {
                 window.history.replaceState({ room: currentRoom }, '', withBase(meta.path));
             } else {
@@ -118,7 +121,7 @@ export function useDocumentMeta() {
             lastPushedRoom.current = currentRoom;
         }
         isHandlingPopState.current = false;
-    }, [currentRoom]);
+    }, [currentRoom, initialRoom]);
 
     // Handle browser back/forward buttons
     useEffect(() => {

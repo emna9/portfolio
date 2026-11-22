@@ -1,4 +1,4 @@
-import { useState, Suspense, useEffect, useCallback, lazy } from 'react';
+import { useState, Suspense, useEffect, useCallback, useRef, lazy } from 'react';
 import { Canvas, useThree, useLoader } from '@react-three/fiber';
 import { Preload, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -63,6 +63,19 @@ const supportsWebGL2 = () => {
   } catch {
     return false;
   }
+};
+
+// Phones on 2G/3G or data-saver should not spend bandwidth on rooms the
+// visitor may never open; those textures load on demand instead.
+const isSlowConnection = () => {
+  if (typeof navigator === 'undefined') return false;
+  const connection = navigator.connection;
+  if (!connection) return false;
+  return Boolean(
+    connection.saveData ||
+    ['slow-2g', '2g'].includes(connection.effectiveType) ||
+    (typeof connection.downlink === 'number' && connection.downlink > 0 && connection.downlink < 2)
+  );
 };
 
 // The landing and the corridor are the only scenes that must be ready before
@@ -131,6 +144,62 @@ function DocumentMetaBridge() {
   return null;
 }
 
+/**
+ * Warms the room textures after the first render. Must live inside
+ * SceneProvider so it can pause while a room is opening or being explored.
+ */
+function DeferredTextureWarmer({ isLoaded }) {
+  const { isTeleporting, isRoomLoading, isInRoom } = useScene();
+  const busyRef = useRef(false);
+  busyRef.current = isTeleporting || isRoomLoading || isInRoom;
+
+  useEffect(() => {
+    if (!isLoaded) return undefined;
+    if (isSlowConnection()) return undefined;
+
+    let cancelled = false;
+    let timer = null;
+    const queue = [...DEFERRED_TEXTURES];
+
+    const schedule = (delay) => {
+      timer = setTimeout(() => {
+        if (cancelled) return;
+        if (typeof window.requestIdleCallback === 'function') {
+          window.requestIdleCallback(runBatch, { timeout: 2000 });
+        } else {
+          runBatch();
+        }
+      }, delay);
+    };
+
+    const runBatch = () => {
+      if (cancelled) return;
+
+      // Never compete with a room the visitor is actually entering/exploring.
+      if (busyRef.current) {
+        schedule(900);
+        return;
+      }
+
+      queue.splice(0, 6).forEach(preloadTexture);
+      if (queue.length) schedule(250);
+    };
+
+    // Map images used by the navigation UI.
+    IMAGE_ASSETS.forEach(preloadBrowserImage);
+
+    // Let the landing settle before warming rooms.
+    schedule(2500);
+
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [isLoaded]);
+
+  return null;
+}
+
 function AppContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
@@ -140,46 +209,6 @@ function AppContent() {
   // NOTE: background music is initialised lazily by playBackgroundMusic()
   // when the visitor enters, or by initAudio() on the first gesture. Loading
   // its 1.8 MB file during the preloader delayed the first render for nothing.
-
-  // Once the preloader is gone, quietly warm the room textures in small idle
-  // batches. They are not needed for the landing or corridor, so they must
-  // never delay the first render.
-  useEffect(() => {
-    if (!isLoaded) return undefined;
-
-    let cancelled = false;
-    const queue = [...DEFERRED_TEXTURES];
-
-    const runBatch = () => {
-      if (cancelled) return;
-      queue.splice(0, 8).forEach(path => {
-        preloadTexture(path);
-      });
-      if (queue.length) {
-        if (typeof window.requestIdleCallback === 'function') {
-          window.requestIdleCallback(runBatch, { timeout: 1500 });
-        } else {
-          setTimeout(runBatch, 150);
-        }
-      }
-    };
-
-    // Map images used by the navigation UI.
-    IMAGE_ASSETS.forEach(preloadBrowserImage);
-
-    const first = typeof window.requestIdleCallback === 'function'
-      ? window.requestIdleCallback(runBatch, { timeout: 2000 })
-      : setTimeout(runBatch, 300);
-
-    return () => {
-      cancelled = true;
-      if (typeof window.cancelIdleCallback === 'function') {
-        window.cancelIdleCallback(first);
-      } else {
-        clearTimeout(first);
-      }
-    };
-  }, [isLoaded]);
 
   const handleSceneReady = useCallback(() => {
     requestAnimationFrame(() => {
@@ -192,6 +221,7 @@ function AppContent() {
       <SceneProvider>
         <GuidanceProvider>
         <DocumentMetaBridge />
+        <DeferredTextureWarmer isLoaded={isLoaded} />
         <GlobalAudioEnabler />
         <div className="app">
           {/* Full screen 3D Canvas */}
