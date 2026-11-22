@@ -454,6 +454,42 @@ $wine: #632B3B;
     }
 }
 
+// === ROOM LOADING HINT (normal door entry) ===
+.room-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 95;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: rgba(243, 235, 221, 0.96);
+    border: 1.5px solid rgba(66, 42, 40, 0.3);
+    border-radius: 999px;
+    box-shadow: 0 8px 22px rgba(66, 42, 40, 0.14);
+    color: $brown;
+    font-family: var(--font-sans, Inter, sans-serif);
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+
+    &__spinner {
+        width: 18px;
+        height: 18px;
+        border: 2.5px solid rgba(99, 43, 59, 0.25);
+        border-top-color: $wine;
+        border-radius: 50%;
+        animation: room-loading-spin 0.9s linear infinite;
+    }
+}
+
+@keyframes room-loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 // === TUTORIAL ===
 .tutorial-overlay {
     position: fixed;

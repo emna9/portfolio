@@ -291,4 +291,5 @@ export function useAwards() {
 }
 
 // Automatyczne odpalenie pobierania przy załadowaniu modułu JS
-loadSanityData();
+// (Usunięte: Sanity nie może blokować pierwszego renderu. Dane pobierają się
+// leniwie, gdy pokój galerii faktycznie się montuje.)

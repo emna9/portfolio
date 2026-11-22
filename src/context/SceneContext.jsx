@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, useMemo, useRef } from 'react';
 import { getInitialRoomFromUrl } from '../hooks/useDocumentMeta';
+import { preloadRoomTextures } from '../utils/preloadRoomTextures';
 
 const SceneContext = createContext(null);
 
@@ -27,11 +28,13 @@ export const SceneProvider = ({ children }) => {
     const [teleportPhase, setTeleportPhase] = useState(null);   // 'closing' | 'teleporting' | 'opening' | null
     const [pendingDoorClick, setPendingDoorClick] = useState(null); // Label of door to click after teleport
     const [isFastTeleport, setIsFastTeleport] = useState(false); // Fast teleport in progress (skip animations)
+    const [isRoomLoading, setIsRoomLoading] = useState(false);   // Room is preparing behind a closed door
 
     // Inspecting state removed to avoid global re-renders
 
     const enterRoom = useCallback((roomId) => {
         setCurrentRoom(roomId);
+        setIsRoomLoading(false);
         setExitRequested(false); // Clear any pending exit request
         setOverlayContent(null); // Clear overlay on room change
 
@@ -77,6 +80,10 @@ export const SceneProvider = ({ children }) => {
     // Initiate teleport - called when user clicks room on map
     const teleportTo = useCallback((roomId) => {
         if (isTeleporting || roomId === currentRoom) return; // Prevent double teleport or same room
+
+        // Start the target room's textures now, so the paper does not stay
+        // closed while an empty room is mounting.
+        preloadRoomTextures(roomId);
 
         setTeleportTarget(roomId);
         setIsTeleporting(true);
@@ -158,6 +165,8 @@ export const SceneProvider = ({ children }) => {
         teleportPhase,
         pendingDoorClick,
         isFastTeleport,
+        isRoomLoading,
+        setIsRoomLoading,
         teleportTo,
         startTeleportTransition,
         openTeleportTransition,
@@ -183,6 +192,7 @@ export const SceneProvider = ({ children }) => {
         teleportPhase,
         pendingDoorClick,
         isFastTeleport,
+        isRoomLoading,
         teleportTo,
         startTeleportTransition,
         openTeleportTransition,

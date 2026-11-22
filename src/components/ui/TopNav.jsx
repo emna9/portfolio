@@ -47,6 +47,7 @@ const TopNav = () => {
             return;
         }
         if (roomId === currentRoom) return;
+        closeTutorial(true);
         teleportTo(roomId);
     };
 

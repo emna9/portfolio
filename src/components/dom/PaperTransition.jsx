@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useState } from 'react';
 import gsap from 'gsap';
 import { useScene } from '../../context/SceneContext';
 import { useAudio } from '../../context/AudioManager';
@@ -45,6 +45,18 @@ const PaperTransition = () => {
     const leftHalfRef = useRef(null);
     const rightHalfRef = useRef(null);
     const timelineRef = useRef(null);
+    const [showLoading, setShowLoading] = useState(false);
+
+    // Only show the hint if the room is genuinely slow, so a fast teleport
+    // does not flash a spinner.
+    useEffect(() => {
+        if (teleportPhase !== 'teleporting') {
+            setShowLoading(false);
+            return undefined;
+        }
+        const timer = setTimeout(() => setShowLoading(true), 500);
+        return () => clearTimeout(timer);
+    }, [teleportPhase]);
 
     // Generate tear path (same logic as Preloader)
     const tearPoints = useMemo(() => {
@@ -198,6 +210,16 @@ const PaperTransition = () => {
             >
                 <TearLineSVG svgPathData={svgPathData} />
             </div>
+
+            {/* Loading hint shown while the paper is closed and the room is
+                still preparing. Without it the closed paper looks like a
+                broken, empty page. */}
+            {showLoading && (
+                <div className="paper-loading" role="status" aria-live="polite">
+                    <span className="paper-loading__spinner" aria-hidden="true" />
+                    <span>Preparing the room…</span>
+                </div>
+            )}
         </div>
     );
 };

@@ -14,7 +14,7 @@ const INTRO_DURATION = 1.1;
  * standing in front of the big inside main door. When the tour closes it
  * smoothly turns back to the corridor and releases camera control.
  */
-const IntroCamera = ({ setCameraOverride }) => {
+const IntroCamera = ({ setCameraOverride, cancel = false }) => {
     const { camera } = useThree();
     const active = useRef(false);
     const phase = useRef(null);
@@ -25,6 +25,19 @@ const IntroCamera = ({ setCameraOverride }) => {
     const lookMatrix = useRef(new THREE.Matrix4());
 
     useFrame((state, delta) => {
+        // A teleport can start while the introduction is still looking back at
+        // the entrance. If we keep animating, the intro writes the camera back
+        // to the corridor and the room entry lands in the wrong place. Stop at
+        // once and let the teleport/door code own the camera.
+        if (cancel) {
+            if (active.current) {
+                active.current = false;
+                phase.current = null;
+                setIntroCameraBusy(false);
+            }
+            return;
+        }
+
         const lookBack = isIntroLookBack();
         const dt = delta || 0.016;
 

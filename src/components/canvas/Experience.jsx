@@ -120,7 +120,7 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
             <DoorProximityManager />
             <FloorGuide />
             <AvatarAnchor />
-            <IntroCamera setCameraOverride={setCameraOverride} />
+            <IntroCamera setCameraOverride={setCameraOverride} cancel={isTeleporting} />
             {hasEntered && <MainDoorInterior />}
         </>
     );

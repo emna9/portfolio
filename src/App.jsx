@@ -8,7 +8,6 @@ import PaperTransition from './components/dom/PaperTransition';
 import SceneFallback from './components/dom/SceneFallback';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AudioProvider, useAudio } from './context/AudioManager';
-import { initAudio } from './utils/audioManager';
 import { PerformanceProvider, usePerformance } from './context/PerformanceContext';
 import { SceneProvider, useScene } from './context/SceneContext';
 import NavigationUI from './components/ui/NavigationUI';
@@ -17,7 +16,7 @@ import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import GuidanceUI from './components/ui/GuidanceUI';
 import TopNav from './components/ui/TopNav';
 import AvatarGuide from './components/ui/AvatarGuide';
-import { GuidanceProvider } from './context/GuidanceContext';
+import { GuidanceProvider, useGuidance } from './context/GuidanceContext';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
 import { initSfx } from './utils/sfx';
 
@@ -30,9 +29,10 @@ import {
   ENTRANCE_TEXTURES, 
   CORRIDOR_TEXTURES, 
   UI_TEXTURES,
-  PRELOAD_ALL, 
-  PRELOAD_LOADER,
   ABOUT_TEXTURES,
+  GALLERY_TEXTURES,
+  CONTACT_TEXTURES,
+  STUDIO_TEXTURES,
   IMAGE_ASSETS,
   filterTexturesByDevice
 } from './config/texturePreloadList';
@@ -65,17 +65,29 @@ const supportsWebGL2 = () => {
   }
 };
 
-// Preload ALL textures across all scenes & rooms during initial preloader screen
-const ALL_TEXTURES = [...PRELOAD_ALL, ...PRELOAD_LOADER];
-const filteredAll = filterTexturesByDevice(ALL_TEXTURES, supportsHover);
-filteredAll.forEach(path => {
+// The landing and the corridor are the only scenes that must be ready before
+// the visitor can walk. Room textures stream in afterwards (and are also
+// kicked off on demand when a section is chosen).
+const CRITICAL_TEXTURES = filterTexturesByDevice(
+  [...ENTRANCE_TEXTURES, ...CORRIDOR_TEXTURES, ...UI_TEXTURES],
+  supportsHover
+);
+
+const DEFERRED_TEXTURES = filterTexturesByDevice(
+  [...GALLERY_TEXTURES, ...CONTACT_TEXTURES, ...ABOUT_TEXTURES, ...STUDIO_TEXTURES],
+  supportsHover
+);
+
+const preloadTexture = (path) => {
   try {
     useTexture.preload(path);
     useLoader.preload(TextureLoader, path);
-  } catch (e) {
+  } catch {
     // Ignore invalid paths
   }
-});
+};
+
+CRITICAL_TEXTURES.forEach(preloadTexture);
 
 // Helper component to handle global audio enable on interaction
 const GlobalAudioEnabler = () => {
@@ -98,13 +110,23 @@ const GlobalAudioEnabler = () => {
 function DocumentMetaBridge() {
   useDocumentMeta();
   const { initialRoom, deeplinkHandled, hasEntered, teleportTo } = useScene();
+  const { closeTutorial } = useGuidance();
 
   useEffect(() => {
-    if (initialRoom && hasEntered && !deeplinkHandled.current) {
+    if (!initialRoom || !hasEntered || deeplinkHandled.current) return undefined;
+
+    // Give the entrance introduction a moment to settle and close its overlay
+    // before the deep link takes over the camera. Otherwise the intro and the
+    // teleport fight for control and the room never opens.
+    const timer = setTimeout(() => {
+      if (deeplinkHandled.current) return;
       deeplinkHandled.current = true;
-      setTimeout(() => teleportTo(initialRoom), 300);
-    }
-  }, [initialRoom, hasEntered, teleportTo, deeplinkHandled]);
+      closeTutorial(true);
+      teleportTo(initialRoom);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [initialRoom, hasEntered, teleportTo, deeplinkHandled, closeTutorial]);
 
   return null;
 }
@@ -115,9 +137,49 @@ function AppContent() {
   const [sceneFailed, setSceneFailed] = useState(() => !supportsWebGL2());
   const { settings, downgradeTier, tier } = usePerformance();
 
+  // NOTE: background music is initialised lazily by playBackgroundMusic()
+  // when the visitor enters, or by initAudio() on the first gesture. Loading
+  // its 1.8 MB file during the preloader delayed the first render for nothing.
+
+  // Once the preloader is gone, quietly warm the room textures in small idle
+  // batches. They are not needed for the landing or corridor, so they must
+  // never delay the first render.
   useEffect(() => {
-    initAudio();
-  }, []);
+    if (!isLoaded) return undefined;
+
+    let cancelled = false;
+    const queue = [...DEFERRED_TEXTURES];
+
+    const runBatch = () => {
+      if (cancelled) return;
+      queue.splice(0, 8).forEach(path => {
+        preloadTexture(path);
+      });
+      if (queue.length) {
+        if (typeof window.requestIdleCallback === 'function') {
+          window.requestIdleCallback(runBatch, { timeout: 1500 });
+        } else {
+          setTimeout(runBatch, 150);
+        }
+      }
+    };
+
+    // Map images used by the navigation UI.
+    IMAGE_ASSETS.forEach(preloadBrowserImage);
+
+    const first = typeof window.requestIdleCallback === 'function'
+      ? window.requestIdleCallback(runBatch, { timeout: 2000 })
+      : setTimeout(runBatch, 300);
+
+    return () => {
+      cancelled = true;
+      if (typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(first);
+      } else {
+        clearTimeout(first);
+      }
+    };
+  }, [isLoaded]);
 
   const handleSceneReady = useCallback(() => {
     requestAnimationFrame(() => {
@@ -215,11 +277,6 @@ function AppContent() {
 import { AchievementsProvider } from './context/AchievementsContext';
 
 export default function App() {
-  useEffect(() => {
-    const filteredImages = filterTexturesByDevice([...IMAGE_ASSETS, ...filteredAll], supportsHover);
-    filteredImages.forEach(path => preloadBrowserImage(path));
-  }, []);
-
   // Browsers require a gesture before audio can start.
   useEffect(() => {
     const unlock = () => initSfx();

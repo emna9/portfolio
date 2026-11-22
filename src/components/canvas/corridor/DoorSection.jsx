@@ -137,6 +137,7 @@ const DoorSection = ({
         isTeleporting,
         isFastTeleport,
         signalRoomReady,
+        setIsRoomLoading,
         teleportPhase // We need this to delay reset until curtain is closed
     } = useScene();
 
@@ -208,6 +209,7 @@ const DoorSection = ({
             setIsInsideRoom(false);
             setIsAnimating(false);
             setShouldRenderRoom(false); // Unmount room content
+            setIsRoomLoading(false);
             setIsTiltLocked(false);
             setRoomReady(false);
             roomReadyRef.current = false;
@@ -606,24 +608,23 @@ const DoorSection = ({
                 // 1. Camera is now aligned.
                 // 2. Start rendering the room.
                 // 3. Door will open when room signals ready via onReady callback
-                //    OR after fallback timeout for rooms without onReady support
                 setShouldRenderRoom(true);
+                setIsRoomLoading(true);
 
                 // During FAST teleport, we still want to WAIT for the room to be ready!
                 // So we do NOT open immediately anymore. We let the onReady callback handle it.
                 // But we still set the flag so handleRoomReady knows to use fast animation.
 
-                // Fallback: If room doesn't call onReady within 2500ms, open door anyway
-                // This ensures all rooms work even if they take slightly longer or don't implement onReady
+                // Safety net: never tear the paper open onto an empty room.
+                // The room's onReady callback (after its textures and shaders
+                // are ready) is what opens the door. If a room genuinely fails
+                // to load, the outer error boundary/failure handling takes over
+                // instead of showing a blank stage with a stray toast.
                 loadTimeoutRef.current = setTimeout(() => {
                     if (!roomReadyRef.current) {
-                        console.warn(`[DoorSection ${label}] Room load timeout - forcing open`);
-                        roomReadyRef.current = true;
-                        setRoomReady(true);
-                        // If it timed out, we still use the current mode preference
-                        openDoor(useFastMode);
+                        console.warn(`[DoorSection ${label}] Room is taking longer than expected to load`);
                     }
-                }, 2500);
+                }, 15000);
             }
         });
     }, [camera, side, isOpen, isAnimating, setCameraOverride, isFastTeleport]);
@@ -740,9 +741,10 @@ const DoorSection = ({
 
         roomReadyRef.current = true;
         setRoomReady(true);
+        setIsRoomLoading(false);
         // Use the current context state to decide if we should do a fast open
         openDoor(isFastTeleport);
-    }, [openDoor, isFastTeleport]);
+    }, [openDoor, isFastTeleport, setIsRoomLoading]);
 
     // Exit room function - TRUE REVERSE animation (like rewinding video)
     const exitRoom = useCallback(() => {

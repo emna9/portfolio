@@ -27,7 +27,7 @@ const PIN_START_POSITION = { x: 50.5, y: 97 };
 const NavigationUI = () => {
     const { currentRoom, isInRoom, requestExit, hasEntered, teleportTo, isTeleporting } = useScene();
     const { isMuted, toggleMute, globalVolume, setGlobalVolume } = useAudio();
-    const { avatarSpeaking, tutorialOpen } = useGuidance();
+    const { avatarSpeaking, tutorialOpen, closeTutorial } = useGuidance();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [hoveredRoom, setHoveredRoom] = useState(null);
     const [isExiting, setIsExiting] = useState(false); // Track when back button is clicked
@@ -208,6 +208,7 @@ const NavigationUI = () => {
         setIsMenuOpen(false);
         setIsAudioMenuOpen(false);
         setIsHelpOpen(false);
+        closeTutorial(true);
         teleportTo(roomId);
     };
 

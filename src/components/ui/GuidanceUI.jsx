@@ -16,7 +16,7 @@ import '../../styles/Guidance.scss';
  * - ENTER / ESC shortcuts
  */
 const GuidanceUI = () => {
-    const { hasEntered, isInRoom, currentRoom, isTeleporting, requestExit } = useScene();
+    const { hasEntered, isInRoom, currentRoom, isTeleporting, isRoomLoading, requestExit } = useScene();
     const {
         openDoor,
         tutorialOpen,
@@ -27,7 +27,18 @@ const GuidanceUI = () => {
     const nearestDoor = useNearestDoor();
 
     const [toast, setToast] = useState(null);
+    const [showRoomLoading, setShowRoomLoading] = useState(false);
     const toastTimer = useRef(null);
+
+    // Delay the loading hint briefly to avoid a flash on instant rooms.
+    useEffect(() => {
+        if (!isRoomLoading || isTeleporting) {
+            setShowRoomLoading(false);
+            return undefined;
+        }
+        const timer = setTimeout(() => setShowRoomLoading(true), 400);
+        return () => clearTimeout(timer);
+    }, [isRoomLoading, isTeleporting]);
 
     // Contextual welcome when a room opens.
     useEffect(() => {
@@ -145,6 +156,14 @@ const GuidanceUI = () => {
                         Use arrows to move forward and backward
                     </p>
                 </aside>
+            )}
+
+            {/* Loading hint while a room prepares behind the door */}
+            {showRoomLoading && (
+                <div className="room-loading" role="status" aria-live="polite">
+                    <span className="room-loading__spinner" aria-hidden="true" />
+                    <span>Preparing the room…</span>
+                </div>
             )}
 
             {/* Always-available CV shortcut */}
