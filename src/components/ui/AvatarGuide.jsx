@@ -130,11 +130,11 @@ const AvatarGuide = () => {
 
     // First visit: she walks in, stops, turns, waves, then introduces herself.
     useEffect(() => {
-        if (!hasEntered || isInRoom) return undefined;
+        if (!hasEntered || isInRoom || isTeleporting) return undefined;
         if (hasSeenTutorial() || shouldSkipIntro()) return undefined;
         const timer = setTimeout(() => openTutorial(), 2400);
         return () => clearTimeout(timer);
-    }, [hasEntered, isInRoom, openTutorial]);
+    }, [hasEntered, isInRoom, isTeleporting, openTutorial]);
 
     useEffect(() => {
         if (tutorialOpen) {
