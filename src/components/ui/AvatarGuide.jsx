@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScene } from '../../context/SceneContext';
 import { useGuidance, useNearestDoor } from '../../context/GuidanceContext';
 import { getDoorInfo } from '../../data/doorContent';
-import { hasSeenTutorial, getMovementState, setIntroLookBack, isEntranceOpening, shouldSkipIntro } from '../../utils/controls';
+import { hasSeenTutorial, getMovementState, setIntroLookBack, isEntranceOpening, shouldSkipIntro, requestEnterHouse } from '../../utils/controls';
 import { Typewriter } from './Typewriter';
 import { playWelcome } from '../../utils/sfx';
 import '../../styles/AvatarGuide.scss';
@@ -418,7 +418,7 @@ const AvatarGuide = () => {
                             <button
                                 type="button"
                                 className="avatar-speech__enter"
-                                onClick={() => window.dispatchEvent(new CustomEvent('sketch-enter-house'))}
+                                onClick={() => requestEnterHouse()}
                             >
                                 <span className="avatar-key avatar-key--wide">ENTER</span>
                                 <span>enter the house</span>

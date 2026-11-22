@@ -51,6 +51,24 @@ export const setEntranceOpening = (value) => {
 
 export const isEntranceOpening = () => entranceOpening;
 
+// The landing "enter" action can be clicked before the lazy 3D experience has
+// mounted its entrance-door listener. Remember the request so the doors can
+// act on it as soon as they are ready instead of dropping the click.
+let enterHouseRequested = false;
+
+export const requestEnterHouse = () => {
+    enterHouseRequested = true;
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('sketch-enter-house'));
+    }
+};
+
+export const consumeEnterHouseRequest = () => {
+    const requested = enterHouseRequested;
+    enterHouseRequested = false;
+    return requested;
+};
+
 // Cinematic intro: look back at the main entrance door first.
 let introLookBack = false;
 let introCameraBusy = false;

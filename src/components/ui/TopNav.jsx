@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useScene } from '../../context/SceneContext';
 import { useGuidance } from '../../context/GuidanceContext';
-import { setSkipIntro } from '../../utils/controls';
+import { setSkipIntro, requestEnterHouse } from '../../utils/controls';
 import '../../styles/TopNav.scss';
 
 const SECTIONS = [
@@ -43,7 +43,7 @@ const TopNav = () => {
             deeplinkHandled.current = true;
             pendingRef.current = roomId;
             setSkipIntro(true);
-            window.dispatchEvent(new CustomEvent('sketch-enter-house'));
+            requestEnterHouse();
             return;
         }
         if (roomId === currentRoom) return;

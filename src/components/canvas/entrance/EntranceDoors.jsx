@@ -8,7 +8,7 @@ import { playBackgroundMusic } from '../../../utils/audioManager';
 import { useAchievements } from '../../../context/AchievementsContext';
 import { isTouchDevice } from '../../../utils/deviceDetect';
 import { playDoorOpen } from '../../../utils/sfx';
-import { setEntranceOpening } from '../../../utils/controls';
+import { setEntranceOpening, consumeEnterHouseRequest } from '../../../utils/controls';
 import { getGardenTexture, getSunGlowTexture } from '../../../utils/gardenTexture';
 
 
@@ -645,6 +645,12 @@ const EntranceDoors = ({
         const onCustom = () => enter();
         window.addEventListener('keydown', onKey);
         window.addEventListener('sketch-enter-house', onCustom);
+
+        // The click may have arrived while this component was still loading.
+        if (consumeEnterHouseRequest()) {
+            enter();
+        }
+
         return () => {
             window.removeEventListener('keydown', onKey);
             window.removeEventListener('sketch-enter-house', onCustom);
