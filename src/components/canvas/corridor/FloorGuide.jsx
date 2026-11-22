@@ -134,6 +134,7 @@ const FloorGuide = () => {
             item.halo.opacity = 0.18 + 0.18 * pulse;
             item.pool.opacity = 0.24 + 0.2 * pulse;
             item.beam.opacity = 0.35 + 0.28 * pulse;
+            if (item.beamCore) item.beamCore.opacity = 0.4 + 0.3 * pulse;
 
             const scale = 1.2 + 0.07 * pulse;
             item.arrows.scale.setScalar(scale);
@@ -170,7 +171,7 @@ const FloorGuide = () => {
                     </mesh>
 
                     {/* Rising shaft of light */}
-                    <sprite position={[0, 0.95, 0]} scale={[1.35, 2.1, 1]} renderOrder={2}>
+                    <sprite position={[0, 1.05, 0]} scale={[1.35, 2.3, 1]} renderOrder={2}>
                         <spriteMaterial
                             ref={(node) => {
                                 if (node) itemsRef.current[index] = { ...itemsRef.current[index], beam: node };
@@ -179,6 +180,22 @@ const FloorGuide = () => {
                             transparent
                             opacity={0.5}
                             color={BEAM_COLOR}
+                            blending={THREE.AdditiveBlending}
+                            depthWrite={false}
+                            toneMapped={false}
+                        />
+                    </sprite>
+
+                    {/* Bright inner core of the beam */}
+                    <sprite position={[0, 1.05, 0]} scale={[0.5, 2.3, 1]} renderOrder={2}>
+                        <spriteMaterial
+                            ref={(node) => {
+                                if (node) itemsRef.current[index] = { ...itemsRef.current[index], beamCore: node };
+                            }}
+                            map={beamTexture}
+                            transparent
+                            opacity={0.6}
+                            color="#FFF8DC"
                             blending={THREE.AdditiveBlending}
                             depthWrite={false}
                             toneMapped={false}
