@@ -1,35 +1,107 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <base href="/portfolio/sketch/" />
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page not found — Emna Smaali</title>
-    <script>
-      // GitHub Pages only serves one 404.html for the whole site, so deep links
-      // inside the sketch portfolio are sent back to its entrance.
-      if (window.location.pathname.indexOf('/portfolio/sketch/') === 0) {
-        window.location.replace('/portfolio/sketch/');
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Emna Smaali — Software Engineering Student | Applied AI & GenAI</title>
+    <meta name="description" content="Portfolio of Emna Smaali, a Software Engineering student at MedTech–SMU focused on applied AI, LLMs, RAG systems, and full stack development." />
+    <meta name="keywords" content="Emna Smaali, Software Engineering Student, Applied AI, GenAI, RAG, LLM, LangChain, Python, React, TypeScript, Node.js, Tunis, MedTech SMU" />
+    <meta name="author" content="Emna Smaali" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Canonical is set at runtime from window.location.origin (see useDocumentMeta) -->
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Emna Smaali — Software Engineering Student | Applied AI & GenAI" />
+    <meta property="og:description" content="Software Engineering student building reliable, grounded AI systems — RAG, LLM applications, data pipelines and full stack development." />
+    <meta property="og:site_name" content="Emna Smaali Portfolio" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="og-image.webp" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Emna Smaali — Software Engineering Student | Applied AI & GenAI" />
+    <meta name="twitter:description" content="Software Engineering student building reliable, grounded AI systems — RAG, LLM applications, data pipelines and full stack development." />
+    <meta name="twitter:image" content="og-image.webp" />
+
+    <!-- Preconnect for Google Fonts performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- JSON-LD Structured Data Schema (SEO) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "#person",
+            "name": "Emna Smaali",
+            "jobTitle": "Software Engineering Student",
+            "description": "Software Engineering student specializing in Applied AI & GenAI, RAG systems, LLM evaluation, data pipelines and full stack development.",
+            "email": "mailto:emna.smaali@medtech.tn",
+            "sameAs": [
+              "https://github.com/emna9",
+              "https://www.linkedin.com/in/emna-smaali-8855a7258"
+            ],
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Tunis",
+              "addressCountry": "TN"
+            },
+            "affiliation": {
+              "@type": "CollegeOrUniversity",
+              "name": "MedTech – South Mediterranean University (SMU)"
+            },
+            "knowsAbout": [
+              "Applied AI",
+              "Generative AI",
+              "Large Language Models",
+              "RAG",
+              "Prompt Engineering",
+              "AI Evaluation",
+              "LangChain",
+              "LangGraph",
+              "AI Agents",
+              "Python",
+              "Machine Learning",
+              "SQL",
+              "PostgreSQL",
+              "MongoDB",
+              "Power BI",
+              "TypeScript",
+              "JavaScript",
+              "React",
+              "Vue.js",
+              "Nuxt.js",
+              "Node.js",
+              "Express.js",
+              "Nest.js",
+              "Docker",
+              "Git",
+              "n8n"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "#website",
+            "name": "Emna Smaali Portfolio",
+            "publisher": {
+              "@id": "#person"
+            }
+          }
+        ]
       }
     </script>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #faf4e5;
-        color: #664e44;
-        font-family: Georgia, 'Times New Roman', serif;
-        text-align: center;
-        padding: 24px;
-      }
-      a { color: #b4552d; }
-    </style>
+    <script type="module" crossorigin src="/portfolio/sketch/assets/index-pUuguzLc.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio/sketch/assets/index-DEEZJ4Im.css">
   </head>
   <body>
-    <div>
-      <h1>Page not found</h1>
-      <p><a href="/portfolio/">Back to the portfolio</a></p>
-    </div>
+    <div id="root"></div>
   </body>
 </html>
