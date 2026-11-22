@@ -5,10 +5,10 @@ import { useScene } from '../../../context/SceneContext';
 
 const FLOOR_Y = -1.734;
 
-// One arrow on the left (walk forward) and one on the right (walk backward),
-// placed on the floor far enough ahead to stay in frame past the avatar guide.
-const ARROW_DEPTH = -6;
-const ARROW_OFFSET_X = 0.95;
+// The avatar guide rests 3.8 units ahead of the camera. Keep the two arrows on
+// her centre line: one just beyond her feet, one just in front of them.
+const ARROW_FORWARD_Z = -4.45;
+const ARROW_BACKWARD_Z = -3.6;
 
 const CORE_COLOR = '#FFB300';
 const HOT_COLOR = '#FFF4C2';
@@ -129,21 +129,21 @@ const FloorGuide = () => {
 
             const pulse = 0.5 + 0.5 * Math.sin(t * 1.8 + index * Math.PI);
 
-            item.core.opacity = 0.78 + 0.22 * pulse;
-            item.hot.opacity = 0.5 + 0.4 * pulse;
-            item.halo.opacity = 0.18 + 0.18 * pulse;
-            item.pool.opacity = 0.24 + 0.2 * pulse;
-            item.beam.opacity = 0.35 + 0.28 * pulse;
-            if (item.beamCore) item.beamCore.opacity = 0.4 + 0.3 * pulse;
+            item.core.opacity = 0.58 + 0.14 * pulse;
+            item.hot.opacity = 0.2 + 0.15 * pulse;
+            item.halo.opacity = 0.08 + 0.07 * pulse;
+            item.pool.opacity = 0.09 + 0.07 * pulse;
+            item.beam.opacity = 0.1 + 0.07 * pulse;
+            if (item.beamCore) item.beamCore.opacity = 0.12 + 0.08 * pulse;
 
-            const scale = 1.2 + 0.07 * pulse;
+            const scale = 0.8 + 0.04 * pulse;
             item.arrows.scale.setScalar(scale);
         });
     });
 
     const arrows = [
-        { key: 'forward', x: -ARROW_OFFSET_X, z: ARROW_DEPTH, geometry: forwardGeometry },
-        { key: 'backward', x: ARROW_OFFSET_X, z: ARROW_DEPTH, geometry: backwardGeometry },
+        { key: 'forward', x: 0, z: ARROW_FORWARD_Z, geometry: forwardGeometry },
+        { key: 'backward', x: 0, z: ARROW_BACKWARD_Z, geometry: backwardGeometry },
     ];
 
     return (
@@ -156,14 +156,14 @@ const FloorGuide = () => {
                         position={[0, 0.005, 0]}
                         renderOrder={2}
                     >
-                        <planeGeometry args={[2, 2]} />
+                        <planeGeometry args={[1.4, 1.4]} />
                         <meshBasicMaterial
                             ref={(node) => {
                                 if (node) itemsRef.current[index] = { ...itemsRef.current[index], pool: node };
                             }}
                             map={poolTexture}
                             transparent
-                            opacity={0.3}
+                            opacity={0.16}
                             blending={THREE.AdditiveBlending}
                             depthWrite={false}
                             toneMapped={false}
@@ -171,14 +171,14 @@ const FloorGuide = () => {
                     </mesh>
 
                     {/* Rising shaft of light */}
-                    <sprite position={[0, 1.05, 0]} scale={[1.35, 2.3, 1]} renderOrder={2}>
+                    <sprite position={[0, 0.7, 0]} scale={[0.85, 1.4, 1]} renderOrder={2}>
                         <spriteMaterial
                             ref={(node) => {
                                 if (node) itemsRef.current[index] = { ...itemsRef.current[index], beam: node };
                             }}
                             map={beamTexture}
                             transparent
-                            opacity={0.5}
+                            opacity={0.2}
                             color={BEAM_COLOR}
                             blending={THREE.AdditiveBlending}
                             depthWrite={false}
@@ -187,14 +187,14 @@ const FloorGuide = () => {
                     </sprite>
 
                     {/* Bright inner core of the beam */}
-                    <sprite position={[0, 1.05, 0]} scale={[0.5, 2.3, 1]} renderOrder={2}>
+                    <sprite position={[0, 0.7, 0]} scale={[0.32, 1.4, 1]} renderOrder={2}>
                         <spriteMaterial
                             ref={(node) => {
                                 if (node) itemsRef.current[index] = { ...itemsRef.current[index], beamCore: node };
                             }}
                             map={beamTexture}
                             transparent
-                            opacity={0.6}
+                            opacity={0.24}
                             color="#FFF8DC"
                             blending={THREE.AdditiveBlending}
                             depthWrite={false}

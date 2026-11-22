@@ -132,12 +132,17 @@ const GuidanceUI = () => {
             {/* Side hint for keyboard walking */}
             {showChrome && hasEntered && !isInRoom && !tutorialOpen && !helpOpen && (
                 <aside className="move-guide" aria-label="Movement controls">
-                    <span className="move-guide__keys" aria-hidden="true">
-                        <span className="keycap keycap--tiny">↑</span>
-                        <span className="keycap keycap--tiny">↓</span>
-                    </span>
+                    <span className="move-guide__title">Movement</span>
+                    <div className="move-guide__row">
+                        <span className="keycap keycap--tiny" aria-hidden="true">↑</span>
+                        <span>Forward</span>
+                    </div>
+                    <div className="move-guide__row">
+                        <span className="keycap keycap--tiny" aria-hidden="true">↓</span>
+                        <span>Backward</span>
+                    </div>
                     <p className="move-guide__text">
-                        Use <strong>arrows</strong> to move forward and backward
+                        Use arrows to move forward and backward
                     </p>
                 </aside>
             )}

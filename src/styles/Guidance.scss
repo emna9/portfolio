@@ -397,35 +397,42 @@ $wine: #632B3B;
     bottom: 22px;
     z-index: 95;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 240px;
-    padding: 10px 14px;
-    background: rgba(243, 235, 221, 0.94);
-    border: 1px solid rgba(66, 42, 40, 0.22);
+    flex-direction: column;
+    gap: 6px;
+    min-width: 222px;
+    padding: 12px 14px 11px;
+    background: rgba(243, 235, 221, 0.98);
+    border: 1.5px solid rgba(66, 42, 40, 0.4);
     border-radius: 14px 16px 13px 15px;
-    box-shadow: 0 6px 18px rgba(66, 42, 40, 0.1);
-    color: $brown;
+    box-shadow: 0 8px 22px rgba(66, 42, 40, 0.16);
+    color: $ink;
     font-family: var(--font-sans, Inter, sans-serif);
     animation: moveGuideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-    &__keys {
+    &__title {
+        font-size: 0.64rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: $rust;
+    }
+
+    &__row {
         display: flex;
-        flex-direction: column;
-        gap: 3px;
-        flex: 0 0 auto;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $wine;
     }
 
     &__text {
-        margin: 0;
-        font-size: 0.72rem;
-        line-height: 1.35;
-        letter-spacing: 0.02em;
-    }
-
-    strong {
-        font-weight: 700;
-        color: $wine;
+        margin: 7px 0 0;
+        padding-top: 7px;
+        border-top: 1px dashed rgba(66, 42, 40, 0.28);
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: $brown;
     }
 }
 
