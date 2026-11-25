@@ -40,16 +40,39 @@ const FALLBACK_PROJECTS = [
         title: 'SMART MATCHING PLATFORM',
         front: 'textures/gallery/proj-smart-matching.webp',
         painted: 'textures/gallery/proj-smart-matching_painted.webp',
-        url: 'https://github.com/emna9',
+        url: 'https://github.com/yousefsassy/Smart-Matching-app',
         description: 'A matching platform built around a Top 3 ranking engine powered by Gemini and CatBoost, with 6+ structured attributes, 3 user roles and 10+ features.',
         techStack: ['textures/gallery/geminilogo.webp', 'textures/gallery/catboostlogo.webp', 'textures/gallery/reactlogo.webp', 'textures/gallery/nodelogo.webp']
+    },
+    {
+        id: 'software-requirements-quality-grader',
+        title: 'REQUIREMENTS QUALITY GRADER',
+        cardTitle: 'REQUIREMENTS\nQUALITY GRADER',
+        front: 'textures/gallery/proj-req-grader.webp',
+        painted: 'textures/gallery/proj-req-grader_painted.webp',
+        url: 'https://github.com/turkiasma/Requirement-quality-grader',
+        description: 'An LLM-as-a-Judge pipeline that evaluates software requirements against five quality criteria, with bias and reliability checks.',
+        stack: ['Python', 'LLM', 'Prompt Engineering'],
+        skills: ['LLM-as-a-Judge', 'Evaluation Framework', 'Bias Testing', 'Cost & Agreement Metrics'],
+        techStack: ['textures/gallery/pythonlogo.webp', 'textures/gallery/geminilogo.webp', 'textures/gallery/datalogo.webp']
+    },
+    {
+        id: 'researchlens',
+        title: 'RESEARCHLENS',
+        front: 'textures/gallery/proj-researchlens.webp',
+        painted: 'textures/gallery/proj-researchlens_painted.webp',
+        url: 'https://github.com/yousefsassy/ResearchLens',
+        description: 'A RAG research assistant combining BM25 and BGE embeddings with Reciprocal Rank Fusion, citation checks and grounded answers.',
+        stack: ['Python', 'BM25', 'BGE', 'RAG'],
+        skills: ['Hybrid Retrieval', 'Reciprocal Rank Fusion', 'Citation Verification', 'Abstention'],
+        techStack: ['textures/gallery/pythonlogo.webp', 'textures/gallery/datalogo.webp', 'textures/gallery/sklogo.webp']
     },
     {
         id: 'ai-ecommerce-platform',
         title: 'AI-POWERED ECOMMERCE',
         front: 'textures/gallery/proj-ai-ecommerce.webp',
         painted: 'textures/gallery/proj-ai-ecommerce_painted.webp',
-        url: 'https://github.com/emna9',
+        url: 'https://github.com/emna9/web',
         description: 'A full-stack ecommerce platform with multi-role management, REST APIs and JWT auth, plus a LangGraph agent for product recommendations.',
         techStack: ['textures/gallery/reactlogo.webp', 'textures/gallery/nodelogo.webp', 'textures/gallery/mongologo.webp', 'textures/gallery/langgraphlogo.webp']
     },
@@ -689,9 +712,11 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
     const buttonGroupRef = useRef(); // Ref for the interactive back button
     const detailsGroupRef = useRef(); // Ref for the project details on the back
     const techStackGroupRef = useRef(); // Ref for the tech stack section on the back
+    const stackSkillsFrontRef = useRef(); // Ref for the stack/skills block on the card front
     const detailsTextRef1 = useRef();
     const detailsTextRef2 = useRef();
     const techTextRef = useRef();
+    const stackSkillsFrontTextRef = useRef();
     const openTextRef = useRef();
     const [hovered, setHovered] = useState(false);
     const [btnHovered, setBtnHovered] = useState(false);
@@ -965,6 +990,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                 applyOpacity(detailsTextRef1);
                 applyOpacity(detailsTextRef2);
                 applyOpacity(techTextRef);
+                applyOpacity(stackSkillsFrontTextRef);
                 applyOpacity(openTextRef);
             }
         }
@@ -1046,6 +1072,23 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
 
             const dz_dy = 2.0 * y * uBend + 2.0 * Math.cos(uTime * 2.0 + y * 2.0) * totalWind * (1.0 + Math.abs(uBend * 3.0));
             techStackGroupRef.current.rotation.x = Math.PI + Math.atan(dz_dy);
+        }
+
+        // --- Zrównaj pozycję sekcji Stack & Skills (front) ---
+        if (stackSkillsFrontRef.current && materialRef.current) {
+            const y = stackSkillsFrontRef.current.position.y;
+            const uBend = materialRef.current.bend;
+            const uWindStrength = materialRef.current.windStrength || 0;
+            const uTime = state.clock.getElapsedTime();
+
+            const bendAmount = Math.pow(y, 2.0) * uBend;
+            const totalWind = 0.02 + uWindStrength;
+            const flutter = Math.sin(uTime * 2.0 + y * 2.0) * totalWind * (1.0 + Math.abs(uBend * 3.0));
+
+            stackSkillsFrontRef.current.position.z = bendAmount + flutter + 0.02;
+            stackSkillsFrontRef.current.rotation.x = Math.atan(
+                2.0 * y * uBend + 2.0 * Math.cos(uTime * 2.0 + y * 2.0) * totalWind * (1.0 + Math.abs(uBend * 3.0))
+            );
         }
 
         // Skip position updates ONLY during flip animation, NOT during scroll
@@ -1326,8 +1369,29 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         anchorY="middle"
                         fillOpacity={0} // Start hidden
                     >
-                        {project.title}
+                        {project.cardTitle || project.title}
                     </Text>
+                )}
+
+                {/* === STACK & SKILLS AT THE BOTTOM OF THE CARD FRONT === */}
+                {variant === 'gallery' && project.stack && project.skills && (
+                    <group ref={stackSkillsFrontRef} position={[0, -0.50, 0]}>
+                        <Text
+                            ref={stackSkillsFrontTextRef}
+                            position={[0, 0, 0.01]}
+                            fontSize={0.064}
+                            color="#1c1c1c"
+                            font="fonts/CabinSketch-Bold.ttf"
+                            anchorX="center"
+                            anchorY="middle"
+                            maxWidth={1.28}
+                            lineHeight={1.18}
+                            textAlign="center"
+                            fillOpacity={0}
+                        >
+                            {`STACK · ${project.stack.join(' · ')}\nSKILLS · ${project.skills.join(' · ')}`}
+                        </Text>
+                    </group>
                 )}
 
                 <PositionalAudio

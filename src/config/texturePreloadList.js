@@ -155,6 +155,8 @@ export const GALLERY_TEXTURES_VERSIONED = [
     'datalogo',
     // Project cards (colored)
     'proj-smart-matching',
+    'proj-req-grader',
+    'proj-researchlens',
     'proj-ai-ecommerce',
     'proj-mental-health',
     // Experience / rewards / extracurricular cards
