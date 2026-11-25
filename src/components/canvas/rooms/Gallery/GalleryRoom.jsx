@@ -1276,6 +1276,32 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         {variant === 'awards' ? 'AWARD DETAILS:' : (variant === 'experience' || variant === 'extracurricular') ? 'ROLE DETAILS:' : 'PROJECT DETAILS:'}
                     </Text>
 
+                    {/* Close button on the opened card */}
+                    <group position={[0.54, 0.30, 0.02]} visible={isSelected}>
+                        <mesh
+                            position={[0, 0, 0.002]}
+                            onPointerOver={(e) => {
+                                e.stopPropagation();
+                                document.body.style.cursor = 'pointer';
+                            }}
+                            onPointerOut={() => {
+                                document.body.style.cursor = 'auto';
+                            }}
+                        >
+                            <planeGeometry args={[0.18, 0.18]} />
+                            <meshBasicMaterial transparent opacity={0} />
+                        </mesh>
+                        <Text
+                            fontSize={0.14}
+                            color="#1c1c1c"
+                            font="fonts/CabinSketch-Bold.ttf"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            ×
+                        </Text>
+                    </group>
+
                     <Text
                         ref={detailsTextRef2}
                         position={[0, 0.2, 0.01]} // Poniżej nagłówka
